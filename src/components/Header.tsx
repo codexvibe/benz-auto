@@ -27,22 +27,39 @@ export const Header = () => {
   return (
     <div className="fixed top-0 left-0 w-full z-50 flex flex-col">
       <div 
-        className={`bg-[#ef4444] text-white flex whitespace-nowrap relative font-bold text-xs md:text-sm tracking-widest transition-all duration-300 overflow-hidden ${
-          isScrolled ? 'h-0 opacity-0' : 'h-[32px] opacity-100 border-b border-black'
-        }`}
+        className="bg-[#ef4444] text-white flex whitespace-nowrap relative font-bold text-xs md:text-sm tracking-widest h-[32px] overflow-hidden border-b border-black w-full"
       >
-        <div className="animate-marquee inline-block py-1.5 h-full flex items-center">
-          <span className="mx-4">🔥 LIVRAISON RAPIDE 58 WILAYAS 🇩🇿</span>
-          <span className="mx-4">|</span>
-          <span className="mx-4">CONTREFAÇON ❌</span>
-          <span className="mx-4">|</span>
-          <span className="mx-4">COMMANDE VIA WHATSAPP 📲</span>
-          <span className="mx-4">|</span>
-          <span className="mx-4">🔥 LIVRAISON RAPIDE 58 WILAYAS 🇩🇿</span>
-          <span className="mx-4">|</span>
-          <span className="mx-4">CONTREFAÇON ❌</span>
-          <span className="mx-4">|</span>
-          <span className="mx-4">COMMANDE VIA WHATSAPP 📲</span>
+        <div className="animate-marquee h-full flex items-center shrink-0 w-max">
+          {/* Bloc de texte 1 */}
+          <div className="flex items-center shrink-0">
+            <span className="mx-4">🔥 LIVRAISON RAPIDE 58 WILAYAS 🇩🇿</span>
+            <span className="mx-4">|</span>
+            <span className="mx-4">CONTREFAÇON ❌</span>
+            <span className="mx-4">|</span>
+            <span className="mx-4">COMMANDE VIA WHATSAPP 📲</span>
+            <span className="mx-4">|</span>
+            <span className="mx-4">🔥 LIVRAISON RAPIDE 58 WILAYAS 🇩🇿</span>
+            <span className="mx-4">|</span>
+            <span className="mx-4">CONTREFAÇON ❌</span>
+            <span className="mx-4">|</span>
+            <span className="mx-4">COMMANDE VIA WHATSAPP 📲</span>
+            <span className="mx-4">|</span>
+          </div>
+          {/* Bloc de texte 2 Identique pour la boucle fluide */}
+          <div className="flex items-center shrink-0">
+            <span className="mx-4">🔥 LIVRAISON RAPIDE 58 WILAYAS 🇩🇿</span>
+            <span className="mx-4">|</span>
+            <span className="mx-4">CONTREFAÇON ❌</span>
+            <span className="mx-4">|</span>
+            <span className="mx-4">COMMANDE VIA WHATSAPP 📲</span>
+            <span className="mx-4">|</span>
+            <span className="mx-4">🔥 LIVRAISON RAPIDE 58 WILAYAS 🇩🇿</span>
+            <span className="mx-4">|</span>
+            <span className="mx-4">CONTREFAÇON ❌</span>
+            <span className="mx-4">|</span>
+            <span className="mx-4">COMMANDE VIA WHATSAPP 📲</span>
+            <span className="mx-4">|</span>
+          </div>
         </div>
       </div>
 
