@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { ShoppingCart, LayoutGrid, Filter, X } from 'lucide-react';
