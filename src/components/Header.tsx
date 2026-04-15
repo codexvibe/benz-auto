@@ -73,7 +73,7 @@ export const Header = () => {
           
           <Link href="/" className="flex items-center gap-3 group">
             <img 
-              src="/assets/logo.png" 
+              src="/assets/logo.jpg" 
               alt="HM.ZONEDZ Logo" 
               width="50" 
               height="50" 
