@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@theme {
+  --color-neon-green: #39ff14;
+  --color-neon-pink: #ff00ff;
+  --color-neon-yellow: #facc15;
+  --color-neon-red: #ef4444;
+  --color-background: #000000;
+  --color-surface: #0f0f0f;
+  --color-text-primary: #ffffff;
+  --color-text-muted: #a1a1aa;
+
+  --font-sans: 'Inter', sans-serif;
+  --font-heading: 'Anton', sans-serif;
+
+  --animate-pulse-fast: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-marquee: marquee 25s linear infinite;
+
+  @keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-100%); }
+  }
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+  }
+}
+
+@layer utilities {
+  .text-glow-green {
+    text-shadow: 0 0 15px rgba(57, 255, 20, 0.6), 0 0 30px rgba(57, 255, 20, 0.4);
+  }
+  .box-glow-green {
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.3);
+  }
+  .box-glow-green-hover:hover {
+    box-shadow: 0 0 25px rgba(57, 255, 20, 0.6);
+  }
+  .glass-dark {
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
