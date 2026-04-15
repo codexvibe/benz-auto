@@ -1,11 +1,24 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ShoppingCart } from 'lucide-react';
 import Image from 'next/image';
+import { supabase } from '@/lib/supabase';
 
-const products = [
+interface Product {
+  id: number;
+  name: string;
+  category: string;
+  price: string;
+  oldPrice: string | null;
+  image: string;
+  badge: string;
+  badgeColor: string;
+  glowColor: string;
+}
+
+const fallbackProducts: Product[] = [
   {
     id: 1,
     name: 'PABLO ICE COLD',
@@ -53,6 +66,44 @@ const products = [
 ];
 
 export const BestSellers = () => {
+  const [products, setProducts] = useState<Product[]>(fallbackProducts);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      // Si les clés Supabase ne sont pas configurées, on garde le fallback
+      if (!process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL === 'YOUR_SUPABASE_URL') {
+        return;
+      }
+      
+      try {
+        const { data, error } = await supabase
+          .from('products')
+          .select('*')
+          .limit(4);
+          
+        if (data && data.length > 0) {
+          // On map les données Supabase vers notre format frontend
+          const mappedData: Product[] = data.map((item: any) => ({
+            id: item.id,
+            name: item.name,
+            category: item.category,
+            price: item.price,
+            oldPrice: item.old_price,
+            image: item.image_url,
+            badge: item.badge,
+            badgeColor: item.badge_color,
+            glowColor: item.glow_color
+          }));
+          setProducts(mappedData);
+        }
+      } catch (err) {
+        console.error('Erreur Supabase, fallback utilisé:', err);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
     <section className="py-20 bg-black relative" id="shop">
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
