@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { ShoppingCart, Menu, X, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -70,12 +71,15 @@ export const Header = () => {
       >
         <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
           
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 md:w-10 md:h-10 bg-[#39ff14] rounded-md flex justify-center items-center font-heading text-black text-xl md:text-2xl transform -skew-x-12 group-hover:scale-105 transition-transform">
-              Z
-            </div>
+          <Link href="/" className="flex items-center gap-3 group">
+            <Image 
+              src="/assets/logo.jpg" 
+              alt="HM.ZONEDZ Logo" 
+              width={50} 
+              height={50} 
+              className="rounded-md object-contain group-hover:scale-105 transition-transform duration-300"
+            />
             <div className="flex flex-col leading-none">
-              <h1 className="font-heading text-2xl md:text-3xl text-white tracking-wider">HM.ZONE<span className="text-[#39ff14]">DZ</span></h1>
               <span className="text-[10px] md:text-xs text-[#39ff14] font-bold tracking-widest uppercase">N°1 EN ALGÉRIE</span>
             </div>
           </Link>
