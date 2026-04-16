@@ -1,5 +1,5 @@
 import React from 'react';
-import { Camera, MessageCircle, MapPin, Phone } from 'lucide-react';
+import { MapPin, Phone } from 'lucide-react';
 import Link from 'next/link';
 
 export const Footer = () => {
@@ -13,11 +13,6 @@ export const Footer = () => {
             <p className="text-[#a1a1aa] text-sm mb-6 uppercase tracking-widest font-bold">
               N°1 EN ALGÉRIE<br/>SNUS & VAPES
             </p>
-            <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 rounded-full bg-[#0f0f0f] flex items-center justify-center text-white hover:bg-[#39ff14] hover:text-black transition-colors">
-                <Camera size={20} />
-              </a>
-            </div>
           </div>
 
           <div>
