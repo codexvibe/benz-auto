@@ -48,6 +48,15 @@
   .box-glow-green-hover:hover {
     box-shadow: 0 0 25px rgba(57, 255, 20, 0.6);
   }
+  .box-glow-red-hover:hover {
+    box-shadow: 0 0 25px rgba(239, 68, 68, 0.6);
+  }
+  .box-glow-yellow-hover:hover {
+    box-shadow: 0 0 25px rgba(234, 179, 8, 0.6);
+  }
+  .box-glow-pink-hover:hover {
+    box-shadow: 0 0 25px rgba(255, 0, 255, 0.6);
+  }
   .glass-dark {
     background-color: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(16px);
