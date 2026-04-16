@@ -17,9 +17,6 @@ export const Footer = () => {
               <a href="#" className="w-10 h-10 rounded-full bg-[#0f0f0f] flex items-center justify-center text-white hover:bg-[#39ff14] hover:text-black transition-colors">
                 <Camera size={20} />
               </a>
-              <a href="https://wa.me/213000000000" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-[#0f0f0f] flex items-center justify-center text-white hover:bg-[#39ff14] hover:text-black transition-colors">
-                <MessageCircle size={20} />
-              </a>
             </div>
           </div>
 
@@ -39,10 +36,6 @@ export const Footer = () => {
               <li className="flex items-start gap-3">
                 <MapPin className="text-[#39ff14] mt-1 flex-shrink-0" size={18} />
                 <span className="text-[#a1a1aa]">Livraison disponible dans les 58 wilayas d'Algérie.</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Phone className="text-[#39ff14] flex-shrink-0" size={18} />
-                <span className="text-[#a1a1aa] font-bold tracking-widest">WhatsApp: +213 00 00 00 00</span>
               </li>
             </ul>
           </div>
