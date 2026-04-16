@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ShoppingCart } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
 import { OrderModal } from './OrderModal';
 
@@ -121,9 +122,12 @@ export const BestSellers = () => {
             </h2>
             <p className="text-[#a1a1aa] text-lg font-sans">Les références les plus demandées en Algérie. Quantité limitée.</p>
           </div>
-          <a href="#" className="hidden md:inline-block text-[#39ff14] hover:text-white font-heading text-xl uppercase transition-colors tracking-widest underline underline-offset-8 mt-4">
+          <Link 
+            href="/shop" 
+            className="hidden md:inline-block text-[#39ff14] hover:text-white font-heading text-xl uppercase transition-colors tracking-widest underline underline-offset-8 mt-4"
+          >
             VOIR TOUT LE STOCK ➔
-          </a>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -174,9 +178,12 @@ export const BestSellers = () => {
         </div>
 
         <div className="mt-8 text-center md:hidden">
-          <a href="#" className="inline-block text-[#39ff14] hover:text-white font-heading text-xl uppercase transition-colors tracking-widest underline underline-offset-8">
+          <Link 
+            href="/shop" 
+            className="inline-block text-[#39ff14] hover:text-white font-heading text-xl uppercase transition-colors tracking-widest underline underline-offset-8"
+          >
             VOIR TOUT LE STOCK ➔
-          </a>
+          </Link>
         </div>
       </div>
 
