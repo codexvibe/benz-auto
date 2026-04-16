@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { ShoppingCart, Menu, X, MessageCircle } from 'lucide-react';
+import { ShoppingCart, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -97,15 +97,6 @@ export const Header = () => {
           </nav>
 
           <div className="flex items-center gap-4">
-            <a 
-              href="https://wa.me/213000000000"
-              target="_blank"
-              rel="noreferrer"
-              className="hidden md:flex items-center gap-2 bg-black border border-[#39ff14] text-[#39ff14] px-4 py-2 rounded-sm font-heading hover:bg-[#39ff14] hover:text-black transition-all box-glow-green-hover"
-            >
-              <MessageCircle size={18} />
-              <span>WhatsApp</span>
-            </a>
             
             <button className="relative p-2 text-white hover:text-[#39ff14] transition-colors">
               <ShoppingCart size={24} />
@@ -152,18 +143,6 @@ export const Header = () => {
                 </Link>
               ))}
             </nav>
-
-            <div className="mt-auto pt-10">
-              <a 
-                href="https://wa.me/213000000000"
-                target="_blank"
-                rel="noreferrer"
-                className="flex justify-center items-center gap-3 bg-[#39ff14] text-black px-6 py-4 rounded-sm font-heading text-2xl w-full"
-              >
-                <MessageCircle size={24} />
-                COMMANDER SUR WHATSAPP
-              </a>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>
