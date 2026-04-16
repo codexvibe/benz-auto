@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { X, MessageCircle, Send, CheckCircle, Loader2, MapPin, Phone, User } from 'lucide-react';
+import { X, Send, CheckCircle, Loader2, MapPin, Phone, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { WILAYAS } from '../data/wilayas';
 import { createClient } from '../utils/supabase/client';
@@ -21,8 +21,6 @@ export const OrderModal = ({ isOpen, onClose, productName, productPrice }: Order
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const WHATSAPP_NUMBER = '213000000000'; // Remplacez par votre vrai numéro
-
   const resetForm = () => {
     setName('');
     setPhone('');
@@ -36,26 +34,7 @@ export const OrderModal = ({ isOpen, onClose, productName, productPrice }: Order
     onClose();
   };
 
-  // Option 1 : Commander via WhatsApp
-  const handleWhatsApp = () => {
-    if (!name || !phone || !wilaya) return;
-    
-    const message = encodeURIComponent(
-      `🟢 *NOUVELLE COMMANDE HM.ZONEDZ*\n\n` +
-      `📦 *Produit :* ${productName}\n` +
-      `💰 *Prix :* ${productPrice}\n\n` +
-      `👤 *Client :* ${name}\n` +
-      `📞 *Tél :* ${phone}\n` +
-      `📍 *Wilaya :* ${wilaya}\n` +
-      `🏠 *Adresse :* ${address || 'Non précisée'}\n\n` +
-      `_Commande envoyée depuis hmzonedz.netlify.app_`
-    );
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
-    handleClose();
-  };
-
-  // Option 2 : Commander directement (enregistré dans Supabase)
-  const handleDirectOrder = async () => {
+  const handleOrder = async () => {
     if (!name || !phone || !wilaya) return;
     
     setIsSubmitting(true);
@@ -77,8 +56,7 @@ export const OrderModal = ({ isOpen, onClose, productName, productPrice }: Order
       setIsSuccess(true);
     } catch (err) {
       console.error('Erreur lors de la commande:', err);
-      // Fallback vers WhatsApp en cas d'erreur
-      handleWhatsApp();
+      alert('Une erreur est survenue. Veuillez réessayer.');
     } finally {
       setIsSubmitting(false);
     }
@@ -108,7 +86,7 @@ export const OrderModal = ({ isOpen, onClose, productName, productPrice }: Order
             className="relative w-full max-w-md bg-[#0a0a0a] border border-white/10 overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Header vert */}
+            {/* Header */}
             <div className="bg-gradient-to-r from-[#39ff14]/20 to-transparent border-b border-[#39ff14]/30 px-6 py-4 flex justify-between items-center">
               <div>
                 <h2 className="font-heading text-2xl text-white uppercase">Commander</h2>
@@ -121,7 +99,6 @@ export const OrderModal = ({ isOpen, onClose, productName, productPrice }: Order
 
             {/* Contenu */}
             {isSuccess ? (
-              /* Message de succès */
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -143,7 +120,6 @@ export const OrderModal = ({ isOpen, onClose, productName, productPrice }: Order
                 </button>
               </motion.div>
             ) : (
-              /* Formulaire */
               <div className="p-6 flex flex-col gap-4">
                 {/* Nom */}
                 <div className="relative">
@@ -184,7 +160,7 @@ export const OrderModal = ({ isOpen, onClose, productName, productPrice }: Order
                   </select>
                 </div>
 
-                {/* Adresse (optionnel) */}
+                {/* Adresse */}
                 <div className="relative">
                   <input
                     type="text"
@@ -195,35 +171,14 @@ export const OrderModal = ({ isOpen, onClose, productName, productPrice }: Order
                   />
                 </div>
 
-                {/* Séparateur */}
-                <div className="flex items-center gap-3 my-2">
-                  <div className="flex-1 h-px bg-white/10" />
-                  <span className="text-[#a1a1aa] text-xs font-bold uppercase tracking-widest">Choisissez votre méthode</span>
-                  <div className="flex-1 h-px bg-white/10" />
-                </div>
-
-                {/* Bouton WhatsApp */}
+                {/* Bouton Commander */}
                 <button
-                  onClick={handleWhatsApp}
-                  disabled={!isFormValid}
-                  className={`w-full py-4 font-heading text-lg uppercase flex items-center justify-center gap-3 transition-all duration-300 ${
-                    isFormValid
-                      ? 'bg-[#25D366] text-white hover:bg-[#20bd5a] cursor-pointer'
-                      : 'bg-[#1a1a1a] text-[#555] cursor-not-allowed'
-                  }`}
-                >
-                  <MessageCircle size={22} />
-                  Commander via WhatsApp
-                </button>
-
-                {/* Bouton Direct */}
-                <button
-                  onClick={handleDirectOrder}
+                  onClick={handleOrder}
                   disabled={!isFormValid || isSubmitting}
-                  className={`w-full py-4 font-heading text-lg uppercase flex items-center justify-center gap-3 transition-all duration-300 border ${
+                  className={`w-full py-4 font-heading text-xl uppercase flex items-center justify-center gap-3 transition-all duration-300 mt-2 ${
                     isFormValid
-                      ? 'bg-transparent border-[#39ff14] text-[#39ff14] hover:bg-[#39ff14] hover:text-black cursor-pointer'
-                      : 'bg-transparent border-[#333] text-[#555] cursor-not-allowed'
+                      ? 'bg-[#39ff14] text-black hover:bg-[#32e012] cursor-pointer'
+                      : 'bg-[#1a1a1a] text-[#555] cursor-not-allowed'
                   }`}
                 >
                   {isSubmitting ? (
@@ -231,7 +186,7 @@ export const OrderModal = ({ isOpen, onClose, productName, productPrice }: Order
                   ) : (
                     <Send size={22} />
                   )}
-                  {isSubmitting ? 'Envoi en cours...' : 'Commander Directement'}
+                  {isSubmitting ? 'Envoi en cours...' : 'Confirmer la commande'}
                 </button>
 
                 <p className="text-center text-[#555] text-xs font-sans mt-1">
