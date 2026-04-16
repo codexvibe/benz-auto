@@ -32,10 +32,11 @@ export default function Wholesale() {
           customer_phone: formData.phone,
           customer_wilaya: formData.wilaya,
           customer_address: formData.message || 'Demande de devis gros',
-          product_name: 'DEMANDE DE GROS (B2B)',
-          product_price: 'PRIX DE GROS',
-          status: 'Gros',
-          total_price: 0
+          items_list: 'DEMANDE DE GROS (B2B)',
+          subtotal_price: 0,
+          delivery_price: 0,
+          total_price: 0,
+          status: 'Gros'
         });
 
       if (error) throw error;

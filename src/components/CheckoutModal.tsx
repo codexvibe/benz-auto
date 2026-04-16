@@ -60,10 +60,11 @@ export const CheckoutModal = ({ isOpen, onClose }: CheckoutModalProps) => {
           customer_phone: phone,
           customer_wilaya: wilaya,
           customer_address: address || 'Non précisée',
-          product_name: productsSummary,
-          product_price: `${total.toLocaleString()} DZD (Prod: ${subtotal}, Liv: ${deliveryPrice})`,
+          items_list: productsSummary,
+          subtotal_price: subtotal,
+          delivery_price: deliveryPrice,
           total_price: total,
-          status: 'Panier'
+          status: 'Nouveau'
         });
 
       if (error) throw error;
