@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MessageCircle, ShoppingBag } from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
 
 export const Hero = () => {
@@ -73,16 +73,6 @@ export const Hero = () => {
             <ShoppingBag size={24} />
             Voir la Boutique
           </Link>
-          
-          <a 
-            href="https://wa.me/213000000000"
-            target="_blank"
-            rel="noreferrer"
-            className="flex-1 sm:flex-none flex items-center justify-center gap-3 bg-transparent border-2 border-white text-white font-heading text-xl px-8 py-4 uppercase hover:border-[#39ff14] hover:text-[#39ff14] transition-all"
-          >
-            <MessageCircle size={24} />
-            Commander (WhatsApp)
-          </a>
         </motion.div>
 
         <motion.div
