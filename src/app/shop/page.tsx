@@ -7,7 +7,7 @@ import { ShoppingCart, LayoutGrid, Filter, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { createClient } from '../../utils/supabase/client';
-import { OrderModal } from '../../components/OrderModal';
+import { useCart } from '../../context/CartContext';
 
 const supabase = createClient();
 
@@ -40,7 +40,7 @@ export default function Shop() {
   const [activeCategory, setActiveCategory] = useState('Toutes');
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
   const [products, setProducts] = useState<Product[]>(fallbackProducts);
-  const [orderModal, setOrderModal] = useState<{ isOpen: boolean; name: string; price: string }>({ isOpen: false, name: '', price: '' });
+  const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -170,11 +170,11 @@ export default function Shop() {
                         </div>
 
                         <button 
-                          onClick={() => setOrderModal({ isOpen: true, name: product.name, price: product.price })}
+                          onClick={() => addToCart(product)}
                           className="mt-auto w-full bg-white text-black font-heading text-lg py-3 flex items-center justify-center gap-2 uppercase hover:bg-[#39ff14] transition-colors"
                         >
                           <ShoppingCart size={20} />
-                          Commander
+                          Ajouter au panier
                         </button>
                       </div>
                     </motion.div>
@@ -238,13 +238,6 @@ export default function Shop() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      <OrderModal
-        isOpen={orderModal.isOpen}
-        onClose={() => setOrderModal({ isOpen: false, name: '', price: '' })}
-        productName={orderModal.name}
-        productPrice={orderModal.price}
-      />
     </>
   );
 }

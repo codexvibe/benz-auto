@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   description: "Boutique N°1 en Algérie pour les Snus, Nicotine Pouches et Vapes. Livraison rapide 58 wilayas. Gros & Détail. Goûts puissants, style unique.",
 };
 
+import { CartProvider } from "../context/CartContext";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -18,7 +20,9 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={`${inter.variable} ${anton.variable} font-sans antialiased bg-background text-text-primary`}>
-        {children}
+        <CartProvider>
+          {children}
+        </CartProvider>
       </body>
     </html>
   );

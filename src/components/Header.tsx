@@ -5,10 +5,13 @@ import { ShoppingCart, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useCart } from '../context/CartContext';
+import { CartSidebar } from './CartSidebar';
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { itemCount, setIsSidebarOpen } = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,13 +40,13 @@ export const Header = () => {
             <span className="mx-4">|</span>
             <span className="mx-4">CONTREFAÇON ❌</span>
             <span className="mx-4">|</span>
-            <span className="mx-4">COMMANDE VIA WHATSAPP 📲</span>
+            <span className="mx-4">L'ORIGINAL EST ICI 💎</span>
             <span className="mx-4">|</span>
             <span className="mx-4">🔥 LIVRAISON RAPIDE 58 WILAYAS 🇩🇿</span>
             <span className="mx-4">|</span>
             <span className="mx-4">CONTREFAÇON ❌</span>
             <span className="mx-4">|</span>
-            <span className="mx-4">COMMANDE VIA WHATSAPP 📲</span>
+            <span className="mx-4">L'ORIGINAL EST ICI 💎</span>
             <span className="mx-4">|</span>
           </div>
           {/* Bloc de texte 2 Identique pour la boucle fluide */}
@@ -52,13 +55,13 @@ export const Header = () => {
             <span className="mx-4">|</span>
             <span className="mx-4">CONTREFAÇON ❌</span>
             <span className="mx-4">|</span>
-            <span className="mx-4">COMMANDE VIA WHATSAPP 📲</span>
+            <span className="mx-4">L'ORIGINAL EST ICI 💎</span>
             <span className="mx-4">|</span>
             <span className="mx-4">🔥 LIVRAISON RAPIDE 58 WILAYAS 🇩🇿</span>
             <span className="mx-4">|</span>
             <span className="mx-4">CONTREFAÇON ❌</span>
             <span className="mx-4">|</span>
-            <span className="mx-4">COMMANDE VIA WHATSAPP 📲</span>
+            <span className="mx-4">L'ORIGINAL EST ICI 💎</span>
             <span className="mx-4">|</span>
           </div>
         </div>
@@ -98,11 +101,16 @@ export const Header = () => {
 
           <div className="flex items-center gap-4">
             
-            <button className="relative p-2 text-white hover:text-[#39ff14] transition-colors">
+            <button 
+              onClick={() => setIsSidebarOpen(true)}
+              className="relative p-2 text-white hover:text-[#39ff14] transition-colors"
+            >
               <ShoppingCart size={24} />
-              <span className="absolute top-0 right-0 bg-[#ef4444] text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center">
-                0
-              </span>
+              {itemCount > 0 && (
+                <span className="absolute top-0 right-0 bg-[#ef4444] text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center">
+                  {itemCount}
+                </span>
+              )}
             </button>
 
             <button 
@@ -146,6 +154,7 @@ export const Header = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      <CartSidebar />
     </div>
   );
 };
