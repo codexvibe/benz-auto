@@ -5,8 +5,8 @@ import { motion } from 'framer-motion';
 import { ShoppingCart } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { createClient } from '@/utils/supabase/client';
-import { useCart } from '@/context/CartContext';
+import { createClient } from '../utils/supabase/client';
+import { useCart } from '../context/CartContext';
 
 const supabase = createClient();
 
