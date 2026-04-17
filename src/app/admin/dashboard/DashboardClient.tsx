@@ -33,8 +33,8 @@ interface Order {
   customer_phone: string
   customer_wilaya: string
   customer_address: string
-  product_name: string
-  product_price: string
+  items_list: string
+  total_price: string
   status: string
   created_at: string
 }
@@ -284,7 +284,7 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
                 <thead>
                   <tr className="border-b border-white/10 text-[10px] uppercase tracking-[0.2em] text-[#525252]">
                     <th className="py-4 px-4 font-bold">Client</th>
-                    <th className="py-4 px-4 font-bold">Produit</th>
+                    <th className="py-4 px-4 font-bold">Panier</th>
                     <th className="py-4 px-4 font-bold">Wilaya</th>
                     <th className="py-4 px-4 font-bold">Statut</th>
                     <th className="py-4 px-4 font-bold text-right">Actions</th>
@@ -298,13 +298,13 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
                         <div className="text-xs text-[#525252]">{order.customer_phone}</div>
                       </td>
                       <td className="py-4 px-4">
-                        <div className="text-white text-sm">{order.product_name}</div>
-                        <div className="text-[#39ff14] text-xs font-bold">{order.product_price}</div>
+                        <div className="text-white text-sm max-w-[200px] truncate" title={order.items_list}>{order.items_list}</div>
+                        <div className="text-[#39ff14] text-xs font-bold">{order.total_price} DZD</div>
                       </td>
                       <td className="py-4 px-4 text-xs text-[#a1a1aa]">{order.customer_wilaya}</td>
                       <td className="py-4 px-4">
                         <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest border ${
-                          order.status === 'Nouvelle' ? 'bg-blue-500/10 border-blue-500/20 text-blue-400' :
+                          order.status === 'Nouveau' ? 'bg-blue-500/10 border-blue-500/20 text-blue-400' :
                           order.status === 'Confirmée' ? 'bg-orange-500/10 border-orange-500/20 text-orange-400' :
                           order.status === 'Livrée' ? 'bg-[#39ff14]/10 border-[#39ff14]/20 text-[#39ff14]' :
                           'bg-red-500/10 border-red-500/20 text-red-500'

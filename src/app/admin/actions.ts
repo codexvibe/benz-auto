@@ -20,8 +20,19 @@ export async function loginAction(prevState: any, formData: FormData) {
   }
 
   const { passcode } = validatedFields.data
+  const supabase = await createClient()
 
-  if (passcode === process.env.ADMIN_PASSCODE) {
+  // 1. Check if passcode exists in the 'admins' table
+  const { data: adminMatch, error } = await supabase
+    .from('admins')
+    .select('name')
+    .eq('passcode', passcode)
+    .single()
+
+  // 2. Fallback to Master Passcode (environment variable)
+  const isMasterPasscode = passcode === process.env.ADMIN_PASSCODE
+
+  if (adminMatch || isMasterPasscode) {
     await createSession('admin')
     redirect('/admin/dashboard')
   }
@@ -135,14 +146,12 @@ export async function getDashboardStatsAction() {
   const supabase = await createClient()
   
   // Get all orders to calculate revenue
-  const { data: orders } = await supabase.from('orders').select('product_price, status')
+  const { data: orders } = await supabase.from('orders').select('total_price, status')
   const { data: products } = await supabase.from('products').select('name, views_count, price')
 
   const totalRevenue = orders?.reduce((acc, order) => {
-    // Only count confirmed or delivered orders for revenue? 
-    // User didn't specify, so I'll count all for now, but show logic.
-    const price = parseInt(order.product_price?.replace(/[^0-9]/g, '') || '0')
-    return acc + price
+    // We count the total_price from the old SQL schema
+    return acc + (Number(order.total_price) || 0)
   }, 0) || 0
 
   const totalOrders = orders?.length || 0
