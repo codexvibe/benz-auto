@@ -76,7 +76,7 @@ export const Header = () => {
 
       <header 
         className={`w-full transition-all duration-300 ${
-          isScrolled ? 'bg-white/80 dark:glass-dark py-3 backdrop-blur-md border-b border-black/5 dark:border-white/10' : 'bg-gradient-to-b from-white/90 dark:from-black/80 to-transparent py-4 md:py-6'
+          isScrolled ? 'bg-white dark:bg-black/90 dark:backdrop-blur-lg py-3 border-b border-black/10 dark:border-white/10' : 'bg-transparent py-4 md:py-6'
         }`}
       >
         <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
