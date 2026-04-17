@@ -367,7 +367,7 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
                         <div className="h-1 w-24 bg-white/5 rounded-full overflow-hidden">
                           <motion.div 
                             initial={{ width: 0 }}
-                            animate={{ width: \`\${(p.views_count / (stats.mostViewed[0].views_count || 1)) * 100}%\` }}
+                            animate={{ width: `${(p.views_count / (stats.mostViewed[0].views_count || 1)) * 100}%` }}
                             className="h-full bg-[#39ff14]"
                           />
                         </div>
@@ -382,7 +382,7 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
         )}
 
         {/* TEAM TAB */}
-        {activeTab === 'team' && ( activeTab === 'team' && (
+        {activeTab === 'team' && (
           <motion.div key="team" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
             <div className="flex justify-between items-center bg-[#0f0f0f] border border-white/5 p-6">
               <h2 className="text-xl font-heading uppercase tracking-widest text-[#a1a1aa]">Administration</h2>
@@ -416,7 +416,6 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
               ))}
             </div>
           </motion.div>
-          )
         )}
       </AnimatePresence>
 
