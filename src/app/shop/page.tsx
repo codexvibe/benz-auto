@@ -144,6 +144,9 @@ export default function Shop() {
                       transition={{ duration: 0.3 }}
                       key={product.id}
                       className={`bg-[#0f0f0f] border border-white/5 p-4 flex flex-col group transition-all duration-300 ${product.glowColor} relative overflow-hidden`}
+                      onClick={() => {
+                        import('../../app/admin/actions').then(m => m.incrementProductViewAction(product.id));
+                      }}
                     >
                       {product.badge && (
                         <div className={`absolute top-4 left-4 z-10 ${product.badgeColor} px-3 py-1 font-heading text-sm tracking-wider uppercase`}>
