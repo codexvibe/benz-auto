@@ -193,9 +193,9 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 sm:space-y-8">
       {/* Tabs Navigation */}
-      <div className="flex bg-[#0f0f0f] border border-white/5 p-1 rounded-sm">
+      <div className="flex flex-col sm:flex-row bg-[#0f0f0f] border border-white/5 p-1 rounded-sm gap-1">
         <button 
           onClick={() => setActiveTab('inventory')}
           className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-xs font-bold uppercase tracking-widest transition-all ${activeTab === 'inventory' ? 'bg-white text-black' : 'text-[#a1a1aa] hover:bg-white/5'}`}
@@ -226,14 +226,14 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
         {/* INVENTORY TAB */}
         {activeTab === 'inventory' && (
           <motion.div key="inventory" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-[#0f0f0f] border border-white/5 p-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-[#0f0f0f] border border-white/5 p-4 sm:p-6">
               <div>
-                <h2 className="text-xl font-heading uppercase tracking-widest text-[#a1a1aa]">Inventaire</h2>
-                <p className="text-xs text-[#525252] mt-1">{products.length} articles</p>
+                <h2 className="text-lg sm:text-xl font-heading uppercase tracking-widest text-[#a1a1aa]">Inventaire</h2>
+                <p className="text-[10px] sm:text-xs text-[#525252] mt-1">{products.length} articles disponibles</p>
               </div>
               <button 
                 onClick={() => { resetForm(); setIsModalOpen(true); }}
-                className="bg-white text-black px-6 py-3 font-heading uppercase flex items-center gap-2 hover:bg-[#39ff14] transition-colors"
+                className="w-full sm:w-auto justify-center bg-white text-black px-4 sm:px-6 py-3 font-heading uppercase flex items-center gap-2 hover:bg-[#39ff14] transition-colors"
               >
                 <Plus size={20} /> Nouveau Produit
               </button>
@@ -301,7 +301,7 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
                         <div className="text-white text-sm max-w-[200px] truncate" title={order.items_list}>{order.items_list}</div>
                         <div className="text-[#39ff14] text-xs font-bold">{order.total_price} DZD</div>
                       </td>
-                      <td className="py-4 px-4 text-xs text-[#a1a1aa]">{order.customer_wilaya}</td>
+                      <td className="py-4 px-4 hidden sm:table-cell text-xs text-[#a1a1aa]">{order.customer_wilaya}</td>
                       <td className="py-4 px-4">
                         <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-widest border ${
                           order.status === 'Nouveau' ? 'bg-blue-500/10 border-blue-500/20 text-blue-400' :
@@ -313,10 +313,10 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
                         </span>
                       </td>
                       <td className="py-4 px-4">
-                        <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button onClick={() => handleUpdateOrderStatus(order.id, 'Confirmée')} title="Confirmer" className="p-2 hover:bg-[#39ff14]/20 text-[#39ff14] border border-white/5"><CheckCircle2 size={16} /></button>
-                          <button onClick={() => handleUpdateOrderStatus(order.id, 'Livrée')} title="Livrée" className="p-2 hover:bg-white/10 text-white border border-white/5"><Truck size={16} /></button>
-                          <button onClick={() => handleUpdateOrderStatus(order.id, 'Annulée')} title="Annuler" className="p-2 hover:bg-red-500/20 text-red-500 border border-white/5"><XCircle size={16} /></button>
+                        <div className="flex justify-start sm:justify-end gap-1 sm:gap-2 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity mt-2 sm:mt-0">
+                          <button onClick={() => handleUpdateOrderStatus(order.id, 'Confirmée')} title="Confirmer" className="p-1 sm:p-2 bg-[#39ff14]/10 sm:bg-transparent hover:bg-[#39ff14]/20 text-[#39ff14] border border-[#39ff14]/20 sm:border-white/5"><CheckCircle2 size={16} /></button>
+                          <button onClick={() => handleUpdateOrderStatus(order.id, 'Livrée')} title="Livrée" className="p-1 sm:p-2 bg-white/5 sm:bg-transparent hover:bg-white/10 text-white border border-white/10 sm:border-white/5"><Truck size={16} /></button>
+                          <button onClick={() => handleUpdateOrderStatus(order.id, 'Annulée')} title="Annuler" className="p-1 sm:p-2 bg-red-500/10 sm:bg-transparent hover:bg-red-500/20 text-red-500 border border-red-500/20 sm:border-white/5"><XCircle size={16} /></button>
                         </div>
                       </td>
                     </tr>
@@ -384,11 +384,11 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
         {/* TEAM TAB */}
         {activeTab === 'team' && (
           <motion.div key="team" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
-            <div className="flex justify-between items-center bg-[#0f0f0f] border border-white/5 p-6">
-              <h2 className="text-xl font-heading uppercase tracking-widest text-[#a1a1aa]">Administration</h2>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-[#0f0f0f] border border-white/5 p-4 sm:p-6 gap-4">
+              <h2 className="text-lg sm:text-xl font-heading uppercase tracking-widest text-[#a1a1aa]">Administration</h2>
               <button 
                 onClick={() => setIsAdminModalOpen(true)}
-                className="bg-white text-black px-6 py-3 font-heading uppercase flex items-center gap-2 hover:bg-[#39ff14] transition-colors"
+                className="w-full sm:w-auto justify-center bg-white text-black px-4 sm:px-6 py-2 sm:py-3 font-heading uppercase flex items-center gap-2 hover:bg-[#39ff14] transition-colors"
                 >
                 <Plus size={20} /> Nouvel Admin
               </button>
@@ -424,9 +424,9 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
         {isModalOpen && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsModalOpen(false)} className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="w-full max-w-2xl bg-[#0f0f0f] border border-white/10 p-8 relative overflow-y-auto max-h-[90vh]">
-              <div className="flex justify-between items-center mb-8">
-                <h2 className="text-2xl font-heading uppercase tracking-tighter">
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="w-full max-w-2xl bg-[#0f0f0f] border border-white/10 p-5 sm:p-8 relative overflow-y-auto max-h-[90vh]">
+              <div className="flex justify-between items-center mb-6 sm:mb-8">
+                <h2 className="text-xl sm:text-2xl font-heading uppercase tracking-tighter">
                   {editingProduct ? 'MODIFIER LE PRODUIT' : 'AJOUTER UN PRODUIT'}
                 </h2>
                 <button onClick={() => setIsModalOpen(false)} className="text-[#a1a1aa] hover:text-white"><X size={24} /></button>
@@ -495,9 +495,9 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
         {isAdminModalOpen && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsAdminModalOpen(false)} className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="w-full max-w-md bg-[#0f0f0f] border border-white/10 p-8 relative">
-              <h2 className="text-2xl font-heading uppercase tracking-tighter mb-8 text-white">Nouvel Administrateur</h2>
-              <form onSubmit={handleAddAdmin} className="space-y-6">
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="w-full max-w-md bg-[#0f0f0f] border border-white/10 p-5 sm:p-8 relative">
+              <h2 className="text-xl sm:text-2xl font-heading uppercase tracking-tighter mb-6 sm:mb-8 text-white">Nouvel Administrateur</h2>
+              <form onSubmit={handleAddAdmin} className="space-y-4 sm:space-y-6">
                 <div>
                   <label className="block text-[10px] font-bold text-[#a1a1aa] uppercase tracking-widest mb-1">Nom</label>
                   <input type="text" required value={adminFormData.name} onChange={e => setAdminFormData(prev => ({ ...prev, name: e.target.value }))} className="w-full bg-black border border-white/10 px-4 py-3 text-sm focus:border-[#39ff14] outline-none text-white" />
