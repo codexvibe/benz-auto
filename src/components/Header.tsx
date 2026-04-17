@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { ShoppingCart, Menu, X } from 'lucide-react';
+import { ShoppingCart, Menu, X, Sun, Moon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -11,6 +11,7 @@ import { CartSidebar } from './CartSidebar';
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const { itemCount, setIsSidebarOpen } = useCart();
 
   useEffect(() => {
@@ -99,8 +100,19 @@ export const Header = () => {
             ))}
           </nav>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4">
             
+            <button 
+              onClick={() => {
+                setIsDarkMode(!isDarkMode)
+                alert("La version claire (Light Mode) est en cours de développement ! Le site est actuellement optimisé pour le mode sombre.")
+              }}
+              className="p-2 text-white hover:text-[#39ff14] transition-colors"
+              title={isDarkMode ? "Passer au thème clair" : "Passer au thème sombre"}
+            >
+              {isDarkMode ? <Sun size={24} /> : <Moon size={24} />}
+            </button>
+
             <button 
               onClick={() => setIsSidebarOpen(true)}
               className="relative p-2 text-white hover:text-[#39ff14] transition-colors"
