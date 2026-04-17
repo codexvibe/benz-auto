@@ -71,7 +71,7 @@ export default function Wholesale() {
     <>
       <Header />
       
-      <main className="bg-black text-white min-h-screen pt-32 pb-20">
+      <main className="bg-gray-50 dark:bg-black text-black dark:text-white min-h-screen pt-32 pb-20">
         
         {/* Header Section */}
         <section className="container mx-auto px-4 mb-20">
@@ -91,9 +91,9 @@ export default function Wholesale() {
             </p>
             
             {/* Condition Badge */}
-            <div className="inline-block bg-[#0f0f0f] border-2 border-dashed border-[#39ff14]/30 px-8 py-4 rounded-sm">
+            <div className="inline-block bg-white dark:bg-[#0f0f0f] border-2 border-dashed border-[#39ff14]/30 px-8 py-4 rounded-sm">
               <p className="text-[#39ff14] font-heading text-2xl uppercase tracking-tighter">
-                Minimum de commande : <span className="text-white underline">10 pièces</span>
+                Minimum de commande : <span className="text-black dark:text-white underline">10 pièces</span>
               </p>
             </div>
           </div>
@@ -109,12 +109,12 @@ export default function Wholesale() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-[#0a0a0a] border border-white/5 p-8 flex flex-col items-center text-center group hover:border-[#39ff14]/30 transition-colors"
+                className="bg-white dark:bg-[#0a0a0a] border border-black/5 dark:border-white/5 p-8 flex flex-col items-center text-center group hover:border-[#39ff14]/30 transition-colors"
               >
-                <div className="w-16 h-16 bg-white/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <div className="w-16 h-16 bg-black/5 dark:bg-white/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   {b.icon}
                 </div>
-                <h3 className="text-2xl font-heading uppercase mb-3 text-white">{b.title}</h3>
+                <h3 className="text-2xl font-heading uppercase mb-3 text-black dark:text-white">{b.title}</h3>
                 <p className="text-[#a1a1aa] font-sans">{b.desc}</p>
               </motion.div>
             ))}
@@ -126,10 +126,10 @@ export default function Wholesale() {
           {/* Background decoration */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-[#39ff14]/5 blur-[120px] rounded-full -z-10 pointer-events-none" />
           
-          <div className="max-w-2xl mx-auto bg-[#0f0f0f] border border-white/10 overflow-hidden relative">
+          <div className="max-w-2xl mx-auto bg-white dark:bg-[#0f0f0f] border border-black/10 dark:border-white/10 overflow-hidden relative shadow-xl">
             
             <div className="bg-gradient-to-r from-[#39ff14]/20 to-transparent p-6 border-b border-[#39ff14]/20">
-              <h2 className="text-3xl font-heading uppercase text-white">Demande de prix de gros</h2>
+              <h2 className="text-3xl font-heading uppercase text-black dark:text-white">Demande de prix de gros</h2>
               <p className="text-sm text-[#a1a1aa] font-medium uppercase tracking-widest mt-1">Réponse garantie sous 24h</p>
             </div>
 
@@ -168,7 +168,7 @@ export default function Wholesale() {
                           placeholder="Ex: Vape Store Alger"
                           value={formData.company}
                           onChange={(e) => setFormData({...formData, company: e.target.value})}
-                          className="w-full bg-[#050505] border border-white/10 text-white pl-10 pr-4 py-4 focus:border-[#39ff14] outline-none transition-colors"
+                          className="w-full bg-gray-50 dark:bg-[#050505] border border-black/10 dark:border-white/10 text-black dark:text-white pl-10 pr-4 py-4 focus:border-[#39ff14] dark:focus:border-[#39ff14] outline-none transition-colors"
                         />
                       </div>
                     </div>
@@ -184,7 +184,7 @@ export default function Wholesale() {
                           placeholder="05 / 06 / 07 ..."
                           value={formData.phone}
                           onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                          className="w-full bg-[#050505] border border-white/10 text-white pl-10 pr-4 py-4 focus:border-[#39ff14] outline-none transition-colors"
+                          className="w-full bg-gray-50 dark:bg-[#050505] border border-black/10 dark:border-white/10 text-black dark:text-white pl-10 pr-4 py-4 focus:border-[#39ff14] dark:focus:border-[#39ff14] outline-none transition-colors"
                         />
                       </div>
                     </div>
@@ -199,7 +199,7 @@ export default function Wholesale() {
                         required
                         value={formData.wilaya}
                         onChange={(e) => setFormData({...formData, wilaya: e.target.value})}
-                        className="w-full bg-[#050505] border border-white/10 text-white pl-10 pr-4 py-4 focus:border-[#39ff14] outline-none transition-colors appearance-none cursor-pointer"
+                        className="w-full bg-gray-50 dark:bg-[#050505] border border-black/10 dark:border-white/10 text-black dark:text-white pl-10 pr-4 py-4 focus:border-[#39ff14] dark:focus:border-[#39ff14] outline-none transition-colors appearance-none cursor-pointer"
                       >
                         <option value="">Sélectionnez une wilaya</option>
                         {WILAYAS.map(w => <option key={w} value={w}>{w}</option>)}
@@ -216,7 +216,7 @@ export default function Wholesale() {
                       placeholder="Ex: Snus Pablo Ice Cold (30 boites), Tornado 9K (20 pièces)..."
                       value={formData.message}
                       onChange={(e) => setFormData({...formData, message: e.target.value})}
-                      className="w-full bg-[#050505] border border-white/10 text-white p-4 focus:border-[#39ff14] outline-none transition-colors resize-none"
+                      className="w-full bg-gray-50 dark:bg-[#050505] border border-black/10 dark:border-white/10 text-black dark:text-white p-4 focus:border-[#39ff14] dark:focus:border-[#39ff14] outline-none transition-colors resize-none"
                     />
                   </div>
 
@@ -224,7 +224,7 @@ export default function Wholesale() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="mt-4 w-full bg-[#39ff14] text-black font-heading text-2xl py-5 uppercase flex items-center justify-center gap-3 hover:bg-white transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="mt-4 w-full bg-[#39ff14] text-black font-heading text-2xl py-5 uppercase flex items-center justify-center gap-3 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(57,255,20,0.2)]"
                   >
                     {isSubmitting ? <Loader2 className="animate-spin" /> : <Send size={24} />}
                     {isSubmitting ? "Envoi en cours..." : "Demander mes tarifs pro"}

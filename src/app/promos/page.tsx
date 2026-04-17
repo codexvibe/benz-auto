@@ -69,17 +69,17 @@ export default function Promos() {
     <>
       <Header />
       
-      <main className="pt-40 pb-20 bg-black min-h-screen">
+      <main className="pt-40 pb-20 bg-gray-50 dark:bg-black min-h-screen">
         <div className="container mx-auto px-4">
           
           {/* En-tête de page */}
-          <div className="mb-12 border-b border-white/10 pb-6">
+          <div className="mb-12 border-b border-black/10 dark:border-white/10 pb-6">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-12 h-12 bg-[#ef4444]/10 border border-[#ef4444]/30 flex items-center justify-center">
                 <Percent size={24} className="text-[#ef4444]" />
               </div>
               <div>
-                <h1 className="text-5xl md:text-7xl font-heading text-white uppercase">
+                <h1 className="text-5xl md:text-7xl font-heading text-black dark:text-white uppercase">
                   PROMO<span className="text-[#ef4444]">TIONS</span>
                 </h1>
               </div>
@@ -93,7 +93,7 @@ export default function Promos() {
           <div className="bg-gradient-to-r from-[#ef4444]/20 via-[#ef4444]/5 to-transparent border border-[#ef4444]/20 p-6 mb-10 flex flex-col sm:flex-row items-center gap-4">
             <Tag size={32} className="text-[#ef4444] shrink-0" />
             <div>
-              <p className="font-heading text-xl sm:text-2xl text-white uppercase">
+              <p className="font-heading text-xl sm:text-2xl text-black dark:text-white uppercase">
                 Prix barrés = Économies garanties
               </p>
               <p className="text-[#a1a1aa] text-sm font-sans">
@@ -112,7 +112,7 @@ export default function Promos() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: index * 0.08 }}
                   key={product.id}
-                  className={`bg-[#0f0f0f] border border-[#ef4444]/10 p-4 flex flex-col group transition-all duration-300 ${product.glowColor} relative overflow-hidden`}
+                  className={`bg-white dark:bg-[#0f0f0f] border border-[#ef4444]/10 p-4 flex flex-col group transition-all duration-300 ${product.glowColor} relative overflow-hidden shadow-sm`}
                 >
                   {/* Badge PROMO */}
                   <div className={`absolute top-4 left-4 z-10 ${product.badgeColor} px-3 py-1 font-heading text-sm tracking-wider uppercase`}>
@@ -120,7 +120,7 @@ export default function Promos() {
                   </div>
 
                   {/* Image */}
-                  <div className="h-56 sm:h-64 w-full relative mb-6 bg-black rounded-sm overflow-hidden flex items-center justify-center p-4">
+                  <div className="h-56 sm:h-64 w-full relative mb-6 bg-gray-100 dark:bg-black rounded-sm overflow-hidden flex items-center justify-center p-4">
                     <Image 
                       src={product.image} 
                       alt={product.name} 
@@ -132,7 +132,7 @@ export default function Promos() {
 
                   <div className="flex-1 flex flex-col">
                     <span className="text-xs text-[#a1a1aa] font-bold tracking-widest uppercase mb-1">{product.category}</span>
-                    <h3 className="font-heading text-xl sm:text-2xl text-white mb-3">{product.name}</h3>
+                    <h3 className="font-heading text-xl sm:text-2xl text-black dark:text-white mb-3">{product.name}</h3>
                     
                     {/* Prix avec barré */}
                     <div className="flex items-center gap-3 mb-6">
@@ -155,7 +155,7 @@ export default function Promos() {
             </div>
           ) : (
             <div className="text-center py-20">
-              <div className="w-20 h-20 mx-auto mb-6 bg-white/5 rounded-full flex items-center justify-center">
+              <div className="w-20 h-20 mx-auto mb-6 bg-black/5 dark:bg-white/5 rounded-full flex items-center justify-center">
                 <Percent size={40} className="text-[#555]" />
               </div>
               <p className="text-2xl font-heading text-[#a1a1aa] uppercase mb-2">Aucune promotion en cours</p>

@@ -84,19 +84,19 @@ export default function Shop() {
     <>
       <Header />
       
-      <main className="pt-40 pb-20 bg-black min-h-screen">
+      <main className="pt-40 pb-20 bg-gray-50 dark:bg-black min-h-screen">
         <div className="container mx-auto px-4">
           
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 border-b border-white/10 pb-6 gap-6">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 border-b border-black/10 dark:border-white/10 pb-6 gap-6">
             <div>
-              <h1 className="text-5xl md:text-7xl font-heading text-white mb-2 uppercase">
+              <h1 className="text-5xl md:text-7xl font-heading text-black dark:text-white mb-2 uppercase">
                 NOTRE <span className="text-[#39ff14]">STOCK</span>
               </h1>
               <p className="text-[#a1a1aa] font-sans">Livraison dans tout le territoire national (58 wilayas).</p>
             </div>
             
             <button 
-              className="md:hidden w-full bg-[#0f0f0f] border border-white/20 text-white font-heading text-xl py-4 flex items-center justify-center gap-3 uppercase"
+              className="md:hidden w-full bg-white dark:bg-[#0f0f0f] border border-black/20 dark:border-white/20 text-black dark:text-white font-heading text-xl py-4 flex items-center justify-center gap-3 uppercase"
               onClick={() => setIsMobileFiltersOpen(true)}
             >
               <Filter size={24} />
@@ -107,8 +107,8 @@ export default function Shop() {
           <div className="flex flex-col md:flex-row gap-8">
             {/* Sidebar Filters (Desktop) */}
             <aside className="hidden md:block w-64 shrink-0">
-              <div className="sticky top-40 bg-[#0f0f0f] border border-white/10 p-6">
-                <h3 className="font-heading text-2xl text-white mb-6 flex items-center gap-2 uppercase">
+              <div className="sticky top-40 bg-white dark:bg-[#0f0f0f] border border-black/10 dark:border-white/10 p-6">
+                <h3 className="font-heading text-2xl text-black dark:text-white mb-6 flex items-center gap-2 uppercase">
                   <LayoutGrid size={20} className="text-[#39ff14]" />
                   Catégories
                 </h3>
@@ -120,7 +120,7 @@ export default function Shop() {
                         className={`w-full text-left py-2 px-3 transition-colors ${
                           activeCategory === cat 
                             ? 'bg-[#39ff14] text-black font-bold' 
-                            : 'text-[#a1a1aa] hover:text-white hover:bg-white/5'
+                            : 'text-gray-600 hover:text-black hover:bg-black/5 dark:text-[#a1a1aa] dark:hover:text-white dark:hover:bg-white/5'
                         }`}
                       >
                         {cat}
@@ -143,7 +143,7 @@ export default function Shop() {
                       exit={{ opacity: 0, scale: 0.9 }}
                       transition={{ duration: 0.3 }}
                       key={product.id}
-                      className={`bg-[#0f0f0f] border border-white/5 p-4 flex flex-col group transition-all duration-300 ${product.glowColor} relative overflow-hidden`}
+                      className={`bg-white dark:bg-[#0f0f0f] border border-black/5 dark:border-white/5 p-4 flex flex-col group transition-all duration-300 ${product.glowColor} relative overflow-hidden`}
                       onClick={() => {
                         import('../../app/admin/actions').then(m => m.incrementProductViewAction(product.id));
                       }}
@@ -154,7 +154,7 @@ export default function Shop() {
                         </div>
                       )}
 
-                      <div className="h-64 w-full relative mb-6 bg-black rounded-sm overflow-hidden flex items-center justify-center p-4">
+                      <div className="h-64 w-full relative mb-6 bg-gray-100 dark:bg-black rounded-sm overflow-hidden flex items-center justify-center p-4">
                         <Image 
                           src={product.image} 
                           alt={product.name} 
@@ -166,7 +166,7 @@ export default function Shop() {
 
                       <div className="flex-1 flex flex-col">
                         <span className="text-xs text-[#a1a1aa] font-bold tracking-widest uppercase mb-1">{product.category}</span>
-                        <h3 className="font-heading text-xl md:text-2xl text-white mb-2">{product.name}</h3>
+                        <h3 className="font-heading text-xl md:text-2xl text-black dark:text-white mb-2">{product.name}</h3>
                         
                         <div className="flex items-center gap-3 mb-6">
                           <span className="text-2xl font-bold font-sans text-[#39ff14]">{product.price}</span>
@@ -174,7 +174,7 @@ export default function Shop() {
 
                         <button 
                           onClick={() => addToCart(product)}
-                          className="mt-auto w-full bg-white text-black font-heading text-lg py-3 flex items-center justify-center gap-2 uppercase hover:bg-[#39ff14] transition-colors"
+                          className="mt-auto w-full bg-black dark:bg-white text-white dark:text-black font-heading text-lg py-3 flex items-center justify-center gap-2 uppercase hover:bg-[#39ff14] dark:hover:bg-[#39ff14] hover:text-black dark:hover:text-black transition-colors"
                         >
                           <ShoppingCart size={20} />
                           Ajouter au panier
@@ -205,12 +205,12 @@ export default function Shop() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: '100%' }}
             transition={{ type: 'tween', duration: 0.3 }}
-            className="fixed inset-0 z-50 bg-[#0f0f0f] flex flex-col pt-6 md:hidden"
+            className="fixed inset-0 z-50 bg-white dark:bg-[#0f0f0f] flex flex-col pt-6 md:hidden"
           >
-            <div className="flex justify-between items-center px-6 pb-6 border-b border-white/10">
-              <h2 className="font-heading text-3xl text-white uppercase">Filtres</h2>
+            <div className="flex justify-between items-center px-6 pb-6 border-b border-black/10 dark:border-white/10">
+              <h2 className="font-heading text-3xl text-black dark:text-white uppercase">Filtres</h2>
               <button 
-                className="text-white p-2 hover:text-[#ef4444]"
+                className="text-black dark:text-white p-2 hover:text-[#ef4444]"
                 onClick={() => setIsMobileFiltersOpen(false)}
               >
                 <X size={32} />
@@ -229,7 +229,7 @@ export default function Shop() {
                       className={`w-full text-left py-4 px-4 border ${
                         activeCategory === cat 
                           ? 'bg-[#39ff14] text-black border-[#39ff14] font-bold' 
-                          : 'text-white border-white/20'
+                          : 'text-black dark:text-white border-black/20 dark:border-white/20'
                       } uppercase font-heading`}
                     >
                       {cat}

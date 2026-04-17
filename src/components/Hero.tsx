@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 export const Hero = () => {
   return (
-    <section className="relative w-full h-screen overflow-hidden bg-black">
+    <section className="relative w-full h-screen overflow-hidden bg-white dark:bg-black">
       {/* Background Image with Dark Overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -17,8 +17,8 @@ export const Hero = () => {
         }}
       />
       
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black/30" />
-      <div className="absolute inset-0 bg-black/40" />
+      <div className="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-white/30 dark:from-black dark:via-black/80 dark:to-black/30" />
+      <div className="absolute inset-0 bg-white/40 dark:bg-black/40" />
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center pt-20">
@@ -37,7 +37,7 @@ export const Hero = () => {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
-          className="font-heading text-6xl sm:text-7xl md:text-9xl text-white leading-none mb-2 select-none uppercase"
+          className="font-heading text-6xl sm:text-7xl md:text-9xl text-black dark:text-white leading-none mb-2 select-none uppercase"
         >
           HM.ZONE<span className="text-[#39ff14] text-glow-green">DZ</span>
         </motion.h1>
@@ -48,7 +48,7 @@ export const Hero = () => {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="font-heading text-3xl md:text-5xl text-[#ff00ff] tracking-wide mb-8 uppercase"
         >
-          N°1 EN ALGÉRIE <span className="text-white opacity-50 mx-2">|</span> GROS & DÉTAIL
+          N°1 EN ALGÉRIE <span className="text-black dark:text-white opacity-50 mx-2">|</span> GROS & DÉTAIL
         </motion.h2>
 
         <motion.p
@@ -81,8 +81,8 @@ export const Hero = () => {
            transition={{ delay: 1.5, duration: 1 }}
            className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         >
-          <span className="text-white/50 text-xs font-bold tracking-widest uppercase">Découvrir</span>
-          <div className="w-[1px] h-12 bg-white/20 relative overflow-hidden">
+          <span className="text-black/50 dark:text-white/50 text-xs font-bold tracking-widest uppercase">Découvrir</span>
+          <div className="w-[1px] h-12 bg-black/20 dark:bg-white/20 relative overflow-hidden">
             <motion.div 
               className="absolute top-0 left-0 w-full h-1/2 bg-[#39ff14]"
               animate={{ y: [0, 48, 0] }}

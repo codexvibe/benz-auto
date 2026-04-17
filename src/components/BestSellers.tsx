@@ -110,21 +110,21 @@ export const BestSellers = () => {
   }, []);
 
   return (
-    <section className="py-20 bg-black relative" id="shop">
+    <section className="py-20 bg-gray-50 dark:bg-black relative" id="shop">
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
       
       <div className="container mx-auto px-4 relative z-10">
         
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-[#0f0f0f] pb-6">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-black/10 dark:border-[#0f0f0f] pb-6">
           <div>
-            <h2 className="text-5xl md:text-7xl font-heading text-white mb-2 uppercase">
+            <h2 className="text-5xl md:text-7xl font-heading text-black dark:text-white mb-2 uppercase">
               NOS MEILLEURES <span className="text-[#ef4444]">VENTES</span>
             </h2>
             <p className="text-[#a1a1aa] text-lg font-sans">Les références les plus demandées en Algérie. Quantité limitée.</p>
           </div>
           <Link 
             href="/shop" 
-            className="hidden md:inline-block text-[#39ff14] hover:text-white font-heading text-xl uppercase transition-colors tracking-widest underline underline-offset-8 mt-4"
+            className="hidden md:inline-block text-[#39ff14] hover:text-black dark:hover:text-white font-heading text-xl uppercase transition-colors tracking-widest underline underline-offset-8 mt-4"
           >
             VOIR TOUT LE STOCK ➔
           </Link>
@@ -138,7 +138,7 @@ export const BestSellers = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               key={product.id}
-              className={`bg-[#0f0f0f] border border-white/5 p-4 flex flex-col group transition-all duration-300 ${product.glowColor} relative overflow-hidden`}
+              className={`bg-white dark:bg-[#0f0f0f] border border-black/5 dark:border-white/5 p-4 flex flex-col group transition-all duration-300 ${product.glowColor} relative overflow-hidden`}
               onClick={() => {
                 import('../app/admin/actions').then(m => m.incrementProductViewAction(product.id));
               }}
@@ -147,7 +147,7 @@ export const BestSellers = () => {
                 {product.badge}
               </div>
 
-              <div className="h-64 w-full relative mb-6 bg-black rounded-sm overflow-hidden flex items-center justify-center p-4">
+              <div className="h-64 w-full relative mb-6 bg-gray-100 dark:bg-black rounded-sm overflow-hidden flex items-center justify-center p-4">
                 <Image 
                   src={product.image} 
                   alt={product.name} 
@@ -159,7 +159,7 @@ export const BestSellers = () => {
 
               <div className="flex-1 flex flex-col">
                 <span className="text-xs text-[#a1a1aa] font-bold tracking-widest uppercase mb-1">{product.category}</span>
-                <h3 className="font-heading text-2xl text-white mb-2">{product.name}</h3>
+                <h3 className="font-heading text-2xl text-black dark:text-white mb-2">{product.name}</h3>
                 
                 <div className="flex items-center gap-3 mb-6">
                   <span className="text-2xl font-bold font-sans text-[#39ff14]">{product.price}</span>
@@ -170,7 +170,7 @@ export const BestSellers = () => {
 
                 <button 
                   onClick={() => addToCart(product)}
-                  className="mt-auto w-full bg-white text-black font-heading text-lg py-3 flex items-center justify-center gap-2 uppercase hover:bg-[#39ff14] transition-colors"
+                  className="mt-auto w-full bg-black dark:bg-white text-white dark:text-black font-heading text-lg py-3 flex items-center justify-center gap-2 uppercase hover:bg-[#39ff14] dark:hover:bg-[#39ff14] hover:text-black dark:hover:text-black transition-colors"
                 >
                   <ShoppingCart size={20} />
                   Ajouter au panier
@@ -183,7 +183,7 @@ export const BestSellers = () => {
         <div className="mt-8 text-center md:hidden">
           <Link 
             href="/shop" 
-            className="inline-block text-[#39ff14] hover:text-white font-heading text-xl uppercase transition-colors tracking-widest underline underline-offset-8"
+            className="inline-block text-[#39ff14] hover:text-black dark:hover:text-white font-heading text-xl uppercase transition-colors tracking-widest underline underline-offset-8"
           >
             VOIR TOUT LE STOCK ➔
           </Link>

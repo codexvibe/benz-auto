@@ -195,28 +195,28 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
   return (
     <div className="space-y-4 sm:space-y-8">
       {/* Tabs Navigation */}
-      <div className="flex flex-col sm:flex-row bg-[#0f0f0f] border border-white/5 p-1 rounded-sm gap-1">
+      <div className="flex flex-col sm:flex-row bg-white dark:bg-[#0f0f0f] border border-black/5 dark:border-white/5 p-1 rounded-sm gap-1 shadow-sm">
         <button 
           onClick={() => setActiveTab('inventory')}
-          className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-xs font-bold uppercase tracking-widest transition-all ${activeTab === 'inventory' ? 'bg-white text-black' : 'text-[#a1a1aa] hover:bg-white/5'}`}
+          className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-xs font-bold uppercase tracking-widest transition-all ${activeTab === 'inventory' ? 'bg-black dark:bg-white text-white dark:text-black' : 'text-gray-500 dark:text-[#a1a1aa] hover:bg-black/5 dark:hover:bg-white/5'}`}
         >
           <Package size={16} /> Produits
         </button>
         <button 
           onClick={() => setActiveTab('orders')}
-          className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-xs font-bold uppercase tracking-widest transition-all ${activeTab === 'orders' ? 'bg-white text-black' : 'text-[#a1a1aa] hover:bg-white/5'}`}
+          className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-xs font-bold uppercase tracking-widest transition-all ${activeTab === 'orders' ? 'bg-black dark:bg-white text-white dark:text-black' : 'text-gray-500 dark:text-[#a1a1aa] hover:bg-black/5 dark:hover:bg-white/5'}`}
         >
           <ShoppingCart size={16} /> Commandes
         </button>
         <button 
           onClick={() => setActiveTab('stats')}
-          className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-xs font-bold uppercase tracking-widest transition-all ${activeTab === 'stats' ? 'bg-white text-black' : 'text-[#a1a1aa] hover:bg-white/5'}`}
+          className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-xs font-bold uppercase tracking-widest transition-all ${activeTab === 'stats' ? 'bg-black dark:bg-white text-white dark:text-black' : 'text-gray-500 dark:text-[#a1a1aa] hover:bg-black/5 dark:hover:bg-white/5'}`}
         >
           <BarChart3 size={16} /> Statistiques
         </button>
         <button 
           onClick={() => setActiveTab('team')}
-          className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-xs font-bold uppercase tracking-widest transition-all ${activeTab === 'team' ? 'bg-white text-black' : 'text-[#a1a1aa] hover:bg-white/5'}`}
+          className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-xs font-bold uppercase tracking-widest transition-all ${activeTab === 'team' ? 'bg-black dark:bg-white text-white dark:text-black' : 'text-gray-500 dark:text-[#a1a1aa] hover:bg-black/5 dark:hover:bg-white/5'}`}
         >
           <Users size={16} /> Équipe
         </button>
@@ -226,14 +226,14 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
         {/* INVENTORY TAB */}
         {activeTab === 'inventory' && (
           <motion.div key="inventory" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-[#0f0f0f] border border-white/5 p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white dark:bg-[#0f0f0f] border border-black/5 dark:border-white/5 p-4 sm:p-6 shadow-sm dark:shadow-none">
               <div>
                 <h2 className="text-lg sm:text-xl font-heading uppercase tracking-widest text-[#a1a1aa]">Inventaire</h2>
                 <p className="text-[10px] sm:text-xs text-[#525252] mt-1">{products.length} articles disponibles</p>
               </div>
               <button 
                 onClick={() => { resetForm(); setIsModalOpen(true); }}
-                className="w-full sm:w-auto justify-center bg-white text-black px-4 sm:px-6 py-3 font-heading uppercase flex items-center gap-2 hover:bg-[#39ff14] transition-colors"
+                className="w-full sm:w-auto justify-center bg-black dark:bg-white text-white dark:text-black px-4 sm:px-6 py-3 font-heading uppercase flex items-center gap-2 hover:text-black dark:hover:text-black hover:bg-[#39ff14] dark:hover:bg-[#39ff14] transition-colors"
               >
                 <Plus size={20} /> Nouveau Produit
               </button>
@@ -241,8 +241,8 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {products.map((product) => (
-                <div key={product.id} className="bg-[#0f0f0f] border border-white/5 p-4 flex flex-col group relative overflow-hidden transition-all hover:border-[#39ff14]/30">
-                  <div className="aspect-square bg-black mb-4 flex items-center justify-center relative overflow-hidden border border-white/5">
+                <div key={product.id} className="bg-white dark:bg-[#0f0f0f] border border-black/5 dark:border-white/5 p-4 flex flex-col group relative overflow-hidden transition-all hover:border-[#39ff14]/30 shadow-sm dark:shadow-none">
+                  <div className="aspect-square bg-gray-100 dark:bg-black mb-4 flex items-center justify-center relative overflow-hidden border border-black/5 dark:border-white/5">
                     {product.image_url ? (
                       <img src={product.image_url} alt={product.name} className="w-full h-full object-contain p-4" />
                     ) : (
@@ -255,11 +255,11 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
                   </div>
                   <div className="flex-1">
                     <span className="text-[10px] text-[#39ff14] font-bold uppercase tracking-widest">{product.category}</span>
-                    <h3 className="font-heading text-lg mt-1 mb-2 line-clamp-1">{product.name}</h3>
+                    <h3 className="font-heading text-lg mt-1 mb-2 line-clamp-1 text-black dark:text-white">{product.name}</h3>
                     <span className="text-[#39ff14] font-bold font-sans">{product.price}</span>
                   </div>
-                  <div className="mt-4 pt-4 border-t border-white/5 flex gap-2">
-                    <button onClick={() => handleEdit(product)} className="flex-1 bg-white/5 hover:bg-white/10 text-white p-2 flex items-center justify-center transition-colors">
+                  <div className="mt-4 pt-4 border-t border-black/5 dark:border-white/5 flex gap-2">
+                    <button onClick={() => handleEdit(product)} className="flex-1 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-black dark:text-white p-2 flex items-center justify-center transition-colors">
                       <Edit size={16} />
                     </button>
                     <button onClick={() => handleDelete(product.id)} className="flex-1 bg-red-900/10 hover:bg-red-900/30 text-red-500 p-2 flex items-center justify-center transition-colors border border-red-500/10">
@@ -275,14 +275,14 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
         {/* ORDERS TAB */}
         {activeTab === 'orders' && (
           <motion.div key="orders" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
-            <div className="bg-[#0f0f0f] border border-white/5 p-6">
+            <div className="bg-white dark:bg-[#0f0f0f] border border-black/5 dark:border-white/5 p-6 shadow-sm dark:shadow-none">
               <h2 className="text-xl font-heading uppercase tracking-widest text-[#a1a1aa]">Commandes Récentes</h2>
             </div>
             
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-white/10 text-[10px] uppercase tracking-[0.2em] text-[#525252]">
+                  <tr className="border-b border-black/10 dark:border-white/10 text-[10px] uppercase tracking-[0.2em] text-[#525252]">
                     <th className="py-4 px-4 font-bold">Client</th>
                     <th className="py-4 px-4 font-bold">Panier</th>
                     <th className="py-4 px-4 font-bold">Wilaya</th>
@@ -290,15 +290,15 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
                     <th className="py-4 px-4 font-bold text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/5">
+                <tbody className="divide-y divide-black/5 dark:divide-white/5">
                   {orders.map((order) => (
-                    <tr key={order.id} className="hover:bg-white/[0.02] transition-colors group">
+                    <tr key={order.id} className="hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors group">
                       <td className="py-4 px-4">
-                        <div className="font-bold text-white">{order.customer_name}</div>
+                        <div className="font-bold text-black dark:text-white">{order.customer_name}</div>
                         <div className="text-xs text-[#525252]">{order.customer_phone}</div>
                       </td>
                       <td className="py-4 px-4">
-                        <div className="text-white text-sm max-w-[200px] truncate" title={order.items_list}>{order.items_list}</div>
+                        <div className="text-black dark:text-white text-sm max-w-[200px] truncate" title={order.items_list}>{order.items_list}</div>
                         <div className="text-[#39ff14] text-xs font-bold">{order.total_price} DZD</div>
                       </td>
                       <td className="py-4 px-4 hidden sm:table-cell text-xs text-[#a1a1aa]">{order.customer_wilaya}</td>
@@ -314,9 +314,9 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
                       </td>
                       <td className="py-4 px-4">
                         <div className="flex justify-start sm:justify-end gap-1 sm:gap-2 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity mt-2 sm:mt-0">
-                          <button onClick={() => handleUpdateOrderStatus(order.id, 'Confirmée')} title="Confirmer" className="p-1 sm:p-2 bg-[#39ff14]/10 sm:bg-transparent hover:bg-[#39ff14]/20 text-[#39ff14] border border-[#39ff14]/20 sm:border-white/5"><CheckCircle2 size={16} /></button>
-                          <button onClick={() => handleUpdateOrderStatus(order.id, 'Livrée')} title="Livrée" className="p-1 sm:p-2 bg-white/5 sm:bg-transparent hover:bg-white/10 text-white border border-white/10 sm:border-white/5"><Truck size={16} /></button>
-                          <button onClick={() => handleUpdateOrderStatus(order.id, 'Annulée')} title="Annuler" className="p-1 sm:p-2 bg-red-500/10 sm:bg-transparent hover:bg-red-500/20 text-red-500 border border-red-500/20 sm:border-white/5"><XCircle size={16} /></button>
+                          <button onClick={() => handleUpdateOrderStatus(order.id, 'Confirmée')} title="Confirmer" className="p-1 sm:p-2 bg-[#39ff14]/10 sm:bg-transparent hover:bg-[#39ff14]/20 text-[#39ff14] border border-[#39ff14]/20 sm:border-black/5 sm:dark:border-white/5"><CheckCircle2 size={16} /></button>
+                          <button onClick={() => handleUpdateOrderStatus(order.id, 'Livrée')} title="Livrée" className="p-1 sm:p-2 bg-black/5 dark:bg-white/5 sm:bg-transparent hover:bg-black/10 dark:hover:bg-white/10 text-black dark:text-white border border-black/10 dark:border-white/10 sm:border-black/5 sm:dark:border-white/5"><Truck size={16} /></button>
+                          <button onClick={() => handleUpdateOrderStatus(order.id, 'Annulée')} title="Annuler" className="p-1 sm:p-2 bg-red-500/10 sm:bg-transparent hover:bg-red-500/20 text-red-500 border border-red-500/20 sm:border-black/5 sm:dark:border-white/5"><XCircle size={16} /></button>
                         </div>
                       </td>
                     </tr>
@@ -334,26 +334,26 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
         {activeTab === 'stats' && (
           <motion.div key="stats" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-[#0f0f0f] border border-white/5 p-8 relative overflow-hidden group">
+              <div className="bg-white dark:bg-[#0f0f0f] border border-black/5 dark:border-white/5 p-8 relative overflow-hidden group shadow-sm dark:shadow-none">
                 <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity"><DollarSign size={80} /></div>
                 <h3 className="text-xs font-bold text-[#525252] uppercase tracking-[0.3em] mb-2">Chiffre d'Affaires</h3>
                 <div className="text-4xl font-heading text-[#39ff14]">{stats?.totalRevenue?.toLocaleString() || 0} DZD</div>
               </div>
-              <div className="bg-[#0f0f0f] border border-white/5 p-8 relative overflow-hidden group">
+              <div className="bg-white dark:bg-[#0f0f0f] border border-black/5 dark:border-white/5 p-8 relative overflow-hidden group shadow-sm dark:shadow-none">
                 <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity"><Package size={80} /></div>
                 <h3 className="text-xs font-bold text-[#525252] uppercase tracking-[0.3em] mb-2">Total Commandes</h3>
-                <div className="text-4xl font-heading text-white">{stats?.totalOrders || 0}</div>
+                <div className="text-4xl font-heading text-black dark:text-white">{stats?.totalOrders || 0}</div>
               </div>
-              <div className="bg-[#0f0f0f] border border-white/5 p-8 relative overflow-hidden group">
+              <div className="bg-white dark:bg-[#0f0f0f] border border-black/5 dark:border-white/5 p-8 relative overflow-hidden group shadow-sm dark:shadow-none">
                 <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity"><TrendingUp size={80} /></div>
                 <h3 className="text-xs font-bold text-[#525252] uppercase tracking-[0.3em] mb-2">Total Produits</h3>
-                <div className="text-4xl font-heading text-white">{stats?.productsCount || 0}</div>
+                <div className="text-4xl font-heading text-black dark:text-white">{stats?.productsCount || 0}</div>
               </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="bg-[#0f0f0f] border border-white/5 p-6">
-                <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-6 flex items-center gap-2">
+              <div className="bg-white dark:bg-[#0f0f0f] border border-black/5 dark:border-white/5 p-6 shadow-sm dark:shadow-none">
+                <h3 className="text-sm font-bold text-black dark:text-white uppercase tracking-widest mb-6 flex items-center gap-2">
                   <Eye size={18} className="text-[#39ff14]" /> Les plus regardés
                 </h3>
                 <div className="space-y-4">
@@ -361,10 +361,10 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
                     <div key={i} className="flex items-center justify-between group">
                       <div className="flex items-center gap-3">
                         <span className="text-xs font-bold text-[#262626]">0{i+1}</span>
-                        <div className="text-sm font-bold text-[#a1a1aa] group-hover:text-white transition-colors">{p.name}</div>
+                        <div className="text-sm font-bold text-[#a1a1aa] group-hover:text-black dark:group-hover:text-white transition-colors">{p.name}</div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div className="h-1 w-24 bg-white/5 rounded-full overflow-hidden">
+                        <div className="h-1 w-24 bg-black/5 dark:bg-white/5 rounded-full overflow-hidden">
                           <motion.div 
                             initial={{ width: 0 }}
                             animate={{ width: `${(p.views_count / (stats.mostViewed[0].views_count || 1)) * 100}%` }}
@@ -384,11 +384,11 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
         {/* TEAM TAB */}
         {activeTab === 'team' && (
           <motion.div key="team" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-[#0f0f0f] border border-white/5 p-4 sm:p-6 gap-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white dark:bg-[#0f0f0f] border border-black/5 dark:border-white/5 p-4 sm:p-6 gap-4 shadow-sm dark:shadow-none">
               <h2 className="text-lg sm:text-xl font-heading uppercase tracking-widest text-[#a1a1aa]">Administration</h2>
               <button 
                 onClick={() => setIsAdminModalOpen(true)}
-                className="w-full sm:w-auto justify-center bg-white text-black px-4 sm:px-6 py-2 sm:py-3 font-heading uppercase flex items-center gap-2 hover:bg-[#39ff14] transition-colors"
+                className="w-full sm:w-auto justify-center bg-black dark:bg-white text-white dark:text-black px-4 sm:px-6 py-2 sm:py-3 font-heading uppercase flex items-center gap-2 hover:bg-[#39ff14] dark:hover:bg-[#39ff14] hover:text-black transition-colors"
                 >
                 <Plus size={20} /> Nouvel Admin
               </button>
@@ -396,13 +396,13 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {admins.map((admin) => (
-                <div key={admin.id} className="bg-[#0f0f0f] border border-white/10 p-6 flex flex-col gap-4 relative group">
+                <div key={admin.id} className="bg-white dark:bg-[#0f0f0f] border border-black/10 dark:border-white/10 p-6 flex flex-col gap-4 relative group shadow-sm dark:shadow-none">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
+                    <div className="w-12 h-12 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center border border-black/10 dark:border-white/10">
                       <Users size={24} className="text-[#39ff14]" />
                     </div>
                     <div>
-                      <div className="font-heading text-lg text-white uppercase">{admin.name}</div>
+                      <div className="font-heading text-lg text-black dark:text-white uppercase">{admin.name}</div>
                       <div className="text-[10px] font-bold text-[#525252] tracking-widest uppercase">Passcode: ••••</div>
                     </div>
                   </div>
@@ -423,24 +423,24 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
       <AnimatePresence>
         {isModalOpen && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsModalOpen(false)} className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="w-full max-w-2xl bg-[#0f0f0f] border border-white/10 p-5 sm:p-8 relative overflow-y-auto max-h-[90vh]">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsModalOpen(false)} className="absolute inset-0 bg-white/80 dark:bg-black/80 backdrop-blur-sm" />
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="w-full max-w-2xl bg-white dark:bg-[#0f0f0f] border border-black/10 dark:border-white/10 p-5 sm:p-8 relative overflow-y-auto max-h-[90vh] shadow-2xl">
               <div className="flex justify-between items-center mb-6 sm:mb-8">
-                <h2 className="text-xl sm:text-2xl font-heading uppercase tracking-tighter">
+                <h2 className="text-xl sm:text-2xl font-heading uppercase tracking-tighter text-black dark:text-white">
                   {editingProduct ? 'MODIFIER LE PRODUIT' : 'AJOUTER UN PRODUIT'}
                 </h2>
-                <button onClick={() => setIsModalOpen(false)} className="text-[#a1a1aa] hover:text-white"><X size={24} /></button>
+                <button onClick={() => setIsModalOpen(false)} className="text-[#a1a1aa] hover:text-black dark:hover:text-white"><X size={24} /></button>
               </div>
               <form onSubmit={handleSubmit} className="space-y-6">
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-4">
                       <div>
                         <label className="block text-[10px] font-bold text-[#a1a1aa] uppercase tracking-widest mb-1">Nom du Produit</label>
-                        <input type="text" required value={formData.name} onChange={e => setFormData(prev => ({ ...prev, name: e.target.value }))} className="w-full bg-black border border-white/10 px-4 py-2 text-sm focus:border-[#39ff14] outline-none" />
+                        <input type="text" required value={formData.name} onChange={e => setFormData(prev => ({ ...prev, name: e.target.value }))} className="w-full bg-gray-50 dark:bg-black border border-black/10 dark:border-white/10 px-4 py-2 text-sm text-black dark:text-white focus:border-[#39ff14] dark:focus:border-[#39ff14] outline-none" />
                       </div>
                       <div>
                         <label className="block text-[10px] font-bold text-[#a1a1aa] uppercase tracking-widest mb-1">Catégorie</label>
-                        <select value={formData.category} onChange={e => setFormData(prev => ({ ...prev, category: e.target.value }))} className="w-full bg-black border border-white/10 px-4 py-2 text-sm focus:border-[#39ff14] outline-none">
+                        <select value={formData.category} onChange={e => setFormData(prev => ({ ...prev, category: e.target.value }))} className="w-full bg-gray-50 dark:bg-black border border-black/10 dark:border-white/10 px-4 py-2 text-sm text-black dark:text-white focus:border-[#39ff14] dark:focus:border-[#39ff14] outline-none">
                           <option value="Snus">Snus</option>
                           <option value="Vape Jetable">Vape Jetable</option>
                           <option value="Puff">Puff</option>
@@ -450,11 +450,11 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <label className="block text-[10px] font-bold text-[#a1a1aa] uppercase tracking-widest mb-1">Prix (DZD)</label>
-                          <input type="text" required value={formData.price} placeholder="1 600 DZD" onChange={e => setFormData(prev => ({ ...prev, price: e.target.value }))} className="w-full bg-black border border-white/10 px-4 py-2 text-sm focus:border-[#39ff14] outline-none" />
+                          <input type="text" required value={formData.price} placeholder="1 600 DZD" onChange={e => setFormData(prev => ({ ...prev, price: e.target.value }))} className="w-full bg-gray-50 dark:bg-black border border-black/10 dark:border-white/10 px-4 py-2 text-sm text-black dark:text-white focus:border-[#39ff14] dark:focus:border-[#39ff14] outline-none" />
                         </div>
                         <div>
                           <label className="block text-[10px] font-bold text-[#a1a1aa] uppercase tracking-widest mb-1">Ancien Prix</label>
-                          <input type="text" value={formData.old_price} placeholder="1 900 DZD" onChange={e => setFormData(prev => ({ ...prev, old_price: e.target.value }))} className="w-full bg-black border border-white/10 px-4 py-2 text-sm focus:border-[#39ff14] outline-none" />
+                          <input type="text" value={formData.old_price} placeholder="1 900 DZD" onChange={e => setFormData(prev => ({ ...prev, old_price: e.target.value }))} className="w-full bg-gray-50 dark:bg-black border border-black/10 dark:border-white/10 px-4 py-2 text-sm text-black dark:text-white focus:border-[#39ff14] dark:focus:border-[#39ff14] outline-none" />
                         </div>
                       </div>
                     </div>
@@ -462,12 +462,12 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
                       <label className="block text-[10px] font-bold text-[#a1a1aa] uppercase tracking-widest mb-1">Image</label>
                       <div className="space-y-3">
                         {(uploadedUrl || formData.image_url) && (
-                          <div className="relative aspect-square w-32 mx-auto bg-black border border-white/10 p-2">
+                          <div className="relative aspect-square w-32 mx-auto bg-gray-100 dark:bg-black border border-black/10 dark:border-white/10 p-2">
                              <img src={uploadedUrl || formData.image_url} className="w-full h-full object-contain" alt="Preview" />
-                             <button type="button" onClick={() => { setUploadedUrl(''); setFormData(prev => ({ ...prev, image_url: '' })) }} className="absolute -top-2 -right-2 bg-red-500 rounded-full p-1"><X size={12} /></button>
+                             <button type="button" onClick={() => { setUploadedUrl(''); setFormData(prev => ({ ...prev, image_url: '' })) }} className="absolute -top-2 -right-2 bg-red-500 rounded-full p-1"><X size={12} className="text-white" /></button>
                           </div>
                         )}
-                        <div className="relative h-32 w-full border-2 border-dashed border-white/10 rounded-sm flex flex-col items-center justify-center hover:border-[#39ff14]/50 transition-colors group">
+                        <div className="relative h-32 w-full border-2 border-dashed border-black/10 dark:border-white/10 rounded-sm flex flex-col items-center justify-center hover:border-[#39ff14]/50 transition-colors group">
                           {uploading ? (
                             <div className="w-6 h-6 border-2 border-[#39ff14] border-t-transparent rounded-full animate-spin"></div>
                           ) : (
@@ -481,7 +481,7 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
                       </div>
                     </div>
                  </div>
-                 <button type="submit" disabled={isPending || uploading} className="w-full bg-[#39ff14] text-black font-heading py-4 mt-4 uppercase hover:bg-white transition-colors disabled:opacity-50">
+                 <button type="submit" disabled={isPending || uploading} className="w-full bg-[#39ff14] text-black font-heading py-4 mt-4 uppercase hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors disabled:opacity-50">
                   {isPending ? 'Enregistrement...' : editingProduct ? 'Mettre à jour' : 'Créer'}
                 </button>
               </form>
@@ -494,19 +494,19 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
       <AnimatePresence>
         {isAdminModalOpen && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsAdminModalOpen(false)} className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="w-full max-w-md bg-[#0f0f0f] border border-white/10 p-5 sm:p-8 relative">
-              <h2 className="text-xl sm:text-2xl font-heading uppercase tracking-tighter mb-6 sm:mb-8 text-white">Nouvel Administrateur</h2>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsAdminModalOpen(false)} className="absolute inset-0 bg-white/80 dark:bg-black/80 backdrop-blur-sm" />
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="w-full max-w-md bg-white dark:bg-[#0f0f0f] border border-black/10 dark:border-white/10 p-5 sm:p-8 relative shadow-2xl">
+              <h2 className="text-xl sm:text-2xl font-heading uppercase tracking-tighter mb-6 sm:mb-8 text-black dark:text-white">Nouvel Administrateur</h2>
               <form onSubmit={handleAddAdmin} className="space-y-4 sm:space-y-6">
                 <div>
                   <label className="block text-[10px] font-bold text-[#a1a1aa] uppercase tracking-widest mb-1">Nom</label>
-                  <input type="text" required value={adminFormData.name} onChange={e => setAdminFormData(prev => ({ ...prev, name: e.target.value }))} className="w-full bg-black border border-white/10 px-4 py-3 text-sm focus:border-[#39ff14] outline-none text-white" />
+                  <input type="text" required value={adminFormData.name} onChange={e => setAdminFormData(prev => ({ ...prev, name: e.target.value }))} className="w-full bg-gray-50 dark:bg-black border border-black/10 dark:border-white/10 px-4 py-3 text-sm focus:border-[#39ff14] dark:focus:border-[#39ff14] outline-none text-black dark:text-white" />
                 </div>
                 <div>
                   <label className="block text-[10px] font-bold text-[#a1a1aa] uppercase tracking-widest mb-1">Passcode</label>
-                  <input type="password" required value={adminFormData.passcode} onChange={e => setAdminFormData(prev => ({ ...prev, passcode: e.target.value }))} className="w-full bg-black border border-white/10 px-4 py-3 text-sm focus:border-[#39ff14] outline-none text-white tracking-widest" />
+                  <input type="password" required value={adminFormData.passcode} onChange={e => setAdminFormData(prev => ({ ...prev, passcode: e.target.value }))} className="w-full bg-gray-50 dark:bg-black border border-black/10 dark:border-white/10 px-4 py-3 text-sm focus:border-[#39ff14] dark:focus:border-[#39ff14] outline-none text-black dark:text-white tracking-widest" />
                 </div>
-                <button type="submit" className="w-full bg-white text-black font-heading py-4 uppercase hover:bg-[#39ff14] transition-colors">
+                <button type="submit" className="w-full bg-black dark:bg-white text-white dark:text-black font-heading py-4 uppercase hover:bg-[#39ff14] hover:text-black dark:hover:bg-[#39ff14] dark:hover:text-black transition-colors">
                   Ajouter à l'équipe
                 </button>
               </form>

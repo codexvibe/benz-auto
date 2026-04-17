@@ -89,23 +89,23 @@ export const CheckoutModal = ({ isOpen, onClose }: CheckoutModalProps) => {
           className="fixed inset-0 z-[200] flex items-center justify-center p-4 overflow-y-auto"
         >
           {/* Backdrop */}
-          <div className="fixed inset-0 bg-black/90 backdrop-blur-md" onClick={handleClose} />
+          <div className="fixed inset-0 bg-white/90 dark:bg-black/90 backdrop-blur-md" onClick={handleClose} />
           
           {/* Modal */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-lg bg-[#0a0a0a] border border-white/10 overflow-hidden my-auto"
+            className="relative w-full max-w-lg bg-white dark:bg-[#0a0a0a] border border-black/10 dark:border-white/10 overflow-hidden my-auto shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
             <div className="bg-gradient-to-r from-[#39ff14]/20 to-transparent border-b border-[#39ff14]/30 px-6 py-4 flex justify-between items-center">
               <div>
-                <h2 className="font-heading text-2xl text-white uppercase tracking-wider">Finaliser la commande</h2>
+                <h2 className="font-heading text-2xl text-black dark:text-white uppercase tracking-wider">Finaliser la commande</h2>
                 <p className="text-[#a1a1aa] text-xs font-bold uppercase tracking-widest">{cart.length} article(s) · Paiement à la livraison</p>
               </div>
-              <button onClick={handleClose} className="text-white/50 hover:text-white p-2">
+              <button onClick={handleClose} className="text-black/50 hover:text-black dark:text-white/50 dark:hover:text-white p-2">
                 <X size={24} />
               </button>
             </div>
@@ -120,16 +120,16 @@ export const CheckoutModal = ({ isOpen, onClose }: CheckoutModalProps) => {
                 <div className="w-24 h-24 rounded-full bg-[#39ff14]/10 flex items-center justify-center">
                   <CheckCircle size={56} className="text-[#39ff14]" />
                 </div>
-                <h3 className="font-heading text-4xl text-white uppercase">COMMANDE VALIDÉE !</h3>
+                <h3 className="font-heading text-4xl text-black dark:text-white uppercase">COMMANDE VALIDÉE !</h3>
                 <p className="text-[#a1a1aa] font-sans">
-                  Merci <span className="text-white font-bold">{name}</span> ! Votre commande d'un montant de <span className="text-[#39ff14] font-bold">{total.toLocaleString()} DZD</span> a bien été enregistrée.
+                  Merci <span className="text-black dark:text-white font-bold">{name}</span> ! Votre commande d'un montant de <span className="text-[#39ff14] font-bold">{total.toLocaleString()} DZD</span> a bien été enregistrée.
                 </p>
-                <p className="text-sm text-[#a1a1aa] bg-white/5 px-4 py-2 rounded-sm italic">
-                  Nous vous appellerons sous peu au <span className="text-white font-bold">{phone}</span> pour confirmer l'expédition.
+                <p className="text-sm text-[#a1a1aa] bg-black/5 dark:bg-white/5 px-4 py-2 rounded-sm italic">
+                  Nous vous appellerons sous peu au <span className="text-black dark:text-white font-bold">{phone}</span> pour confirmer l'expédition.
                 </p>
                 <button
                   onClick={handleClose}
-                  className="mt-4 w-full bg-[#39ff14] text-black font-heading text-xl py-4 uppercase hover:bg-white transition-all shadow-[0_0_20px_rgba(57,255,20,0.3)]"
+                  className="mt-4 w-full bg-[#39ff14] text-black font-heading text-xl py-4 uppercase hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all shadow-[0_0_20px_rgba(57,255,20,0.3)]"
                 >
                   Retour au site
                 </button>
@@ -137,7 +137,7 @@ export const CheckoutModal = ({ isOpen, onClose }: CheckoutModalProps) => {
             ) : (
               <div className="flex flex-col">
                 {/* Order Summary Recap (Mini) */}
-                <div className="bg-white/2 p-4 border-b border-white/5">
+                <div className="bg-black/5 dark:bg-white/5 p-4 border-b border-black/5 dark:border-white/5">
                   <div className="flex justify-between text-xs text-[#a1a1aa] uppercase font-bold tracking-widest mb-1">
                     <span>Sous-total</span>
                     <span>{subtotal.toLocaleString()} DZD</span>
@@ -146,9 +146,9 @@ export const CheckoutModal = ({ isOpen, onClose }: CheckoutModalProps) => {
                     <span>Livraison ({wilaya || 'Sél. Wilaya'})</span>
                     <span>{deliveryPrice > 0 ? `${deliveryPrice} DZD` : '---'}</span>
                   </div>
-                  <div className="flex justify-between text-lg text-white font-heading uppercase mt-2 pt-2 border-t border-white/5">
+                  <div className="flex justify-between text-lg text-black dark:text-white font-heading uppercase mt-2 pt-2 border-t border-black/10 dark:border-white/5">
                     <span>TOTAL À PAYER</span>
-                    <span className="text-glow-green">{total.toLocaleString()} DZD</span>
+                    <span className="text-[#39ff14] dark:text-glow-green">{total.toLocaleString()} DZD</span>
                   </div>
                 </div>
 
@@ -163,7 +163,7 @@ export const CheckoutModal = ({ isOpen, onClose }: CheckoutModalProps) => {
                         placeholder="Mohamed Benali"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="w-full bg-[#111] border border-white/10 text-white pl-10 pr-4 py-3 focus:border-[#39ff14] outline-none"
+                        className="w-full bg-gray-50 dark:bg-[#111] border border-black/10 dark:border-white/10 text-black dark:text-white pl-10 pr-4 py-3 focus:border-[#39ff14] dark:focus:border-[#39ff14] outline-none"
                       />
                     </div>
                   </div>
@@ -178,7 +178,7 @@ export const CheckoutModal = ({ isOpen, onClose }: CheckoutModalProps) => {
                         placeholder="05 / 06 / 07 ..."
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                        className="w-full bg-[#111] border border-white/10 text-white pl-10 pr-4 py-3 focus:border-[#39ff14] outline-none"
+                        className="w-full bg-gray-50 dark:bg-[#111] border border-black/10 dark:border-white/10 text-black dark:text-white pl-10 pr-4 py-3 focus:border-[#39ff14] dark:focus:border-[#39ff14] outline-none"
                       />
                     </div>
                   </div>
@@ -191,7 +191,7 @@ export const CheckoutModal = ({ isOpen, onClose }: CheckoutModalProps) => {
                         required
                         value={wilaya}
                         onChange={(e) => setWilaya(e.target.value)}
-                        className="w-full bg-[#111] border border-white/10 text-white pl-10 pr-4 py-3 focus:border-[#39ff14] outline-none appearance-none cursor-pointer"
+                        className="w-full bg-gray-50 dark:bg-[#111] border border-black/10 dark:border-white/10 text-black dark:text-white pl-10 pr-4 py-3 focus:border-[#39ff14] dark:focus:border-[#39ff14] outline-none appearance-none cursor-pointer"
                       >
                         <option value="">Sélectionnez votre Wilaya</option>
                         {WILAYAS.map(w => <option key={w} value={w}>{w}</option>)}
@@ -207,14 +207,14 @@ export const CheckoutModal = ({ isOpen, onClose }: CheckoutModalProps) => {
                       placeholder="Rue, Quartier, N° Maison..."
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
-                      className="w-full bg-[#111] border border-white/10 text-white px-4 py-3 focus:border-[#39ff14] outline-none"
+                      className="w-full bg-gray-50 dark:bg-[#111] border border-black/10 dark:border-white/10 text-black dark:text-white px-4 py-3 focus:border-[#39ff14] dark:focus:border-[#39ff14] outline-none"
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={!isFormValid || isSubmitting}
-                    className="mt-4 w-full bg-[#39ff14] text-black font-heading text-2xl py-5 uppercase flex items-center justify-center gap-3 hover:bg-white transition-all active:scale-95 disabled:opacity-50"
+                    className="mt-4 w-full bg-[#39ff14] text-black font-heading text-2xl py-5 uppercase flex items-center justify-center gap-3 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all active:scale-95 disabled:opacity-50 shadow-[0_0_20px_rgba(57,255,20,0.2)]"
                   >
                     {isSubmitting ? <Loader2 size={24} className="animate-spin" /> : <Package size={24} />}
                     {isSubmitting ? "Validation..." : "Confirmer ma commande"}

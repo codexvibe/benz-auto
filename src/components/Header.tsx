@@ -7,12 +7,18 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '../context/CartContext';
 import { CartSidebar } from './CartSidebar';
+import { useTheme } from 'next-themes';
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const { itemCount, setIsSidebarOpen } = useCart();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -70,7 +76,7 @@ export const Header = () => {
 
       <header 
         className={`w-full transition-all duration-300 ${
-          isScrolled ? 'glass-dark py-3' : 'bg-gradient-to-b from-black/80 to-transparent py-4 md:py-6'
+          isScrolled ? 'bg-white/80 dark:glass-dark py-3 backdrop-blur-md border-b border-black/5 dark:border-white/10' : 'bg-gradient-to-b from-white/90 dark:from-black/80 to-transparent py-4 md:py-6'
         }`}
       >
         <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
@@ -93,7 +99,7 @@ export const Header = () => {
               <Link 
                 key={link.name} 
                 href={link.href}
-                className="font-heading text-lg text-white hover:text-[#39ff14] transition-colors uppercase tracking-wide"
+                className="font-heading text-lg text-black dark:text-white hover:text-[#39ff14] dark:hover:text-[#39ff14] transition-colors uppercase tracking-wide"
               >
                 {link.name}
               </Link>
@@ -103,19 +109,16 @@ export const Header = () => {
           <div className="flex items-center gap-2 md:gap-4">
             
             <button 
-              onClick={() => {
-                setIsDarkMode(!isDarkMode)
-                alert("La version claire (Light Mode) est en cours de développement ! Le site est actuellement optimisé pour le mode sombre.")
-              }}
-              className="p-2 text-white hover:text-[#39ff14] transition-colors"
-              title={isDarkMode ? "Passer au thème clair" : "Passer au thème sombre"}
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className="p-2 text-black dark:text-white hover:text-[#39ff14] transition-colors"
+              title={theme === 'light' ? "Passer au thème sombre" : "Passer au thème clair"}
             >
-              {isDarkMode ? <Sun size={24} /> : <Moon size={24} />}
+              {mounted && (theme === 'light' ? <Moon size={24} /> : <Sun size={24} />)}
             </button>
 
             <button 
               onClick={() => setIsSidebarOpen(true)}
-              className="relative p-2 text-white hover:text-[#39ff14] transition-colors"
+              className="relative p-2 text-black dark:text-white hover:text-[#39ff14] transition-colors"
             >
               <ShoppingCart size={24} />
               {itemCount > 0 && (
@@ -126,7 +129,7 @@ export const Header = () => {
             </button>
 
             <button 
-              className="md:hidden p-2 text-white"
+              className="md:hidden p-2 text-black dark:text-white"
               onClick={() => setMobileMenuOpen(true)}
             >
               <Menu size={28} />
@@ -142,10 +145,10 @@ export const Header = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ type: 'tween', duration: 0.3 }}
-            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex flex-col pt-20 px-6 pb-6"
+            className="fixed inset-0 z-50 bg-white/95 dark:bg-black/95 backdrop-blur-xl flex flex-col pt-20 px-6 pb-6"
           >
             <button 
-              className="absolute top-6 right-6 text-white p-2 rounded-full border border-white/20 hover:text-[#39ff14] hover:border-[#39ff14]"
+              className="absolute top-6 right-6 text-black dark:text-white p-2 rounded-full border border-black/20 dark:border-white/20 hover:text-[#39ff14] hover:border-[#39ff14] dark:hover:border-[#39ff14]"
               onClick={() => setMobileMenuOpen(false)}
             >
               <X size={24} />
@@ -156,7 +159,7 @@ export const Header = () => {
                 <Link 
                   key={link.name} 
                   href={link.href}
-                  className="font-heading text-4xl text-white hover:text-[#39ff14] uppercase tracking-wide border-b border-white/10 pb-4"
+                  className="font-heading text-4xl text-black dark:text-white hover:text-[#39ff14] dark:hover:text-[#39ff14] uppercase tracking-wide border-b border-black/10 dark:border-white/10 pb-4"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {link.name}

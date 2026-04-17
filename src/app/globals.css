@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
 @theme {
   --color-neon-green: #39ff14;
   --color-neon-pink: #ff00ff;
@@ -24,8 +26,6 @@
 
 @layer base {
   body {
-    background-color: var(--color-background);
-    color: var(--color-text-primary);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;

@@ -33,11 +33,11 @@ const features = [
 
 export const Features = () => {
   return (
-    <section className="py-20 bg-[#0f0f0f] relative border-y border-white/5">
+    <section className="py-20 bg-white dark:bg-[#0f0f0f] relative border-y border-black/5 dark:border-white/5">
       <div className="container mx-auto px-4">
         
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-6xl font-heading text-white uppercase">
+          <h2 className="text-4xl md:text-6xl font-heading text-black dark:text-white uppercase">
             POURQUOI CHOISIR <span className="text-[#39ff14]">HM.ZONEDZ ?</span>
           </h2>
         </div>
@@ -50,12 +50,12 @@ export const Features = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
               key={index}
-              className="bg-black border border-white/10 p-8 flex flex-col items-center text-center hover:border-white/30 transition-colors group"
+              className="bg-gray-50 dark:bg-black border border-black/10 dark:border-white/10 p-8 flex flex-col items-center text-center hover:border-black/30 dark:hover:border-white/30 transition-colors group"
             >
-              <div className={`mb-6 p-4 rounded-full bg-[#0f0f0f] ${item.color} group-hover:scale-110 transition-transform duration-300`}>
+              <div className={`mb-6 p-4 rounded-full bg-white dark:bg-[#0f0f0f] border border-black/5 dark:border-transparent ${item.color} group-hover:scale-110 transition-transform duration-300`}>
                 {item.icon}
               </div>
-              <h3 className="font-heading text-2xl text-white mb-4 uppercase">{item.title}</h3>
+              <h3 className="font-heading text-2xl text-black dark:text-white mb-4 uppercase">{item.title}</h3>
               <p className="text-[#a1a1aa] font-sans">{item.desc}</p>
             </motion.div>
           ))}

@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 };
 
 import { CartProvider } from "../context/CartContext";
+import { ThemeProvider } from "../components/ThemeProvider";
 
 export default function RootLayout({
   children,
@@ -18,11 +19,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
-      <body className={`${inter.variable} ${anton.variable} font-sans antialiased bg-background text-text-primary`}>
-        <CartProvider>
-          {children}
-        </CartProvider>
+    <html lang="fr" suppressHydrationWarning>
+      <body className={`${inter.variable} ${anton.variable} font-sans antialiased bg-white dark:bg-black text-black dark:text-white transition-colors duration-300`}>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+          <CartProvider>
+            {children}
+          </CartProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
