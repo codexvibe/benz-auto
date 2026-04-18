@@ -43,6 +43,21 @@ const fallbackProducts: Product[] = [
   { id: 15, name: 'BATTERIE 18650', category: 'Accessoires', price: '1 500 DZD', oldPrice: null, image: '/assets/vape_tornado.png', badge: 'PUISSANCE', badgeColor: 'bg-red-800', glowColor: 'box-glow-green-hover' },
   { id: 16, name: 'ÉTUI DE TRANSPORT', category: 'Accessoires', price: '900 DZD', oldPrice: null, image: '/assets/vape_tornado.png', badge: 'PROTECTION', badgeColor: 'bg-gray-700', glowColor: 'box-glow-green-hover' }
 ];
+
+const DEFAULT_CATEGORIES = [
+  'Toutes', 
+  'Promotions', 
+  'Snus', 
+  'Vape Jetable', 
+  'Puff', 
+  'Puff 9k', 
+  'Puff 12k', 
+  'Puff 15k', 
+  'Puff 25k', 
+  'E-Liquides', 
+  'Gros', 
+  'Accessoires'
+];
   // Les catégories dynamiques seront générées à partir des produits.
 
 export default function Shop() {
@@ -52,7 +67,19 @@ export default function Shop() {
   const [selectedFlavors, setSelectedFlavors] = useState<Record<number, string>>({});
   const { addToCart } = useCart();
 
-  const availableCategories = Array.from(new Set(['Toutes', 'Promotions', ...products.map(p => p.category?.trim() || 'Non classé')]));
+  const checkCategoryHasProducts = (cat: string) => {
+    if (cat === 'Toutes') return true;
+    if (cat === 'Promotions') return products.some(p => p.oldPrice && p.oldPrice !== '');
+    if (cat === 'Vape Jetable' || cat === 'Puff') return products.some(p => (p.category || '').toLowerCase().includes('vape') || (p.category || '').toLowerCase().includes('puff'));
+    return products.some(p => (p.category?.trim().toLowerCase() === cat.trim().toLowerCase()));
+  };
+
+  const baseCategories = DEFAULT_CATEGORIES.filter(checkCategoryHasProducts);
+  const additionalCategories = products
+    .map(p => p.category?.trim() || 'Non classé')
+    .filter(c => !DEFAULT_CATEGORIES.includes(c));
+    
+  const availableCategories = Array.from(new Set([...baseCategories, ...additionalCategories]));
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -94,7 +121,9 @@ export default function Shop() {
     ? products 
     : activeCategory === 'Promotions'
       ? products.filter(p => p.oldPrice && p.oldPrice !== '')
-      : products.filter(p => (p.category?.trim() || 'Non classé').toLowerCase() === activeCategory.trim().toLowerCase());
+      : activeCategory === 'Vape Jetable' || activeCategory === 'Puff'
+        ? products.filter(p => (p.category || '').toLowerCase().includes('vape') || (p.category || '').toLowerCase().includes('puff'))
+        : products.filter(p => (p.category?.trim() || 'Non classé').toLowerCase() === activeCategory.trim().toLowerCase());
 
   return (
     <>
