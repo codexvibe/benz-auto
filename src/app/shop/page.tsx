@@ -93,7 +93,7 @@ export default function Shop() {
   const filteredProducts = activeCategory === 'Toutes' 
     ? products 
     : activeCategory === 'Promotions'
-      ? products.filter(p => p.oldPrice && p.oldPrice !== '')
+      ? products.filter(p => (p.oldPrice && p.oldPrice !== '') || (p.badge && p.badge.toLowerCase().includes('promo')))
       : products.filter(p => (p.category?.trim() || 'Non classé').toLowerCase() === activeCategory.trim().toLowerCase());
 
   return (

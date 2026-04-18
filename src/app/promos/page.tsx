@@ -25,6 +25,7 @@ interface Product {
 
 const fallbackPromos: Product[] = [
   { id: 1, name: 'PABLO ICE COLD', category: 'Snus', price: '1 200 DZD', oldPrice: '1 500 DZD', image: '/assets/snus_pablo.png', badge: 'TOP VENTE 🔥', badgeColor: 'bg-[#ef4444]', glowColor: 'box-glow-green-hover' },
+  { id: 4, name: 'JNR ALIEN 10K', category: 'Puff 10k', price: '4 000 DZD', oldPrice: null, image: '/assets/vape_tornado.png', badge: 'PROMO 🎁', badgeColor: 'bg-[#39ff14] text-black', glowColor: 'box-glow-green-hover' },
   { id: 7, name: 'JNR ROCKET 25K', category: 'Puff 25k', price: '4 500 DZD', oldPrice: '5 000 DZD', image: '/assets/vape_tornado.png', badge: 'MAX PUFFS 🌪️', badgeColor: 'bg-blue-600', glowColor: 'hover:shadow-[0_0_25px_rgba(37,99,235,0.6)]' },
   { id: 10, name: 'BIG BOY 100ML', category: 'E-Liquides', price: '2 500 DZD', oldPrice: '3 000 DZD', image: '/assets/vape_tornado.png', badge: 'FORMAT XL', badgeColor: 'bg-green-600', glowColor: 'box-glow-green-hover' },
   { id: 11, name: 'PACK SNUS 10 PCS', category: 'Gros', price: '10 000 DZD', oldPrice: '12 000 DZD', image: '/assets/snus_pablo.png', badge: 'VENTE EN GROS', badgeColor: 'bg-black text-yellow-400', glowColor: 'box-glow-green-hover' }
@@ -46,11 +47,12 @@ export default function Promos() {
         const { data, error } = await supabase
           .from('products')
           .select('*')
-          .eq('is_visible', true)
-          .not('old_price', 'is', null);
+          .eq('is_visible', true);
 
         if (data && data.length > 0) {
-          const mappedData: Product[] = data.map((item: any) => ({
+          const mappedData: Product[] = data
+            .filter((item: any) => (item.old_price && item.old_price !== '') || (item.badge && item.badge.toLowerCase().includes('promo')))
+            .map((item: any) => ({
             id: item.id,
             name: item.name,
             category: item.category,
