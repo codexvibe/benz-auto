@@ -318,8 +318,8 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {products.map((product) => (
-                <div key={product.id} className="bg-[#050505] border border-white/5 p-5 flex flex-col group relative overflow-hidden transition-all hover:border-[#39ff14]/30 shadow-2xl">
-                  <div className="aspect-[4/5] bg-gradient-to-b from-[#0a0a0a] to-[#000000] mb-6 flex items-center justify-center relative overflow-hidden border border-white/5 group-hover:bg-white/[0.02] transition-colors">
+                <div key={product.id} className="bg-white dark:bg-[#050505] border border-black/5 dark:border-white/5 p-5 flex flex-col group relative overflow-hidden transition-all hover:border-[#39ff14]/30 shadow-md dark:shadow-2xl">
+                  <div className="aspect-[4/5] bg-gradient-to-b from-gray-100 to-gray-50 dark:from-[#0a0a0a] dark:to-[#000000] mb-6 flex items-center justify-center relative overflow-hidden border border-black/5 dark:border-white/5 group-hover:bg-black/[0.02] dark:group-hover:bg-white/[0.02] transition-colors">
                     {product.image_url ? (
                       <img 
                         src={product.image_url} 
@@ -328,7 +328,7 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
                         className="w-full h-full object-contain p-8 group-hover:scale-105 transition-transform duration-500" 
                       />
                     ) : (
-                      <ImageIcon className="text-white/10" size={48} />
+                      <ImageIcon className="text-black/10 dark:text-white/10" size={48} />
                     )}
                     <div className="absolute top-3 left-3 flex flex-col gap-2">
                        {product.is_18_plus && (
@@ -342,16 +342,16 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
                     </div>
                   </div>
                   <div className="flex-1 flex flex-col">
-                    <h3 className="font-heading text-xl mb-2 text-white uppercase tracking-tighter group-hover:text-[#39ff14] transition-colors">{product.name}</h3>
+                    <h3 className="font-heading text-xl mb-2 text-black dark:text-white uppercase tracking-tighter group-hover:text-[#39ff14] transition-colors">{product.name}</h3>
                     <div className="flex items-baseline gap-3">
                       <div className="text-[#39ff14] text-xl font-bold font-sans">{product.price}</div>
                       {product.old_price && (
-                        <div className="text-white/30 text-sm font-sans line-through">{product.old_price}</div>
+                        <div className="text-gray-400 dark:text-white/30 text-sm font-sans line-through">{product.old_price}</div>
                       )}
                     </div>
                   </div>
-                  <div className="mt-4 pt-4 border-t border-white/5 flex gap-3">
-                    <button onClick={() => handleEdit(product)} className="flex-1 bg-white/5 hover:bg-white/10 text-white p-3 flex items-center justify-center transition-all border border-white/10 hover:border-[#39ff14]/50"><Edit size={18} /></button>
+                  <div className="mt-4 pt-4 border-t border-black/5 dark:border-white/5 flex gap-3">
+                    <button onClick={() => handleEdit(product)} className="flex-1 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-black dark:text-white p-3 flex items-center justify-center transition-all border border-black/10 dark:border-white/10 hover:border-[#39ff14]/50"><Edit size={18} /></button>
                     <button onClick={() => handleDelete(product.id)} className="flex-1 bg-red-500/10 hover:bg-red-500/20 text-red-500 p-3 flex items-center justify-center transition-all border border-red-500/20"><Trash2 size={18} /></button>
                   </div>
                 </div>
@@ -422,26 +422,26 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
         {activeTab === 'stats' && (
           <motion.div key="stats" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-[#050505] border border-white/5 p-8 relative overflow-hidden group shadow-2xl">
+              <div className="bg-white dark:bg-[#050505] border border-black/5 dark:border-white/5 p-8 relative overflow-hidden group shadow-md dark:shadow-2xl">
                 <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity"><DollarSign size={80} className="text-[#39ff14]" /></div>
-                <h3 className="text-[10px] font-bold text-white/40 uppercase tracking-[0.3em] mb-4">Chiffre d'Affaires</h3>
+                <h3 className="text-[10px] font-bold text-gray-400 dark:text-white/40 uppercase tracking-[0.3em] mb-4">Chiffre d'Affaires</h3>
                 <div className="text-4xl font-heading text-[#39ff14] tracking-tighter">{stats?.totalRevenue?.toLocaleString() || 0} DZD</div>
               </div>
-              <div className="bg-[#050505] border border-white/5 p-8 relative overflow-hidden group shadow-2xl">
-                <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity"><Package size={80} className="text-white" /></div>
-                <h3 className="text-[10px] font-bold text-white/40 uppercase tracking-[0.3em] mb-4">Total Commandes</h3>
-                <div className="text-4xl font-heading text-white tracking-tighter">{stats?.totalOrders || 0}</div>
+              <div className="bg-white dark:bg-[#050505] border border-black/5 dark:border-white/5 p-8 relative overflow-hidden group shadow-md dark:shadow-2xl">
+                <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity"><Package size={80} className="text-black dark:text-white" /></div>
+                <h3 className="text-[10px] font-bold text-gray-400 dark:text-white/40 uppercase tracking-[0.3em] mb-4">Total Commandes</h3>
+                <div className="text-4xl font-heading text-black dark:text-white tracking-tighter">{stats?.totalOrders || 0}</div>
               </div>
-              <div className="bg-[#050505] border border-white/5 p-8 relative overflow-hidden group shadow-2xl">
-                <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity"><TrendingUp size={80} className="text-white" /></div>
-                <h3 className="text-[10px] font-bold text-white/40 uppercase tracking-[0.3em] mb-4">Total Produits</h3>
-                <div className="text-4xl font-heading text-white tracking-tighter">{stats?.productsCount || 0}</div>
+              <div className="bg-white dark:bg-[#050505] border border-black/5 dark:border-white/5 p-8 relative overflow-hidden group shadow-md dark:shadow-2xl">
+                <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity"><TrendingUp size={80} className="text-black dark:text-white" /></div>
+                <h3 className="text-[10px] font-bold text-gray-400 dark:text-white/40 uppercase tracking-[0.3em] mb-4">Total Produits</h3>
+                <div className="text-4xl font-heading text-black dark:text-white tracking-tighter">{stats?.productsCount || 0}</div>
               </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="bg-[#050505] border border-white/5 p-8 relative overflow-hidden group shadow-2xl">
-                <h3 className="text-sm font-bold text-white uppercase tracking-[0.3em] mb-10 flex items-center gap-3">
+              <div className="bg-white dark:bg-[#050505] border border-black/5 dark:border-white/5 p-8 relative overflow-hidden group shadow-md dark:shadow-2xl">
+                <h3 className="text-sm font-bold text-black dark:text-white uppercase tracking-[0.3em] mb-10 flex items-center gap-3">
                   <Eye size={20} className="text-[#39ff14]" /> 
                   Performances produits
                 </h3>
@@ -450,12 +450,12 @@ export default function DashboardClient({ initialProducts }: { initialProducts: 
                     <div key={i} className="flex flex-col gap-2 group/item">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                          <span className="text-[10px] font-bold text-white/20 group-hover/item:text-[#39ff14] transition-colors">0{i+1}</span>
-                          <div className="text-sm font-bold text-white/60 group-hover/item:text-white transition-colors uppercase tracking-tight">{p.name}</div>
+                          <span className="text-[10px] font-bold text-black/20 dark:text-white/20 group-hover/item:text-[#39ff14] transition-colors">0{i+1}</span>
+                          <div className="text-sm font-bold text-gray-500 dark:text-white/60 group-hover/item:text-black dark:group-hover/item:text-white transition-colors uppercase tracking-tight">{p.name}</div>
                         </div>
                         <span className="text-xs font-bold text-[#39ff14] font-sans">{p.views_count} <span className="text-[9px] text-[#39ff14]/40">VUES</span></span>
                       </div>
-                      <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                      <div className="h-1 w-full bg-black/5 dark:bg-white/5 rounded-full overflow-hidden">
                         <motion.div 
                           initial={{ width: 0 }}
                           animate={{ width: `${(p.views_count / (stats.mostViewed[0].views_count || 1)) * 100}%` }}
