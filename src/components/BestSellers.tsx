@@ -107,7 +107,7 @@ export const BestSellers = () => {
                 import('../app/admin/actions').then(m => m.incrementProductViewAction(product.id));
               }}
             >
-              <div className={`absolute top-4 left-4 z-10 ${product.badgeColor} px-3 py-1 font-heading text-sm tracking-wider uppercase`}>
+              <div className={`absolute top-4 left-4 z-10 ${product.badgeColor} px-4 py-1.5 font-heading text-sm md:text-base tracking-wider uppercase shadow-md`}>
                 {product.badge}
               </div>
 
@@ -125,7 +125,7 @@ export const BestSellers = () => {
                 <div className="flex justify-between items-start mb-2 mt-4 relative z-10">
                   <span className="text-[10px] font-bold text-[#a1a1aa] uppercase tracking-widest">{product.category}</span>
                   {product.badge && (
-                    <span className={`px-2 py-0.5 ${product.badgeColor} text-white font-heading text-[9px] tracking-tighter uppercase`}>
+                    <span className={`px-2.5 py-1 ${product.badgeColor} text-white font-heading text-xs tracking-wider uppercase shadow-sm`}>
                       {product.badge}
                     </span>
                   )}

@@ -193,7 +193,7 @@ export default function Shop() {
                       }}
                     >
                       {product.badge && (
-                        <div className={`absolute top-4 left-4 z-10 ${product.badgeColor} px-3 py-1 font-heading text-sm tracking-wider uppercase`}>
+                        <div className={`absolute top-4 left-4 z-10 ${product.badgeColor} px-4 py-1.5 font-heading text-sm md:text-base tracking-wider uppercase shadow-md`}>
                           {product.badge}
                         </div>
                       )}
