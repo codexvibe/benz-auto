@@ -77,9 +77,9 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
   });
 
   useEffect(() => {
-    if (initialData) setFormData({ ...formData, ...initialData });
+    if (initialData) setFormData(prev => ({ ...prev, ...initialData }));
     fetchHistory();
-  }, [initialData]);
+  }, []);  // Only run on mount
 
   const fetchHistory = async () => {
     // Fetch distinct values from existing products to populate suggestions
@@ -113,15 +113,15 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
 
     setUploading(true);
     const fileName = `${Math.random()}.${file.name.split('.').pop()}`;
-    const { error: uploadError } = await supabase.storage.from('products').upload(`vehicles/${fileName}`, file);
+    const { error: uploadError } = await supabase.storage.from('vehicles').upload(`${fileName}`, file);
 
     if (uploadError) {
-      alert("Error: " + uploadError.message);
+      alert("Erreur upload: " + uploadError.message);
       setUploading(false);
       return;
     }
 
-    const { data: { publicUrl } } = supabase.storage.from('products').getPublicUrl(`vehicles/${fileName}`);
+    const { data: { publicUrl } } = supabase.storage.from('vehicles').getPublicUrl(`${fileName}`);
     if (field === 'main') setFormData({ ...formData, image_url: publicUrl });
     else setFormData({ ...formData, images: [...formData.images, publicUrl] });
     setUploading(false);
