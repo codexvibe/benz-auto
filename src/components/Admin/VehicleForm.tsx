@@ -56,6 +56,26 @@ const CATEGORIES = [
   { value: "Monospace", label: "Monospace" },
 ];
 
+interface FormData {
+  name: string;
+  brand: string;
+  category: string;
+  price: string;
+  image_url: string;
+  description: string;
+  year: string;
+  mileage: string;
+  location: string;
+  engine: string;
+  power: string;
+  transmission: string;
+  fuel: string;
+  images: string[];
+  is_visible: boolean;
+  is_featured: boolean;
+  status: string;
+}
+
 interface VehicleFormProps {
   initialData?: any;
   onSubmit: (data: any) => Promise<void>;
@@ -99,7 +119,7 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
     return base;
   }, [initialData]);
 
-  const [formData, setFormData] = useState(getInitialFormData);
+  const [formData, setFormData] = useState<FormData>(getInitialFormData);
   const [uploading, setUploading] = useState(false);
   const [uploadingGallery, setUploadingGallery] = useState(false);
   const [history, setHistory] = useState({
@@ -111,7 +131,7 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
   // When initialData changes (e.g. on edit page load), update form
   useEffect(() => {
     if (initialData) {
-      setFormData(prev => ({
+      setFormData((prev: FormData) => ({
         ...prev,
         ...initialData,
         images: Array.isArray(initialData.images) ? initialData.images : [],
@@ -149,7 +169,7 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
 
   // Stable update function to avoid stale closures
   const updateField = useCallback((field: string, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev: FormData) => ({ ...prev, [field]: value }));
   }, []);
 
   const handleMainUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -192,14 +212,14 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
       newImages.push(publicUrl);
     }
 
-    setFormData(prev => ({ ...prev, images: [...prev.images, ...newImages] }));
+    setFormData((prev: FormData) => ({ ...prev, images: [...prev.images, ...newImages] }));
     setUploadingGallery(false);
     // Reset input
     e.target.value = "";
   };
 
   const removeGalleryImage = (index: number) => {
-    setFormData(prev => ({
+    setFormData((prev: FormData) => ({
       ...prev,
       images: prev.images.filter((_: string, i: number) => i !== index),
     }));
