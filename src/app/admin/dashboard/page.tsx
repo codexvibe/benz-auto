@@ -61,6 +61,7 @@ export default function AdminDashboard() {
 
   const navItems = [
     { href: "/admin/dashboard", icon: LayoutDashboard, label: "Tableau de Bord", active: true },
+    { href: "/admin/dashboard/stock", icon: Package, label: "Stock" },
     { href: "/admin/dashboard/clients", icon: Users, label: "CRM Clients" },
     { href: "/admin/dashboard/videos", icon: Video, label: "Vlogs & Tests" },
     { href: "/admin/dashboard/inquiries", icon: MessageSquare, label: "Demandes (Leads)" },
