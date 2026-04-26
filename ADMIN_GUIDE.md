@@ -1,56 +1,32 @@
-# 🛠️ Guide d'Administration : HM.ZONEDZ
-Ce guide est destiné à l'administrateur chargé de la mise à jour des produits sur Supabase.
+# Guide d'Administration - Benz Auto DZ
+
+Ce guide explique comment gérer votre showroom et votre contenu vidéo.
+
+## 🔐 Accès
+- **Lien** : `/admin`
+- **Passcode** : `ZONE2026` (Modifiable dans les Paramètres)
+
+## 🏎️ Gestion du Stock (Véhicules)
+Vous pouvez ajouter, modifier ou supprimer des véhicules.
+- **Média Intelligent** : Vous pouvez glisser-déposer vos photos ou les sélectionner directement. Elles seront automatiquement stockées sur votre espace Supabase.
+- **Mise en avant** : Cochez "Mettre en avant" pour qu'un véhicule apparaisse dans le showroom de la page d'accueil.
+- **Statut** : Changez le statut (Disponible, Vendu, Réservé) pour informer vos clients en temps réel.
+
+## 📹 Vlogs & Tests Vidéo
+Gérez votre contenu marketing.
+- Ajoutez vos dernières revues YouTube ou Instagram.
+- Le site affichera automatiquement les miniatures et les liens vers vos vidéos.
+
+## 📩 Gestion des Demandes (Leads)
+Toutes les personnes qui cliquent sur "WhatsApp" ou remplissent un formulaire de contact sont enregistrées dans la section **Demandes**.
+- Marquez les demandes comme "Traitées" une fois le client contacté.
+
+## ⚙️ Paramètres du Site
+C'est ici que vous changez :
+- Votre numéro de téléphone (WhatsApp).
+- Votre adresse showroom.
+- Vos liens réseaux sociaux.
+- Votre passcode d'accès admin.
 
 ---
-
-## 🏗️ Structure du Tableau `products`
-Pour chaque produit, remplissez les colonnes exactement comme suit dans l'éditeur de table Supabase.
-
-| Colonne | Description | Exemple de valeur |
-| :--- | :--- | :--- |
-| **`name`** | Le nom complet du produit | `PABLO ICE COLD` |
-| **`category`** | Le type de produit (Filtre boutique) | `Snus` ou `Vape Jetable` |
-| **`price`** | Le prix de vente affiché | `1 600 DZD` |
-| **`old_price`** | Ancien prix (optionnel pour barre barrée) | `1 900 DZD` ou laissez vide |
-| **`image_url`** | Lien vers l'image | `/assets/snus_pablo.png` |
-| **`badge`** | Petit texte en haut à gauche (optionnel) | `TOP VENTE` ou `PROMO` |
-| **`badge_color`** | Couleur de l'étiquette (voir codes ci-dessous) | `bg-[#ef4444]` |
-| **`glow_color`** | Effet de lumière (voir codes ci-dessous) | `box-glow-green-hover` |
-
----
-
-## 🎨 Dictionnaire des Styles (Copier/Coller)
-
-### 1. Couleurs des Badges (`badge_color`)
-Copiez exactement ces codes pour changer la couleur du petit texte en haut de l'image :
-- **ROUGE (Agressif) :** `bg-[#ef4444]`
-- **VERT (DZ Style) :** `bg-[#39ff14] text-black`
-- **JAUNE (Nouveauté) :** `bg-[#facc15] text-black`
-- **ROSE (Spécial) :** `bg-[#ff00ff]`
-- **NOIR (Premium) :** `bg-black text-white border border-white/20`
-
-### 2. Effets de Lumière (`glow_color`)
-Cet effet apparaît quand on passe la souris sur le produit :
-- **LUMINEUX VERT :** `box-glow-green-hover`
-- **LUMINEUX ROUGE :** `hover:shadow-[0_0_25px_rgba(239,68,68,0.6)]`
-- **LUMINEUX JAUNE :** `hover:shadow-[0_0_25px_rgba(250,204,21,0.6)]`
-- **DISCRET :** (Laisser vide)
-
----
-
-## 📦 Les Catégories Autorisées
-Pour que les filtres de la boutique fonctionnent, utilisez **exactement** ces noms :
-- `Snus`
-- `Vape Jetable`
-- `Puff`
-- `E-Liquides`
-
----
-
-## 📸 Gestion des Photos
-1. Téléchargez vos photos sur Supabase dans la section **Storage** > Dossier **"assets"**.
-2. Copiez l'URL publique de la photo.
-3. Collez l'URL dans la colonne `image_url`.
-
-> [!IMPORTANT]
-> **N'oubliez pas d'enregistrer !** Toutes les modifications faites dans Supabase s'affichent sur le site **hmzonedz.netlify.app** dès qu'un client rafraîchit la page. Pas besoin de redéployer le site pour des changements de prix ou de stock.
+*Développé pour Benz Auto DZ*

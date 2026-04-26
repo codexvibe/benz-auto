@@ -1,97 +1,64 @@
 "use client";
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ShoppingBag } from 'lucide-react';
-import Link from 'next/link';
+import Link from "next/link";
+import { Play } from "lucide-react";
 
-export const Hero = () => {
+export function Hero() {
   return (
-    <section className="relative w-full h-screen overflow-hidden bg-white dark:bg-black">
-      {/* Background Image with Dark Overlay */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ 
-          backgroundImage: `url(/assets/hero_bg.png)`,
-          backgroundPosition: 'center',
-        }}
-      />
-      
-      <div className="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-white/30 dark:from-black dark:via-black/80 dark:to-black/30" />
-      <div className="absolute inset-0 bg-white/40 dark:bg-black/40" />
-
-      {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center pt-20">
+    <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
+      {/* Background Video Placeholder (using a dark div with a subtle gradient for now) */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-[#050505] z-10"></div>
+        {/* Replace this div with an actual video tag in production */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-luminosity"
+          style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1614200187524-dc4b892acf16?q=80&w=2000&auto=format&fit=crop")' }}
+        ></div>
         
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mb-6 inline-flex items-center gap-2 bg-[#39ff14]/10 border border-[#39ff14] text-[#39ff14] px-4 py-1.5 rounded-full font-bold tracking-widest text-xs md:text-sm uppercase box-glow-green"
-        >
-          <span className="w-2 h-2 rounded-full bg-[#39ff14] animate-pulse"></span>
-          EN STOCK - LIVRAISON 58 WILAYAS
-        </motion.div>
+        {/* Decorative Grid Overlay */}
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 z-10 mix-blend-overlay"></div>
+      </div>
 
-        <motion.h1 
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
-          className="font-heading text-6xl sm:text-7xl md:text-9xl text-black dark:text-white leading-none mb-2 select-none uppercase"
-        >
-          HM.ZONE<span className="text-[#39ff14] text-glow-green">DZ</span>
-        </motion.h1>
+      <div className="container mx-auto px-6 relative z-20 text-center flex flex-col items-center">
+        <div className="inline-block mb-4 px-4 py-1 rounded-full border border-[#ff0000]/30 bg-[#ff0000]/5 backdrop-blur-sm animate-fade-in">
+          <span className="text-[#ff0000] text-xs font-semibold tracking-widest uppercase">
+            N°1 en Algérie
+          </span>
+        </div>
 
-        <motion.h2 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="font-heading text-3xl md:text-5xl text-[#ff00ff] tracking-wide mb-8 uppercase"
-        >
-          N°1 EN ALGÉRIE <span className="text-black dark:text-white opacity-50 mx-2">|</span> GROS & DÉTAIL
-        </motion.h2>
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-heading font-bold text-white mb-6 leading-tight animate-slide-up" style={{ animationDelay: "0.1s" }}>
+          L'EXCELLENCE <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff0000] via-white to-[#ff0000]">
+            AUTOMOBILE
+          </span>
+        </h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="text-lg md:text-2xl text-[#a1a1aa] font-sans font-medium mb-12 max-w-2xl"
-        >
-          Goûts puissants. Style unique. Attention à la contrefaçon ❌. L'original est ici.
-        </motion.p>
+        <p className="max-w-2xl text-lg md:text-xl text-gray-300 mb-10 animate-slide-up" style={{ animationDelay: "0.2s" }}>
+          Découvrez nos revues exclusives, visitez virtuellement les meilleurs showrooms et trouvez le véhicule de vos rêves avec Benz Auto DZ.
+        </p>
 
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
-          className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
-        >
-          <Link 
-            href="/shop"
-            className="flex-1 sm:flex-none flex items-center justify-center gap-3 bg-[#39ff14] text-black font-heading text-xl px-8 py-4 uppercase hover:bg-white hover:text-black transition-all box-glow-green"
+        <div className="flex flex-col sm:flex-row gap-4 animate-slide-up" style={{ animationDelay: "0.3s" }}>
+          <Link
+            href="#showroom"
+            className="px-8 py-4 bg-[#ff0000] text-white font-bold rounded-lg hover:bg-[#cc0000] transition-colors duration-300 flex items-center justify-center gap-2"
           >
-            <ShoppingBag size={24} />
-            Voir la Boutique
+            Voir les véhicules
           </Link>
-        </motion.div>
+          <Link
+            href="#vlogs"
+            className="px-8 py-4 glass-dark text-white border border-[#ff0000]/50 rounded-lg hover:bg-[#ff0000]/10 hover:border-[#ff0000] hover:box-glow-red transition-all duration-300 flex items-center justify-center gap-2 group"
+          >
+            <Play className="w-5 h-5 group-hover:text-[#ff0000] transition-colors" />
+            Derniers Tests
+          </Link>
+        </div>
+      </div>
 
-        <motion.div
-           initial={{ opacity: 0 }}
-           animate={{ opacity: 1 }}
-           transition={{ delay: 1.5, duration: 1 }}
-           className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        >
-          <span className="text-black/50 dark:text-white/50 text-xs font-bold tracking-widest uppercase">Découvrir</span>
-          <div className="w-[1px] h-12 bg-black/20 dark:bg-white/20 relative overflow-hidden">
-            <motion.div 
-              className="absolute top-0 left-0 w-full h-1/2 bg-[#39ff14]"
-              animate={{ y: [0, 48, 0] }}
-              transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
-            />
-          </div>
-        </motion.div>
-
+      {/* Scroll indicator */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-float flex flex-col items-center opacity-70">
+        <span className="text-xs uppercase tracking-widest mb-2 text-gray-400">Scroll</span>
+        <div className="w-[1px] h-12 bg-gradient-to-b from-white/50 to-transparent"></div>
       </div>
     </section>
   );
-};
+}

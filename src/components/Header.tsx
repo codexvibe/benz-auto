@@ -1,175 +1,100 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { ShoppingCart, Menu, X, Sun, Moon } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useCart } from '../context/CartContext';
-import { CartSidebar } from './CartSidebar';
-import { useTheme } from 'next-themes';
+import Link from "next/link";
+import { useState, useEffect } from "react";
+import { Menu, X, Car } from "lucide-react";
 
-export const Header = () => {
+export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  const { itemCount, setIsSidebarOpen } = useCart();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navLinks = [
-    { name: 'Accueil', href: '/' },
-    { name: 'Boutique', href: '/shop' },
-    { name: 'Promotions', href: '/promos' },
-    { name: 'Acheter en Gros', href: '/gros' },
+    { name: "Accueil", href: "/" },
+    { name: "Véhicules", href: "/cars" },
+    { name: "Revues & Vlogs", href: "#vlogs" },
+    { name: "Contact", href: "#contact" },
+    { name: "Admin", href: "/admin" },
   ];
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50 flex flex-col">
-      <div 
-        className="bg-[#ef4444] text-white flex whitespace-nowrap relative font-bold text-xs md:text-sm tracking-widest h-[32px] overflow-hidden border-b border-black w-full"
-      >
-        <div className="animate-marquee h-full flex items-center shrink-0 w-max">
-          {/* Bloc de texte 1 */}
-          <div className="flex items-center shrink-0">
-            <span className="mx-4">🔥 LIVRAISON RAPIDE 58 WILAYAS 🇩🇿</span>
-            <span className="mx-4">|</span>
-            <span className="mx-4">CONTREFAÇON ❌</span>
-            <span className="mx-4">|</span>
-            <span className="mx-4">L'ORIGINAL EST ICI 💎</span>
-            <span className="mx-4">|</span>
-            <span className="mx-4">🔥 LIVRAISON RAPIDE 58 WILAYAS 🇩🇿</span>
-            <span className="mx-4">|</span>
-            <span className="mx-4">CONTREFAÇON ❌</span>
-            <span className="mx-4">|</span>
-            <span className="mx-4">L'ORIGINAL EST ICI 💎</span>
-            <span className="mx-4">|</span>
-          </div>
-          {/* Bloc de texte 2 Identique pour la boucle fluide */}
-          <div className="flex items-center shrink-0">
-            <span className="mx-4">🔥 LIVRAISON RAPIDE 58 WILAYAS 🇩🇿</span>
-            <span className="mx-4">|</span>
-            <span className="mx-4">CONTREFAÇON ❌</span>
-            <span className="mx-4">|</span>
-            <span className="mx-4">L'ORIGINAL EST ICI 💎</span>
-            <span className="mx-4">|</span>
-            <span className="mx-4">🔥 LIVRAISON RAPIDE 58 WILAYAS 🇩🇿</span>
-            <span className="mx-4">|</span>
-            <span className="mx-4">CONTREFAÇON ❌</span>
-            <span className="mx-4">|</span>
-            <span className="mx-4">L'ORIGINAL EST ICI 💎</span>
-            <span className="mx-4">|</span>
-          </div>
-        </div>
-      </div>
-
-      <header 
-        className={`w-full transition-all duration-300 ${
-          isScrolled ? 'bg-white dark:bg-black/90 dark:backdrop-blur-lg py-3 border-b border-black/10 dark:border-white/10' : 'bg-transparent py-4 md:py-6'
-        }`}
-      >
-        <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
-          
-          <Link href="/" className="flex items-center gap-3 group">
-            <img 
-              src="/assets/logo.jpg" 
-              alt="HM.ZONEDZ Logo" 
-              width="50" 
-              height="50" 
-              className="rounded-md object-contain group-hover:scale-105 transition-transform duration-300"
-            />
-            <div className="flex flex-col leading-none">
-              <span className="text-[10px] md:text-xs text-[#39ff14] font-bold tracking-widest uppercase">N°1 EN ALGÉRIE</span>
+    <header
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        isScrolled ? "glass-dark py-3" : "bg-transparent py-5"
+      }`}
+    >
+      <div className="container mx-auto px-6">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2 group">
+            <div className="p-2 rounded-lg bg-[#111] border border-white/10 group-hover:border-[#ff0000] group-hover:box-glow-red transition-all duration-300">
+              <Car className="w-6 h-6 text-[#ff0000]" />
             </div>
+            <span className="text-xl font-heading font-bold tracking-widest uppercase">
+              BENZ AUTO <span className="text-[#ff0000]">DZ</span>
+            </span>
           </Link>
 
+          {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <Link 
-                key={link.name} 
+              <Link
+                key={link.name}
                 href={link.href}
-                className="font-heading text-lg text-black dark:text-white hover:text-[#39ff14] dark:hover:text-[#39ff14] transition-colors uppercase tracking-wide"
+                className="text-sm font-medium text-gray-300 hover:text-white transition-colors duration-300 relative group"
               >
                 {link.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#ff0000] to-white transition-all duration-300 group-hover:w-full group-hover:box-glow-red"></span>
               </Link>
             ))}
           </nav>
 
-          <div className="flex items-center gap-2 md:gap-4">
-            
-            <button 
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="p-2 text-black dark:text-white hover:text-[#39ff14] transition-colors"
-              title={theme === 'light' ? "Passer au thème sombre" : "Passer au thème clair"}
+          {/* CTA Button */}
+          <div className="hidden md:block">
+            <Link
+              href="/cars"
+              className="px-6 py-2 rounded-full border border-[#ff0000]/30 text-white font-medium hover:bg-[#ff0000]/10 hover:border-[#ff0000] transition-all duration-300 box-glow-red-hover"
             >
-              {mounted && (theme === 'light' ? <Moon size={24} /> : <Sun size={24} />)}
-            </button>
-
-            <button 
-              onClick={() => setIsSidebarOpen(true)}
-              className="relative p-2 text-black dark:text-white hover:text-[#39ff14] transition-colors"
-            >
-              <ShoppingCart size={24} />
-              {itemCount > 0 && (
-                <span className="absolute top-0 right-0 bg-[#ef4444] text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center">
-                  {itemCount}
-                </span>
-              )}
-            </button>
-
-            <button 
-              className="md:hidden p-2 text-black dark:text-white"
-              onClick={() => setMobileMenuOpen(true)}
-            >
-              <Menu size={28} />
-            </button>
+              Découvrir
+            </Link>
           </div>
-        </div>
-      </header>
 
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, x: '100%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '100%' }}
-            transition={{ type: 'tween', duration: 0.3 }}
-            className="fixed inset-0 z-50 bg-white/95 dark:bg-black/95 backdrop-blur-xl flex flex-col pt-20 px-6 pb-6"
+          {/* Mobile Menu Toggle */}
+          <button
+            className="md:hidden text-white"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            <button 
-              className="absolute top-6 right-6 text-black dark:text-white p-2 rounded-full border border-black/20 dark:border-white/20 hover:text-[#39ff14] hover:border-[#39ff14] dark:hover:border-[#39ff14]"
+            {mobileMenuOpen ? <X className="w-6 h-6 text-[#ff0000]" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Nav */}
+      <div
+        className={`md:hidden absolute top-full left-0 w-full glass-dark transition-all duration-300 overflow-hidden ${
+          mobileMenuOpen ? "max-h-64 border-b border-[#b026ff]/30" : "max-h-0"
+        }`}
+      >
+        <div className="flex flex-col py-4 px-6 gap-4">
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              className="text-gray-300 hover:text-[#00f3ff] transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
-              <X size={24} />
-            </button>
-
-            <nav className="flex flex-col gap-6 mt-10">
-              {navLinks.map((link) => (
-                <Link 
-                  key={link.name} 
-                  href={link.href}
-                  className="font-heading text-4xl text-black dark:text-white hover:text-[#39ff14] dark:hover:text-[#39ff14] uppercase tracking-wide border-b border-black/10 dark:border-white/10 pb-4"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.name}
-                </Link>
-              ))}
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <CartSidebar />
-    </div>
+              {link.name}
+            </Link>
+          ))}
+        </div>
+      </div>
+    </header>
   );
-};
+}
