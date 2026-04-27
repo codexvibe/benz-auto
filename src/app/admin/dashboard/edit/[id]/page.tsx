@@ -19,6 +19,8 @@ const navItems = [
   { href: "/admin/dashboard/settings", icon: Settings, label: "Paramètres" },
 ];
 
+function Sidebar({ onLogout }: { onLogout: () => void }) {
+  return (
     <aside className="w-full xl:w-72 bg-surface border border-white/5 rounded-3xl p-6 flex flex-col shrink-0 shadow-2xl">
       <div className="flex items-center gap-3 mb-12">
         <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
@@ -44,6 +46,8 @@ const navItems = [
         <LogOut className="w-4 h-4" /> Déconnexion
       </button>
     </aside>
+  );
+}
 
 export default function EditVehiclePage() {
   const [vehicle, setVehicle] = useState<any>(null);
