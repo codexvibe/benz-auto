@@ -225,7 +225,7 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
       <div className="lg:col-span-2 space-y-5">
 
         {/* Section 1: Identité */}
-        <div className="bg-[#0a0a0a] border border-white/5 rounded-2xl p-6">
+        <div className="bg-surface border border-white/5 rounded-2xl p-6">
           <h2 className="text-sm font-black text-white uppercase tracking-widest mb-5 flex items-center gap-2">
             <Car className="w-4 h-4" /> Informations du véhicule
           </h2>
@@ -268,7 +268,7 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
         </div>
 
         {/* Section 2: Technique */}
-        <div className="bg-[#0a0a0a] border border-white/5 rounded-2xl p-6">
+        <div className="bg-surface border border-white/5 rounded-2xl p-6">
           <h2 className="text-sm font-black text-white uppercase tracking-widest mb-5">
             🔧 Caractéristiques techniques
           </h2>
@@ -325,7 +325,7 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
       <div className="space-y-5">
 
         {/* Options */}
-        <div className="bg-[#0a0a0a] border border-white/5 rounded-2xl p-5">
+        <div className="bg-surface border border-white/5 rounded-2xl p-5">
           <h2 className="text-xs font-black text-white uppercase tracking-widest mb-4">Options</h2>
           <div className="space-y-3">
             <label className="flex items-center justify-between cursor-pointer group">
@@ -353,7 +353,7 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
         </div>
 
         {/* Photo principale */}
-        <div className="bg-[#0a0a0a] border border-white/5 rounded-2xl p-5">
+        <div className="bg-surface border border-white/5 rounded-2xl p-5">
           <h2 className="text-xs font-black text-white uppercase tracking-widest mb-4 flex items-center gap-2">
             <ImageIcon className="w-4 h-4" /> Photo principale
           </h2>
@@ -386,7 +386,7 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
         </div>
 
         {/* Galerie */}
-        <div className="bg-[#0a0a0a] border border-white/5 rounded-2xl p-5">
+        <div className="bg-surface border border-white/5 rounded-2xl p-5">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xs font-black text-white uppercase tracking-widest">Galerie</h2>
             <span className="text-[10px] font-bold text-slate-600 bg-white/5 px-2 py-1 rounded-lg">{form.images.length}/10</span>

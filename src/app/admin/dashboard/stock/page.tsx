@@ -90,7 +90,7 @@ function SortBtn({ label, col, sortKey, sortDir, onSort }: {
 function DeleteModal({ name, onConfirm, onCancel }: { name: string; onConfirm: () => void; onCancel: () => void }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
-      <div className="bg-[#0a0a0a] border border-white/10 rounded-3xl p-10 max-w-sm w-full mx-4 shadow-2xl">
+      <div className="bg-surface border border-white/10 rounded-3xl p-10 max-w-sm w-full mx-4 shadow-2xl">
         <div className="w-14 h-14 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-6">
           <Trash2 className="w-6 h-6 text-red-400" />
         </div>
