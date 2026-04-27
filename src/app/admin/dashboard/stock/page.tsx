@@ -43,7 +43,7 @@ interface Vehicle {
 // ─── Sidebar ─────────────────────────────────────────────────────────────────
 function Sidebar({ onLogout }: { onLogout: () => void }) {
   return (
-    <aside className="w-full xl:w-72 bg-[#0a0a0a] border border-white/5 rounded-3xl p-6 flex flex-col shrink-0 shadow-2xl">
+    <aside className="w-full xl:w-72 bg-surface border border-white/5 rounded-3xl p-6 flex flex-col shrink-0 shadow-2xl">
       <div className="flex items-center gap-3 mb-12">
         <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
           <Car className="w-6 h-6 text-white" />
@@ -190,12 +190,12 @@ export default function StockPage() {
   const years = useMemo(() => [...new Set(vehicles.map(v => v.year).filter(Boolean))].sort((a,b)=>b-a), [vehicles]);
 
   return (
-    <div className="min-h-screen bg-[#020202] text-slate-200 flex flex-col xl:flex-row p-4 gap-4 font-sans">
+    <div className="min-h-screen bg-background text-slate-200 flex flex-col xl:flex-row p-4 gap-4 font-sans">
       <Sidebar onLogout={() => { localStorage.removeItem("admin_session"); router.push("/admin"); }} />
 
       <main className="grow flex flex-col min-w-0 gap-4">
         {/* Header */}
-        <header className="bg-[#0a0a0a] border border-white/5 rounded-3xl px-8 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <header className="bg-surface border border-white/5 rounded-3xl px-8 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <div className="w-11 h-11 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
               <Layers className="w-5 h-5 text-white" />
@@ -218,7 +218,7 @@ export default function StockPage() {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600 group-focus-within:text-white transition-colors" />
             <input
               type="text" placeholder="Rechercher nom, modèle, marque..."
-              className="w-full bg-[#0a0a0a] border border-white/5 focus:border-white/20 rounded-xl py-3 pl-12 pr-4 text-sm text-white outline-none placeholder:text-slate-700 transition-all"
+              className="w-full bg-surface border border-white/5 focus:border-white/20 rounded-xl py-3 pl-12 pr-4 text-sm text-white outline-none placeholder:text-slate-700 transition-all"
               value={search} onChange={e => setSearch(e.target.value)}
             />
             {search && (
@@ -229,7 +229,7 @@ export default function StockPage() {
           </div>
           <select
             value={yearFilter} onChange={e => setYearFilter(e.target.value)}
-            className="bg-[#0a0a0a] border border-white/5 focus:border-white/20 rounded-xl py-3 px-4 text-xs font-bold text-slate-300 outline-none cursor-pointer transition-all"
+            className="bg-surface border border-white/5 focus:border-white/20 rounded-xl py-3 px-4 text-xs font-bold text-slate-300 outline-none cursor-pointer transition-all"
           >
             <option value="">Toutes les années</option>
             {years.map(y => <option key={y} value={y}>{y}</option>)}
@@ -243,11 +243,11 @@ export default function StockPage() {
         </div>
 
         {/* Table */}
-        <div className="bg-[#0a0a0a] border border-white/5 rounded-3xl overflow-hidden shadow-2xl grow">
+        <div className="bg-surface border border-white/5 rounded-3xl overflow-hidden shadow-2xl grow">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-white/5 bg-white/[0.015]">
+                <tr className="border-b border-white/5 bg-white/1.5">
                   <th className="px-6 py-5 text-left w-16">
                     <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Photo</span>
                   </th>
@@ -274,7 +274,7 @@ export default function StockPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/[0.03]">
+              <tbody className="divide-y divide-white/3">
                 {loading ? (
                   Array.from({ length: 5 }).map((_, i) => (
                     <tr key={i} className="animate-pulse">
@@ -301,7 +301,7 @@ export default function StockPage() {
                   </tr>
                 ) : (
                   filtered.map(v => (
-                    <tr key={v.id} className="group hover:bg-white/[0.015] transition-colors">
+                    <tr key={v.id} className="group hover:bg-white/1.5 transition-colors">
                       {/* Image */}
                       <td className="px-6 py-4">
                         <div className="w-14 h-10 rounded-lg overflow-hidden border border-white/5 bg-white/5 relative">
