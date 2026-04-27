@@ -80,7 +80,7 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
         <div
           role="alert"
           aria-live="assertive"
-          className="fixed bottom-28 left-1/2 -translate-x-1/2 z-[9999] bg-white text-black text-xs font-black uppercase tracking-widest px-6 py-3 rounded-full shadow-2xl flex items-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-300"
+          className="fixed bottom-28 left-1/2 -translate-x-1/2 z-9999 bg-white text-black text-xs font-black uppercase tracking-widest px-6 py-3 rounded-full shadow-2xl flex items-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-300"
         >
           {compareError}
           <button onClick={clearError} className="text-black/50 hover:text-black transition-colors" aria-label="Fermer">✕</button>

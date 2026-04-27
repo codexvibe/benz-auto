@@ -45,8 +45,8 @@ export function PremiumShowroom() {
 
   return (
     <section id="showroom" className="py-32 relative bg-background">
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-      <div className="absolute top-40 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-white/[0.02] rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-white/10 to-transparent" />
+      <div className="absolute top-40 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-white/2 rounded-full blur-[150px] pointer-events-none" />
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-20 animate-slide-up">
@@ -55,7 +55,7 @@ export function PremiumShowroom() {
           </span>
           <h2 className="text-4xl md:text-6xl font-heading font-black mb-6 tracking-tighter">
             VÉHICULES{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-500">
+            <span className="text-transparent bg-clip-text bg-linear-to-b from-white to-slate-500">
               EN VENTE
             </span>
           </h2>
@@ -64,7 +64,7 @@ export function PremiumShowroom() {
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="h-[450px] rounded-3xl bg-white/[0.02] border border-white/5 animate-pulse" />
+              <div key={i} className="h-[450px] rounded-3xl bg-white/2 border border-white/5 animate-pulse" />
             ))}
           </div>
         ) : (
@@ -87,7 +87,7 @@ export function PremiumShowroom() {
                 />
 
                 {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="absolute inset-0 bg-linear-to-t from-background via-background/50 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-700" />
 
                 {/* Top Badges */}
                 <div className="absolute top-6 w-full px-6 flex justify-between items-center z-10">

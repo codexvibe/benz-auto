@@ -18,7 +18,7 @@ export function Hero() {
       />
 
       {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background z-10" />
+      <div className="absolute inset-0 bg-linear-to-b from-background/80 via-background/60 to-background z-10" />
 
       {/* Noise texture — inlined SVG data URI, no external request */}
       <div
@@ -29,7 +29,7 @@ export function Hero() {
       />
 
       <div className="container mx-auto px-6 relative z-20 text-center flex flex-col items-center justify-center mt-12">
-        <div className="inline-block mb-6 px-5 py-1.5 rounded-full border border-white/10 bg-white/[0.02] backdrop-blur-md animate-fade-in">
+        <div className="inline-block mb-6 px-5 py-1.5 rounded-full border border-white/10 bg-white/2 backdrop-blur-md animate-fade-in">
           <span className="text-slate-300 text-[10px] font-bold tracking-[0.3em] uppercase">
             L&apos;Élégance Automobile en Algérie
           </span>
@@ -40,7 +40,7 @@ export function Hero() {
           style={{ animationDelay: "0.2s" }}
         >
           LUXE <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-slate-200 to-slate-500">
+          <span className="text-transparent bg-clip-text bg-linear-to-b from-white via-slate-200 to-slate-500">
             ABSOLU
           </span>
         </h1>
@@ -73,7 +73,7 @@ export function Hero() {
       {/* Scroll indicator */}
       <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center opacity-50 hover:opacity-100 transition-opacity duration-500 cursor-pointer">
         <span className="text-[10px] font-bold uppercase tracking-[0.3em] mb-4 text-slate-400">Découvrir</span>
-        <div className="w-px h-16 bg-gradient-to-b from-white/50 to-transparent animate-pulse" />
+        <div className="w-px h-16 bg-linear-to-b from-white/50 to-transparent animate-pulse" />
       </div>
     </section>
   );

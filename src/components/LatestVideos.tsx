@@ -48,7 +48,7 @@ export function LatestVideos() {
               Instagram
             </span>
             <h2 className="text-4xl md:text-6xl font-heading font-black tracking-tighter">
-              DERNIERS <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-500">REELS</span>
+              DERNIERS <span className="text-transparent bg-clip-text bg-linear-to-b from-white to-slate-500">REELS</span>
             </h2>
           </div>
 
@@ -72,7 +72,7 @@ export function LatestVideos() {
               className="group cursor-pointer relative rounded-3xl overflow-hidden bg-surface transition-all duration-700 hover:-translate-y-4 hover:shadow-[0_20px_50px_rgba(255,255,255,0.05)] animate-slide-up"
               style={{ animationDelay: `${0.1 * (index + 1)}s` }}
             >
-              <div className="relative aspect-[4/5] md:aspect-[3/4] overflow-hidden">
+              <div className="relative aspect-4/5 md:aspect-3/4 overflow-hidden">
                 {/* Optimised thumbnail */}
                 <Image
                   src={video.thumbnail}
@@ -83,7 +83,7 @@ export function LatestVideos() {
                   className="object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 group-hover:scale-105"
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="absolute inset-0 bg-linear-to-t from-background via-background/30 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-700" />
 
                 {/* Play overlay */}
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-700 transform scale-50 group-hover:scale-100">
