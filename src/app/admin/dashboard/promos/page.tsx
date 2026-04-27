@@ -24,9 +24,9 @@ const navItems = [
 function Sidebar({ onLogout }: { onLogout: () => void }) {
   return (
     <aside className="w-80 bg-[#0F172A]/40 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] p-8 flex flex-col shrink-0 relative overflow-hidden shadow-2xl">
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#38BDF8] to-transparent"></div>
+      <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-[#38BDF8] to-transparent"></div>
       <div className="flex items-center gap-4 mb-16">
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#38BDF8] to-[#818CF8] flex items-center justify-center shadow-[0_0_30px_rgba(56,189,248,0.3)] rotate-3">
+        <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-[#38BDF8] to-[#818CF8] flex items-center justify-center shadow-[0_0_30px_rgba(56,189,248,0.3)] rotate-3">
           <Globe className="w-8 h-8 text-white animate-pulse" />
         </div>
         <div>
@@ -34,10 +34,10 @@ function Sidebar({ onLogout }: { onLogout: () => void }) {
           <span className="text-[10px] text-[#38BDF8] font-black uppercase tracking-[0.3em] mt-1 block">Benz Auto Core</span>
         </div>
       </div>
-      <nav className="space-y-3 flex-grow">
+      <nav className="space-y-3 grow">
         {navItems.map((item) => (
           <Link key={item.href} href={item.href}
-            className={`flex items-center gap-4 px-6 py-4 rounded-2xl font-bold transition-all duration-500 group relative overflow-hidden ${item.active ? "bg-white/5 text-white shadow-[0_10px_20px_rgba(0,0,0,0.2)]" : "text-slate-500 hover:text-slate-200 hover:bg-white/[0.02]"}`}>
+            className={`flex items-center gap-4 px-6 py-4 rounded-2xl font-bold transition-all duration-500 group relative overflow-hidden ${item.active ? "bg-white/5 text-white shadow-[0_10px_20px_rgba(0,0,0,0.2)]" : "text-slate-500 hover:text-slate-200 hover:bg-white/2"}`}>
             {item.active && <div className="absolute left-0 top-0 w-1 h-full bg-[#38BDF8]"></div>}
             <item.icon className={`w-5 h-5 transition-all duration-500 ${item.active ? "text-[#38BDF8] scale-110" : "group-hover:text-slate-200"}`} />
             <span className="text-sm tracking-tight">{item.label}</span>
@@ -45,7 +45,7 @@ function Sidebar({ onLogout }: { onLogout: () => void }) {
           </Link>
         ))}
       </nav>
-      <button onClick={onLogout} className="w-full flex items-center justify-between px-8 py-5 rounded-3xl text-slate-400 hover:text-white hover:bg-red-500/10 border border-white/[0.03] hover:border-red-500/20 transition-all duration-500 group mt-auto">
+      <button onClick={onLogout} className="w-full flex items-center justify-between px-8 py-5 rounded-3xl text-slate-400 hover:text-white hover:bg-red-500/10 border border-white/3 hover:border-red-500/20 transition-all duration-500 group mt-auto">
         <span className="text-sm font-black uppercase tracking-widest">Disconnect</span>
         <LogOut className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
       </button>
@@ -120,11 +120,11 @@ export default function PromosPage() {
     <div className="min-h-screen bg-[#05070A] text-slate-200 flex p-6 gap-6 font-sans selection:bg-[#38BDF8]/30">
       <Sidebar onLogout={handleLogout} />
 
-      <main className="flex-grow flex flex-col min-w-0">
+      <main className="grow flex flex-col min-w-0">
         {/* Header Bar */}
         <header className="h-28 bg-[#0F172A]/40 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] mb-6 flex items-center justify-between px-10 shadow-xl relative overflow-hidden">
           <div className="flex items-center gap-6 relative z-10">
-            <div className="w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-2xl bg-white/3 border border-white/5 flex items-center justify-center">
               <Tag className="w-6 h-6 text-[#38BDF8]" />
             </div>
             <div>
@@ -139,12 +139,12 @@ export default function PromosPage() {
           </div>
         </header>
 
-        <div className="flex-grow overflow-y-auto custom-scrollbar pr-2">
+        <div className="grow overflow-y-auto custom-scrollbar pr-2">
            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Campaign Creator Surface */}
               <div className="lg:col-span-1">
                  <form onSubmit={handleCreate} className="p-10 rounded-[3rem] bg-[#0F172A]/40 backdrop-blur-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
-                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#38BDF8] to-transparent opacity-0 group-focus-within:opacity-100 transition-opacity"></div>
+                    <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-[#38BDF8] to-transparent opacity-0 group-focus-within:opacity-100 transition-opacity"></div>
                     <div className="flex items-center gap-4 mb-10">
                        <Zap className="w-6 h-6 text-[#38BDF8] animate-pulse" />
                        <h3 className="text-2xl font-black font-heading uppercase italic text-white tracking-tight">Initiate Code</h3>
@@ -207,11 +207,11 @@ export default function PromosPage() {
                        <button
                          type="submit"
                          disabled={saving}
-                         className="w-full group relative py-6 bg-[#38BDF8] text-white font-black text-xs uppercase tracking-[0.3em] rounded-[2rem] hover:bg-[#0EA5E9] transition-all duration-500 flex items-center justify-center gap-4 overflow-hidden shadow-[0_20px_40px_rgba(56,189,248,0.2)] disabled:opacity-50 mt-4"
+                         className="w-full group relative py-6 bg-[#38BDF8] text-white font-black text-xs uppercase tracking-[0.3em] rounded-4xl hover:bg-[#0EA5E9] transition-all duration-500 flex items-center justify-center gap-4 overflow-hidden shadow-[0_20px_40px_rgba(56,189,248,0.2)] disabled:opacity-50 mt-4"
                        >
                           <ArrowUpRight className="w-6 h-6 relative z-10 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                           <span className="relative z-10">{saving ? "PROCESSING..." : "ACTIVATE VECTOR"}</span>
-                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                          <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                        </button>
                        {saved && (
                          <div className="flex items-center justify-center gap-3 text-emerald-400 text-[10px] font-black uppercase tracking-[0.2em] mt-4 animate-bounce">
@@ -224,18 +224,18 @@ export default function PromosPage() {
 
               {/* Vector Matrix Surface */}
               <div className="lg:col-span-2 space-y-6">
-                 <div className="bg-[#0F172A]/40 backdrop-blur-3xl border border-white/5 rounded-[3rem] overflow-hidden shadow-2xl relative min-h-[500px] flex flex-col">
+                 <div className="bg-[#0F172A]/40 backdrop-blur-3xl border border-white/5 rounded-[3rem] overflow-hidden shadow-2xl relative min-h-125 flex flex-col">
                     <div className="absolute top-0 right-0 w-96 h-96 bg-[#38BDF8]/5 rounded-full blur-[100px] pointer-events-none"></div>
-                    <div className="p-10 border-b border-white/[0.05] flex items-center justify-between">
+                    <div className="p-10 border-b border-white/5 flex items-center justify-between">
                        <h3 className="font-black text-2xl font-heading uppercase italic tracking-tighter flex items-center gap-4 text-white">
                           <Layers className="w-6 h-6 text-[#38BDF8]" /> Active Marketing Matrix
                        </h3>
                     </div>
 
-                    <div className="overflow-x-auto flex-grow custom-scrollbar">
+                    <div className="overflow-x-auto grow custom-scrollbar">
                        <table className="w-full border-collapse">
                           <thead>
-                             <tr className="bg-white/[0.02] text-left">
+                             <tr className="bg-white/2 text-left">
                                 <th className="px-10 py-8 text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Redemption Link</th>
                                 <th className="px-10 py-8 text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Valuation</th>
                                 <th className="px-10 py-8 text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Termination</th>
@@ -243,17 +243,17 @@ export default function PromosPage() {
                                 <th className="px-10 py-8 text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] text-right">Ops Control</th>
                              </tr>
                           </thead>
-                          <tbody className="divide-y divide-white/[0.03]">
+                          <tbody className="divide-y divide-white/3">
                              {loading ? (
                                <tr><td colSpan={5} className="py-32 text-center animate-pulse"><div className="w-12 h-12 border-2 border-[#38BDF8] border-t-transparent rounded-full animate-spin mx-auto"></div></td></tr>
                              ) : promos.length === 0 ? (
                                <tr><td colSpan={5} className="py-32 text-center text-slate-700 font-black uppercase tracking-widest italic text-xs">No marketing vectors registered in cluster</td></tr>
                              ) : (
                                promos.map((p) => (
-                                 <tr key={p.id} className="hover:bg-white/[0.01] transition-all group">
+                                 <tr key={p.id} className="hover:bg-white/1 transition-all group">
                                     <td className="px-10 py-8">
                                        <div className="flex items-center gap-6">
-                                          <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center font-mono font-black text-[#38BDF8] text-xl border border-white/[0.05] shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                                          <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center font-mono font-black text-[#38BDF8] text-xl border border-white/5 shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
                                              #
                                           </div>
                                           <span className="font-mono font-black text-2xl tracking-[0.3em] text-white group-hover:text-[#38BDF8] transition-colors uppercase italic">{p.code}</span>
@@ -283,11 +283,11 @@ export default function PromosPage() {
                                        <div className="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-4 group-hover:translate-x-0">
                                           <button
                                             onClick={() => togglePromo(p.id, p.is_active)}
-                                            className={`p-4 rounded-2xl transition-all border shadow-2xl ${p.is_active ? 'bg-emerald-400/10 border-emerald-400/20 text-emerald-400 hover:bg-emerald-400/20' : 'bg-white/[0.03] border-white/5 text-slate-700 hover:text-white hover:bg-white/10'}`}
+                                            className={`p-4 rounded-2xl transition-all border shadow-2xl ${p.is_active ? 'bg-emerald-400/10 border-emerald-400/20 text-emerald-400 hover:bg-emerald-400/20' : 'bg-white/3 border-white/5 text-slate-700 hover:text-white hover:bg-white/10'}`}
                                           >
                                              {p.is_active ? <ToggleRight className="w-8 h-8" /> : <ToggleLeft className="w-8 h-8" />}
                                           </button>
-                                          <button onClick={() => deletePromo(p.id)} className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-red-500/50 hover:text-red-400 transition-all shadow-2xl">
+                                          <button onClick={() => deletePromo(p.id)} className="p-4 rounded-2xl bg-white/3 border border-white/5 hover:border-red-500/50 hover:text-red-400 transition-all shadow-2xl">
                                              <Trash2 className="w-6 h-6" />
                                           </button>
                                        </div>
@@ -302,10 +302,10 @@ export default function PromosPage() {
                  </div>
 
                  {/* System Insight */}
-                 <div className="p-10 rounded-[3rem] bg-gradient-to-r from-indigo-500/10 to-[#38BDF8]/10 border border-white/5 flex items-center justify-between group shadow-2xl relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl translate-x-10 translate-y-[-20px] group-hover:scale-150 transition-transform duration-1000"></div>
+                 <div className="p-10 rounded-[3rem] bg-linear-to-r from-indigo-500/10 to-[#38BDF8]/10 border border-white/5 flex items-center justify-between group shadow-2xl relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl translate-x-10 -translate-y-5 group-hover:scale-150 transition-transform duration-1000"></div>
                     <div className="flex items-center gap-8 relative z-10">
-                       <div className="w-16 h-16 rounded-[1.5rem] bg-[#38BDF8]/20 flex items-center justify-center text-[#38BDF8] group-hover:rotate-12 transition-all duration-500 shadow-xl border border-[#38BDF8]/30">
+                       <div className="w-16 h-16 rounded-3xl bg-[#38BDF8]/20 flex items-center justify-center text-[#38BDF8] group-hover:rotate-12 transition-all duration-500 shadow-xl border border-[#38BDF8]/30">
                           <Activity className="w-8 h-8" />
                        </div>
                        <div>
