@@ -94,7 +94,7 @@ function CustomSelect({ options, value, onChange, placeholder, icon: Icon }: any
   }, [options, value]);
 
   return (
-    <div className="relative z-60" ref={dropdownRef}>
+    <div className={`relative ${isOpen ? "z-[200]" : "z-10"}`} ref={dropdownRef}>
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
@@ -119,7 +119,7 @@ function CustomSelect({ options, value, onChange, placeholder, icon: Icon }: any
       </button>
 
       {isOpen && (
-        <div className="absolute z-100 top-full mt-2 w-full bg-[#0A0A0A] border border-white/10 rounded-xl shadow-[0_30px_60px_rgba(0,0,0,0.9)] overflow-hidden animate-in fade-in slide-in-from-top-3 duration-300">
+        <div className="absolute z-[210] top-full mt-2 w-full bg-[#0A0A0A] border border-white/10 rounded-xl shadow-[0_30px_60px_rgba(0,0,0,0.9)] overflow-hidden animate-in fade-in slide-in-from-top-3 duration-300">
           <div className="p-2 border-b border-white/5 bg-white/2">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-slate-600" />
