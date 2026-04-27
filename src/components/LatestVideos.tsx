@@ -11,109 +11,100 @@ const InstagramIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const YoutubeIcon = ({ className }: { className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M2.5 7.1C2.6 5.8 3.6 4.8 4.9 4.7 7.3 4.5 12 4.5 12 4.5s4.7 0 7.1.2c1.3.1 2.3 1.1 2.4 2.4.2 1.6.2 4.9.2 4.9s0 3.3-.2 4.9c-.1 1.3-1.1 2.3-2.4 2.4-2.4.2-7.1.2-7.1.2s-4.7 0-7.1-.2c-1.3-.1-2.3-1.1-2.4-2.4-.2-1.6-.2-4.9-.2-4.9s0-3.3.2-4.9z"/>
-    <polygon points="10 15 15 12 10 9 10 15"/>
-  </svg>
-);
-
 const videos = [
   {
     id: 1,
-    title: "TEST DRIVE: MG GT 2024 - Le meilleur rapport qualité/prix ?",
-    thumbnail: "https://images.unsplash.com/photo-1609521263047-f8f205293f24?q=80&w=800&auto=format&fit=crop",
-    platform: "youtube",
+    title: "MERCEDES G63 AMG - Le monstre est là 🦍",
+    thumbnail: "https://images.unsplash.com/photo-1520031441872-265e4ff70366?q=80&w=800&auto=format&fit=crop",
+    platform: "instagram",
     views: "124K",
-    duration: "14:20",
+    duration: "00:45",
   },
   {
     id: 2,
-    title: "MARCHÉ DE TIDJELABINE: Les vrais prix aujourd'hui !",
-    thumbnail: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=800&auto=format&fit=crop",
-    platform: "youtube",
+    title: "PORSCHE 911 GT3 RS - Prête pour la piste 🏁",
+    thumbnail: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=800&auto=format&fit=crop",
+    platform: "instagram",
     views: "89K",
-    duration: "22:15",
+    duration: "00:59",
   },
   {
     id: 3,
-    title: "VW TIGUAN R-Line - Walkaround & Exhaust Sound",
-    thumbnail: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=800&auto=format&fit=crop",
+    title: "AUDI RS Q8 - L'élégance brutale 💣",
+    thumbnail: "https://images.unsplash.com/photo-1606152421802-db97b9c7a11b?q=80&w=800&auto=format&fit=crop",
     platform: "instagram",
     views: "45K",
-    duration: "01:00",
+    duration: "00:30",
   },
 ];
 
 export function LatestVideos() {
   return (
-    <section id="vlogs" className="py-24 relative">
+    <section id="vlogs" className="py-32 relative bg-background">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-6 animate-slide-up">
           <div>
-            <h2 className="text-3xl md:text-5xl font-heading font-bold mb-4">
-              DERNIERS <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff0000] to-white">TESTS</span>
+            <span className="text-slate-400 text-[10px] font-bold tracking-[0.3em] uppercase block mb-4">
+              Instagram
+            </span>
+            <h2 className="text-4xl md:text-6xl font-heading font-black tracking-tighter">
+              DERNIERS <span className="text-transparent bg-clip-text bg-linear-to-b from-white to-slate-500">REELS</span>
             </h2>
-            <p className="text-gray-400 max-w-xl">
-              Nos revues automobiles détaillées, visites de showrooms et immersion dans les marchés auto en Algérie.
-            </p>
           </div>
           
           <div className="flex gap-4">
-            <a href="#" className="flex items-center gap-2 px-4 py-2 rounded-full glass-dark border border-white/10 hover:border-[#ff0000] hover:text-[#ff0000] transition-colors">
-              <YoutubeIcon className="w-5 h-5" />
-              <span className="text-sm font-medium">YouTube</span>
-            </a>
-            <a href="#" className="flex items-center gap-2 px-4 py-2 rounded-full glass-dark border border-white/10 hover:border-[#e1306c] hover:text-[#e1306c] transition-colors">
-              <InstagramIcon className="w-5 h-5" />
-              <span className="text-sm font-medium">Instagram</span>
+            <a href="#" className="flex items-center gap-3 px-6 py-3 rounded-full border border-white/10 hover:border-white/50 hover:bg-white hover:text-black transition-all duration-500 text-white font-bold text-xs uppercase tracking-widest group">
+              <InstagramIcon className="w-4 h-4 group-hover:text-[#e1306c] transition-colors duration-500" />
+              <span>Suivez-nous</span>
             </a>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {videos.map((video) => (
-            <div key={video.id} className="group cursor-pointer relative rounded-2xl overflow-hidden glass-panel border border-white/5 hover:border-[#ff0000]/50 transition-all duration-500 hover:box-glow-red">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          {videos.slice(0, 3).map((video, index) => (
+            <div 
+              key={video.id} 
+              className="group cursor-pointer relative rounded-3xl overflow-hidden bg-surface transition-all duration-700 hover:-translate-y-4 hover:shadow-[0_20px_50px_rgba(255,255,255,0.05)] animate-slide-up"
+              style={{ animationDelay: `${0.1 * (index + 1)}s` }}
+            >
               {/* Thumbnail */}
-              <div className="relative aspect-video overflow-hidden bg-[#111]">
+              <div className="relative aspect-4/5 md:aspect-3/4 overflow-hidden">
                 <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105 grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100"
                   style={{ backgroundImage: `url(${video.thumbnail})` }}
                 ></div>
                 
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300"></div>
+                <div className="absolute inset-0 bg-linear-to-t from-background via-background/30 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-700"></div>
                 
                 {/* Play Button Overlay */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform scale-50 group-hover:scale-100">
-                  <div className="w-16 h-16 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center border border-[#ff0000] text-[#ff0000] box-glow-red">
-                    <Play className="w-6 h-6 ml-1" />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-700 transform scale-50 group-hover:scale-100">
+                  <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/30 text-white group-hover:box-glow-chrome transition-all duration-700">
+                    <Play className="w-8 h-8 ml-1" />
                   </div>
                 </div>
 
-                {/* Duration Badge */}
-                <div className="absolute bottom-3 right-3 px-2 py-1 bg-black/80 backdrop-blur-sm rounded text-xs font-medium text-white">
-                  {video.duration}
+                {/* Badges */}
+                <div className="absolute top-6 w-full px-6 flex justify-between items-center z-10">
+                  <div className="px-3 py-1.5 bg-black/60 backdrop-blur-md rounded-lg text-[10px] font-bold tracking-widest text-white uppercase border border-white/10">
+                    {video.duration}
+                  </div>
+                  
+                  <div className="p-2.5 bg-white/10 backdrop-blur-md rounded-full text-white border border-white/10">
+                    <InstagramIcon className="w-4 h-4" />
+                  </div>
                 </div>
-                
-                <div className="absolute top-3 right-3 p-2 bg-black/80 backdrop-blur-sm rounded-full text-white">
-                  {video.platform === 'youtube' ? (
-                    <YoutubeIcon className="w-4 h-4 text-[#ff0000]" />
-                  ) : (
-                    <InstagramIcon className="w-4 h-4 text-[#e1306c]" />
-                  )}
-                </div>
-              </div>
 
-              {/* Content */}
-              <div className="p-6">
-                <div className="flex items-center gap-4 text-xs text-gray-400 mb-3 uppercase tracking-wider">
-                  <span>{video.views} vues</span>
-                  <span className="w-1 h-1 rounded-full bg-[#ff0000]"></span>
-                  <span>Il y a 2 jours</span>
+                {/* Content */}
+                <div className="absolute bottom-0 left-0 w-full p-8 z-10">
+                  <div className="flex items-center gap-3 text-[10px] text-slate-400 mb-4 uppercase tracking-[0.2em] font-bold">
+                    <span>{video.views} vues</span>
+                    <span className="w-1 h-1 rounded-full bg-white/50"></span>
+                    <span>Il y a 2 jours</span>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white group-hover:text-glow-chrome transition-all duration-500 leading-tight">
+                    {video.title}
+                  </h3>
                 </div>
-                <h3 className="text-lg font-bold text-white group-hover:text-[#ff0000] transition-colors line-clamp-2">
-                  {video.title}
-                </h3>
               </div>
             </div>
           ))}

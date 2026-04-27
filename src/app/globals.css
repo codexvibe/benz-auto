@@ -3,23 +3,23 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-neon-red: #ff0000;
+  --color-neon-chrome: #E2E8F0;
   --color-neon-white: #ffffff;
-  --color-background: #000000;
+  --color-background: #020202;
   --color-surface: #0a0a0a;
   --color-surface-light: #151515;
   --color-text-primary: #ffffff;
-  --color-text-muted: #a1a1aa;
+  --color-text-muted: #888888;
 
   --font-sans: var(--font-inter), sans-serif;
   --font-heading: var(--font-outfit), sans-serif;
 
-  --animate-pulse-fast: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-float: float 8s ease-in-out infinite;
 
   @keyframes float {
     0% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
+    50% { transform: translateY(-15px); }
     100% { transform: translateY(0px); }
   }
 }
@@ -28,6 +28,7 @@
   body {
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
     background-color: var(--color-background);
     color: var(--color-text-primary);
@@ -35,53 +36,51 @@
   
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
-    letter-spacing: 0.02em;
+    letter-spacing: -0.02em;
   }
 }
 
 @layer utilities {
-  .text-glow-red {
-    text-shadow: 0 0 10px rgba(255, 0, 0, 0.6), 0 0 20px rgba(255, 0, 0, 0.4);
+  .text-glow-chrome {
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.4), 0 0 30px rgba(255, 255, 255, 0.2);
   }
-  .text-glow-white {
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.4);
+  .box-glow-chrome {
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
   }
-  .box-glow-red {
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+  .box-glow-chrome-hover:hover {
+    box-shadow: 0 10px 40px rgba(255, 255, 255, 0.1);
   }
-  .box-glow-red-hover:hover {
-    box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
-  }
-  .box-glow-white-hover:hover {
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-  }
-  .border-glow-red-hover:hover {
-    border-color: var(--color-neon-red);
-    box-shadow: inset 0 0 10px rgba(255, 0, 0, 0.3), 0 0 10px rgba(255, 0, 0, 0.3);
+  .border-glow-chrome-hover:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05), 0 0 20px rgba(255, 255, 255, 0.05);
   }
   .glass-dark {
-    background-color: rgba(10, 10, 10, 0.6);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background-color: rgba(5, 5, 5, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.03);
   }
   .glass-panel {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.005) 100%);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.04);
   }
   .animate-slide-up {
-    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: slideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
   .animate-fade-in {
-    animation: fadeIn 0.8s ease-out forwards;
+    animation: fadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .animate-scale-in {
+    animation: scaleIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 }
 
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(40px);
+    transform: translateY(60px);
   }
   to {
     opacity: 1;
@@ -92,4 +91,15 @@
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { 
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to { 
+    opacity: 1;
+    transform: scale(1);
+  }
 }
