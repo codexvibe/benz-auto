@@ -14,8 +14,6 @@ import { createClient } from "../../../../utils/supabase/client";
 const navItems = [
   { href: "/admin/dashboard", icon: LayoutDashboard, label: "Vue d'ensemble" },
   { href: "/admin/dashboard/stock", icon: Package, label: "Inventaire", active: true },
-  { href: "/admin/dashboard/clients", icon: Users, label: "Clients" },
-  { href: "/admin/dashboard/videos", icon: Video, label: "Studio Contenu" },
   { href: "/admin/dashboard/inquiries", icon: MessageSquare, label: "Demandes" },
   { href: "/admin/dashboard/promos", icon: Tag, label: "Promotions" },
   { href: "/admin/dashboard/settings", icon: Settings, label: "Paramètres" },

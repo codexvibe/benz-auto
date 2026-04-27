@@ -77,15 +77,23 @@ function SearchSelect({ options, value, onChange, placeholder }: {
             </div>
           </div>
           <div className="max-h-52 overflow-y-auto">
-            {filtered.length === 0 ? (
-              <p className="py-6 text-center text-xs text-slate-700">Aucun résultat</p>
-            ) : filtered.map(opt => (
+            {filtered.map(opt => (
               <button key={opt} type="button"
                 onClick={() => { onChange(opt); setOpen(false); setQ(""); }}
                 className={`w-full text-left px-4 py-2.5 text-sm transition-all ${value === opt ? "bg-white text-black font-bold" : "text-slate-300 hover:bg-white/5 hover:text-white"}`}>
                 {opt}
               </button>
             ))}
+            {q && !options.some(o => o.toLowerCase() === q.toLowerCase()) && (
+              <button type="button"
+                onClick={() => { onChange(q); setOpen(false); setQ(""); }}
+                className="w-full text-left px-4 py-2.5 text-sm text-amber-400 font-bold hover:bg-white/5 border-t border-white/5 flex items-center gap-2">
+                <Plus className="w-3.5 h-3.5" /> Ajouter &quot;{q}&quot;
+              </button>
+            )}
+            {filtered.length === 0 && !q && (
+              <p className="py-6 text-center text-xs text-slate-700">Saisissez pour ajouter</p>
+            )}
           </div>
         </div>
       )}
