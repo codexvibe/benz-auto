@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import {
   Plus, Search, Edit2, Trash2, LogOut, Car,
   Package, LayoutDashboard, Eye, Video, MessageSquare,
-  Settings, Users, Tag, Filter, ChevronRight, MoreVertical,
+  Settings, Users, Tag, Filter, ChevronRight, MoreHorizontal,
   ExternalLink, Download, ArrowUpDown, Globe, Globe2, Layers,
   Activity, ArrowRight, Grid, List as ListIcon, ShieldCheck
 } from "lucide-react";
@@ -214,7 +214,7 @@ export default function StockPage() {
                             <Trash2 className="w-5 h-5" />
                           </button>
                         </div>
-                        <MoreVertical className="w-6 h-6 text-slate-800 ml-auto group-hover:hidden" />
+                        <MoreHorizontal className="w-6 h-6 text-slate-800 ml-auto group-hover:hidden" />
                       </td>
                     </tr>
                   ))

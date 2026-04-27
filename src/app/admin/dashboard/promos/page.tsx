@@ -6,7 +6,7 @@ import {
   Car, LayoutDashboard, Video, MessageSquare, Settings, Eye, LogOut,
   Users, Tag, Plus, Trash2, ToggleLeft, ToggleRight, CheckCircle2,
   Package, Zap, Percent, Calendar, Gift, Sparkles, ChevronRight,
-  Globe, ArrowRight, Activity, Layers, ArrowUpRight
+  Globe, ArrowRight, Activity, Layers, ArrowUpRight, MoreHorizontal
 } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "../../../../utils/supabase/client";
@@ -291,7 +291,7 @@ export default function PromosPage() {
                                              <Trash2 className="w-6 h-6" />
                                           </button>
                                        </div>
-                                       <MoreVertical className="w-6 h-6 text-slate-800 ml-auto group-hover:hidden" />
+                                       <MoreHorizontal className="w-6 h-6 text-slate-800 ml-auto group-hover:hidden" />
                                     </td>
                                  </tr>
                                ))
