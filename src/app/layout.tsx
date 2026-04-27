@@ -35,6 +35,7 @@ export const metadata: Metadata = {
 };
 
 import { ThemeProvider } from "../components/ThemeProvider";
+import { CompareProvider } from "../context/CompareContext";
 
 export default function RootLayout({
   children,
@@ -45,7 +46,9 @@ export default function RootLayout({
     <html lang="fr" suppressHydrationWarning className="dark">
       <body suppressHydrationWarning className={`${inter.variable} ${outfit.variable} font-sans antialiased bg-black text-white selection:bg-neon-purple selection:text-white`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-          {children}
+          <CompareProvider>
+            {children}
+          </CompareProvider>
         </ThemeProvider>
       </body>
     </html>

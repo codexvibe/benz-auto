@@ -103,7 +103,7 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-background text-slate-200 flex flex-col xl:flex-row p-4 md:p-6 gap-4 md:gap-6 font-sans">
       {/* Floating Glass Sidebar */}
-      <aside className="w-full xl:w-80 bg-surface/40 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] p-8 flex flex-col shrink-0 relative overflow-hidden shadow-2xl">
+      <aside className="w-full xl:w-80 bg-surface/20 border border-white/5 rounded-[2.5rem] p-8 flex flex-col shrink-0 relative overflow-hidden shadow-2xl">
         <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-white/20 to-transparent"></div>
         
         <div className="flex items-center gap-4 mb-16">
@@ -157,7 +157,7 @@ export default function DashboardPage() {
       {/* Main Content Area */}
       <main className="grow flex flex-col min-w-0">
         {/* Top Floating Bar */}
-        <header className="min-h-28 py-6 md:py-0 bg-surface/40 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] mb-6 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 px-6 md:px-10 shadow-xl relative overflow-hidden">
+        <header className="min-h-28 py-6 md:py-0 bg-surface/20 border border-white/5 rounded-[2.5rem] mb-6 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 px-6 md:px-10 shadow-xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-[80px]"></div>
           
           <div className="flex items-center gap-6 relative z-10">
@@ -213,7 +213,7 @@ export default function DashboardPage() {
               { label: "Demandes", value: stats.leads, icon: MessageSquare, color: "text-white", bg: "bg-white/5", sub: "Total" },
               { label: "Ventes", value: stats.sold, icon: TrendingUp, color: "text-white", bg: "bg-white/5", sub: "Vendus" },
             ].map((stat, i) => (
-              <div key={i} className="group p-8 rounded-[3rem] bg-surface/40 backdrop-blur-xl border border-white/5 hover:border-white/20 transition-all duration-700 relative overflow-hidden shadow-xl">
+              <div key={i} className="group p-8 rounded-3xl bg-surface/30 border border-white/5 hover:border-white/20 transition-all duration-700 relative overflow-hidden shadow-xl">
                 <div className="absolute -right-8 -bottom-8 opacity-5 transition-all duration-1000 group-hover:scale-150 group-hover:rotate-12 group-hover:opacity-10">
                   <stat.icon className={`w-40 h-40 ${stat.color}`} />
                 </div>

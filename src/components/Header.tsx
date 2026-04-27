@@ -18,9 +18,9 @@ export function Header() {
 
   const navLinks = [
     { name: "Accueil", href: "/" },
-    { name: "Véhicules en Vente", href: "/cars" },
-    { name: "Derniers Reels", href: "#vlogs" },
-    { name: "Contact & Vente", href: "#contact" },
+    { name: "Véhicules", href: "/cars" },
+    { name: "À Propos", href: "/about" },
+    { name: "Contact", href: "/contact" },
   ];
 
   return (

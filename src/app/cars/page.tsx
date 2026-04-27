@@ -6,6 +6,9 @@ import { Search, Filter, Calendar, Gauge, MapPin, Info } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { createClient } from "../../utils/supabase/client";
+import { useCompare } from "../../context/CompareContext";
+import { ComparisonBar } from "../../components/ComparisonBar";
+import { GitCompare } from "lucide-react";
 
 export default function CarsPage() {
   const [vehicles, setVehicles] = useState<any[]>([]);
@@ -13,6 +16,7 @@ export default function CarsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Tous");
   const supabase = createClient();
+  const { addToCompare, isInCompare, removeFromCompare } = useCompare();
 
   useEffect(() => {
     async function fetchVehicles() {
@@ -116,8 +120,28 @@ export default function CarsPage() {
                   ></div>
                   <div className="absolute inset-0 bg-linear-to-t from-surface via-surface/50 to-transparent"></div>
                   
-                  <div className="absolute top-6 right-6 px-4 py-1.5 bg-black/60 backdrop-blur-md rounded-lg text-[10px] font-bold tracking-widest text-white uppercase border border-white/10">
-                    {car.category}
+                  <div className="absolute top-6 right-6 flex gap-2">
+                    <div className="px-4 py-1.5 bg-black/60 backdrop-blur-md rounded-lg text-[10px] font-bold tracking-widest text-white uppercase border border-white/10">
+                      {car.category}
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (isInCompare(car.id)) {
+                          removeFromCompare(car.id);
+                        } else {
+                          addToCompare(car);
+                        }
+                      }}
+                      className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${
+                        isInCompare(car.id) 
+                          ? "bg-white text-black shadow-[0_0_15px_rgba(255,255,255,0.5)]" 
+                          : "bg-black/60 text-white hover:bg-white hover:text-black"
+                      } border border-white/10`}
+                      title="Comparer"
+                    >
+                      <GitCompare className="w-4 h-4" />
+                    </button>
                   </div>
                 </div>
 
@@ -170,6 +194,7 @@ export default function CarsPage() {
         </div>
       </main>
 
+      <ComparisonBar />
       <Footer />
     </div>
   );

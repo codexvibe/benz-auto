@@ -23,7 +23,7 @@ const navItems = [
 
 function Sidebar({ onLogout }: { onLogout: () => void }) {
   return (
-    <aside className="w-full xl:w-80 bg-surface/40 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] p-8 flex flex-col shrink-0 relative overflow-hidden shadow-2xl">
+    <aside className="w-full xl:w-80 bg-surface/20 border border-white/5 rounded-[2.5rem] p-8 flex flex-col shrink-0 relative overflow-hidden shadow-2xl">
       <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-white/20 to-transparent"></div>
       <div className="flex items-center gap-4 mb-16">
         <div className="w-14 h-14 rounded-2xl bg-surface border border-white/10 flex items-center justify-center shadow-2xl rotate-3">
@@ -37,15 +37,15 @@ function Sidebar({ onLogout }: { onLogout: () => void }) {
       <nav className="space-y-3 grow">
         {navItems.map((item) => (
           <Link key={item.href} href={item.href}
-            className={`flex items-center gap-4 px-6 py-4 rounded-2xl font-bold transition-all duration-300 group relative overflow-hidden ${item.active ? "bg-white/5 text-white shadow-lg" : "text-slate-500 hover:text-slate-200 hover:bg-white/[0.02]"}`}>
+            className={`flex items-center gap-4 px-6 py-4 rounded-2xl font-bold transition-all duration-300 group relative overflow-hidden ${item.active ? "bg-white/5 text-white shadow-lg" : "text-slate-500 hover:text-slate-200 hover:bg-white/2"}`}>
             {item.active && <div className="absolute left-0 top-0 w-1 h-full bg-white"></div>}
             <item.icon className={`w-5 h-5 transition-all duration-500 ${item.active ? "text-white scale-110" : "group-hover:text-slate-200"}`} />
-            <span className="text-sm tracking-tight uppercase tracking-[0.1em]">{item.label}</span>
+            <span className="text-sm uppercase tracking-widest">{item.label}</span>
             {item.active && <ArrowRight className="w-4 h-4 ml-auto text-white animate-bounce-x" />}
           </Link>
         ))}
       </nav>
-      <button onClick={onLogout} className="w-full flex items-center justify-between px-8 py-5 rounded-3xl text-slate-400 hover:text-white hover:bg-white/5 border border-white/[0.03] hover:border-white/10 transition-all duration-500 group mt-auto">
+      <button onClick={onLogout} className="w-full flex items-center justify-between px-8 py-5 rounded-3xl text-slate-400 hover:text-white hover:bg-white/5 border border-white/3 hover:border-white/10 transition-all duration-500 group mt-auto">
         <span className="text-sm font-black uppercase tracking-widest">Déconnexion</span>
         <LogOut className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
       </button>
@@ -81,7 +81,7 @@ export default function NewVehiclePage() {
     <div className="min-h-screen bg-background text-slate-200 flex flex-col xl:flex-row p-4 md:p-6 gap-4 md:gap-6 font-sans">
       <Sidebar onLogout={handleLogout} />
       <main className="grow flex flex-col min-w-0">
-        <header className="min-h-28 py-6 md:py-0 bg-surface/40 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] mb-6 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 px-6 md:px-10 shadow-xl relative overflow-hidden shrink-0">
+        <header className="min-h-28 py-6 md:py-0 bg-surface/20 border border-white/5 rounded-[2.5rem] mb-6 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 px-6 md:px-10 shadow-xl relative overflow-hidden shrink-0">
           <div className="flex items-center gap-8 relative z-10">
              <Link href="/admin/dashboard/stock" className="w-14 h-14 rounded-2xl bg-surface border border-white/10 flex items-center justify-center hover:border-white/20 hover:text-white transition-all shadow-xl">
                 <ChevronLeft className="w-6 h-6" />

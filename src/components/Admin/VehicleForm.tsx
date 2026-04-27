@@ -25,7 +25,8 @@ import {
   MousePointer2,
   Trash2,
   Search,
-  MoreHorizontal
+  MoreHorizontal,
+  ArrowRight
 } from "lucide-react";
 import { createClient } from "../../utils/supabase/client";
 
@@ -74,72 +75,98 @@ function CustomSelect({ options, value, onChange, placeholder, icon: Icon }: any
         setIsOpen(false);
       }
     }
-    document.addEventListener("mousedown", handleClickOutside);
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [isOpen]);
 
-  const filtered = options.filter((o: any) => {
-    const label = typeof o === 'string' ? o : o.label;
-    return label.toLowerCase().includes(search.toLowerCase());
-  });
+  const filtered = useMemo(() => {
+    return options.filter((o: any) => {
+      const label = typeof o === 'string' ? o : o.label;
+      return label.toLowerCase().includes(search.toLowerCase());
+    });
+  }, [options, search]);
 
-  const selectedLabel = typeof options[0] === 'string' 
-    ? value 
-    : options.find((o: any) => o.value === value)?.label;
+  const selectedLabel = useMemo(() => {
+    if (typeof options[0] === 'string') return value;
+    return options.find((o: any) => o.value === value)?.label;
+  }, [options, value]);
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative z-60" ref={dropdownRef}>
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full bg-black/40 border border-white/5 rounded-2xl py-5 px-8 flex items-center justify-between text-sm font-black text-white shadow-inner hover:border-white/20 transition-all group"
+        className={`w-full bg-[#050505] border rounded-xl py-3.5 px-5 flex items-center justify-between text-xs font-bold transition-all duration-500 group ${
+          isOpen ? "border-white/40 ring-1 ring-white/10" : "border-white/5 hover:border-white/10"
+        }`}
       >
-        <div className="flex items-center gap-4 min-w-0">
-           {Icon && <Icon className="w-4 h-4 text-slate-700 group-hover:text-white transition-colors shrink-0" />}
-           <span className={`truncate ${value ? "text-white" : "text-slate-700 italic"}`}>{selectedLabel || placeholder}</span>
+        <div className="flex items-center gap-3 min-w-0">
+          <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${value ? "bg-white/5 border border-white/10" : "bg-transparent"}`}>
+            {Icon && <Icon className={`w-3.5 h-3.5 transition-colors ${value ? "text-white" : "text-slate-700"}`} />}
+          </div>
+          <span className={`truncate tracking-widest uppercase ${value ? "text-white" : "text-slate-700 italic font-medium"}`}>
+            {selectedLabel || placeholder}
+          </span>
         </div>
-        <ChevronDown className={`w-5 h-5 text-slate-700 transition-transform duration-500 shrink-0 ${isOpen ? "rotate-180 text-white" : ""}`} />
+        <div className="flex items-center gap-3">
+            {value && !isOpen && (
+                <div className="w-1 h-1 rounded-full bg-white shadow-[0_0_8px_white]"></div>
+            )}
+            <ChevronDown className={`w-3.5 h-3.5 text-slate-700 transition-transform duration-700 ${isOpen ? "rotate-180 text-white" : ""}`} />
+        </div>
       </button>
 
       {isOpen && (
-        <div className="absolute z-[100] top-full mt-4 w-full bg-surface/95 backdrop-blur-3xl border border-white/10 rounded-4xl shadow-[0_30px_60px_rgba(0,0,0,0.6)] overflow-hidden animate-in fade-in zoom-in duration-300">
-          <div className="p-6 border-b border-white/5 relative">
-            <Search className="absolute left-10 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600" />
-            <input
-              type="text"
-              placeholder="Filtrer..."
-              className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-6 text-xs font-bold text-white outline-none focus:border-white/20 transition-all"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              autoFocus
-            />
+        <div className="absolute z-100 top-full mt-2 w-full bg-[#0A0A0A] border border-white/10 rounded-xl shadow-[0_30px_60px_rgba(0,0,0,0.9)] overflow-hidden animate-in fade-in slide-in-from-top-3 duration-300">
+          <div className="p-2 border-b border-white/5 bg-white/2">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-slate-600" />
+              <input
+                type="text"
+                placeholder="RECHERCHER..."
+                className="w-full bg-transparent border-none py-2.5 pl-9 pr-4 text-[10px] font-black text-white outline-none placeholder:text-slate-800 tracking-[0.2em]"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                autoFocus
+              />
+            </div>
           </div>
-          <div className="max-h-80 overflow-y-auto custom-scrollbar p-3">
+          <div className="max-h-56 overflow-y-auto custom-scrollbar p-1">
             {filtered.length === 0 ? (
-              <div className="py-12 text-center text-[10px] font-black uppercase text-slate-700 tracking-widest">Aucun résultat</div>
+              <div className="py-10 text-center text-[9px] font-black uppercase text-slate-800 tracking-[0.3em]">Aucune Entrée</div>
             ) : (
-              filtered.map((opt: any) => {
-                const optValue = typeof opt === 'string' ? opt : opt.value;
-                const optLabel = typeof opt === 'string' ? opt : opt.label;
-                return (
-                  <button
-                    key={optValue}
-                    type="button"
-                    onClick={() => {
-                      onChange(optValue);
-                      setIsOpen(false);
-                      setSearch("");
-                    }}
-                    className={`w-full text-left px-8 py-5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all mb-1 ${
-                      value === optValue 
-                        ? "bg-white text-black shadow-lg scale-[1.02]" 
-                        : "text-slate-500 hover:bg-white/5 hover:text-white"
-                    }`}
-                  >
-                    {optLabel}
-                  </button>
-                );
-              })
+              <div className="space-y-0.5">
+                {filtered.map((opt: any) => {
+                  const optValue = typeof opt === 'string' ? opt : opt.value;
+                  const optLabel = typeof opt === 'string' ? opt : opt.label;
+                  const isSelected = value === optValue;
+                  return (
+                    <button
+                      key={optValue}
+                      type="button"
+                      onClick={() => {
+                        onChange(optValue);
+                        setIsOpen(false);
+                        setSearch("");
+                      }}
+                      className={`w-full text-left px-4 py-3 rounded-lg text-[10px] font-black uppercase tracking-[0.15em] transition-all flex items-center justify-between group/opt ${
+                        isSelected
+                          ? "bg-white text-black"
+                          : "text-slate-500 hover:bg-white/5 hover:text-white"
+                      }`}
+                    >
+                      <span className="truncate">{optLabel}</span>
+                      {isSelected ? (
+                        <div className="w-1 h-1 rounded-full bg-black"></div>
+                      ) : (
+                        <ArrowRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover/opt:opacity-100 group-hover/opt:translate-x-0 transition-all text-white" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
             )}
           </div>
         </div>
@@ -329,40 +356,40 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
 
   return (
     <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-10 pb-20 font-sans">
-      <div className="lg:col-span-2 space-y-10">
+      <div className="lg:col-span-2 space-y-6">
         {/* Core Identity Panel */}
-        <div className="p-8 md:p-12 rounded-[3.5rem] bg-surface/40 backdrop-blur-3xl border border-white/5 relative overflow-hidden group shadow-2xl">
+        <div className="p-8 md:p-10 rounded-3xl bg-surface/30 border border-white/5 relative overflow-hidden group shadow-xl">
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-[80px] pointer-events-none group-hover:scale-125 transition-transform duration-1000"></div>
-          
+
           <div className="flex flex-col md:flex-row items-center justify-between mb-12 relative z-10 gap-6">
-             <div className="flex items-center gap-6 text-center md:text-left">
-                <div className="w-16 h-16 rounded-3xl bg-white/10 flex items-center justify-center border border-white/10 shadow-xl group-hover:rotate-12 transition-all">
-                   <Globe className="w-8 h-8 text-white" />
-                </div>
-                <div>
-                   <h2 className="text-3xl font-black font-heading uppercase italic tracking-tighter text-white">Registre Identité</h2>
-                   <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.3em] mt-1">Configuration Centrale de l'Actif</p>
-                </div>
-             </div>
-             <label className="flex items-center gap-4 px-6 py-3 rounded-2xl bg-white/3 border border-white/10 cursor-pointer hover:bg-white/6 transition-all group/star shadow-lg">
-               <input
-                 type="checkbox"
-                 className="hidden"
-                 checked={formData.is_featured}
-                 onChange={(e) => updateField("is_featured", e.target.checked)}
-               />
-               <Star className={`w-5 h-5 transition-all ${formData.is_featured ? "text-white fill-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] scale-110" : "text-slate-600 group-hover/star:text-slate-400"}`} />
-               <span className={`text-[10px] font-black uppercase tracking-widest ${formData.is_featured ? "text-white" : "text-slate-500"}`}>Priorité Vitrine</span>
-             </label>
+            <div className="flex items-center gap-6 text-center md:text-left">
+              <div className="w-16 h-16 rounded-3xl bg-white/10 flex items-center justify-center border border-white/10 shadow-xl group-hover:rotate-12 transition-all">
+                <Globe className="w-8 h-8 text-white" />
+              </div>
+              <div>
+                <h2 className="text-3xl font-black font-heading uppercase italic tracking-tighter text-white">Registre Identité</h2>
+                <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.3em] mt-1">Configuration Centrale de l'Actif</p>
+              </div>
+            </div>
+            <label className="flex items-center gap-4 px-6 py-3 rounded-2xl bg-white/3 border border-white/10 cursor-pointer hover:bg-white/6 transition-all group/star shadow-lg">
+              <input
+                type="checkbox"
+                className="hidden"
+                checked={formData.is_featured}
+                onChange={(e) => updateField("is_featured", e.target.checked)}
+              />
+              <Star className={`w-5 h-5 transition-all ${formData.is_featured ? "text-white fill-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] scale-110" : "text-slate-600 group-hover/star:text-slate-400"}`} />
+              <span className={`text-[10px] font-black uppercase tracking-widest ${formData.is_featured ? "text-white" : "text-slate-500"}`}>Priorité Vitrine</span>
+            </label>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
             <div className="space-y-4">
               <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Constructeur Autorisé</label>
-              <CustomSelect 
-                options={allBrands} 
-                value={formData.brand} 
-                onChange={(val: string) => updateField("brand", val)} 
+              <CustomSelect
+                options={allBrands}
+                value={formData.brand}
+                onChange={(val: string) => updateField("brand", val)}
                 placeholder="Sélectionner Marque..."
                 icon={Globe}
               />
@@ -370,10 +397,10 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
 
             <div className="space-y-4">
               <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Désignation Modèle</label>
-              <CustomSelect 
-                options={filteredModels} 
-                value={formData.name} 
-                onChange={(val: string) => updateField("name", val)} 
+              <CustomSelect
+                options={filteredModels}
+                value={formData.name}
+                onChange={(val: string) => updateField("name", val)}
                 placeholder="Sélectionner Modèle..."
                 icon={Car}
               />
@@ -381,10 +408,10 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
 
             <div className="space-y-4">
               <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Classification</label>
-              <CustomSelect 
-                options={CATEGORIES} 
-                value={formData.category} 
-                onChange={(val: string) => updateField("category", val)} 
+              <CustomSelect
+                options={CATEGORIES}
+                value={formData.category}
+                onChange={(val: string) => updateField("category", val)}
                 placeholder="Sélectionner Type..."
                 icon={Layers}
               />
@@ -392,10 +419,10 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
 
             <div className="space-y-4">
               <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Disponibilité Commerciale</label>
-              <CustomSelect 
-                options={statuses} 
-                value={formData.status} 
-                onChange={(val: string) => updateField("status", val)} 
+              <CustomSelect
+                options={statuses}
+                value={formData.status}
+                onChange={(val: string) => updateField("status", val)}
                 placeholder="Statut..."
                 icon={Activity}
               />
@@ -415,52 +442,52 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
         </div>
 
         {/* Technical Specification Hub */}
-        <div className="p-8 md:p-12 rounded-[3.5rem] bg-surface/40 backdrop-blur-3xl border border-white/5 relative overflow-hidden group shadow-2xl">
+        <div className="p-8 md:p-10 rounded-3xl bg-surface/30 border border-white/5 relative overflow-hidden group shadow-xl">
           <div className="flex items-center gap-6 mb-12 relative z-10">
-             <div className="w-16 h-16 rounded-3xl bg-white/10 flex items-center justify-center border border-white/10 shadow-xl group-hover:scale-110 transition-all">
-                <Cpu className="w-8 h-8 text-white" />
-             </div>
-             <h2 className="text-3xl font-black font-heading uppercase italic tracking-tighter text-white">Modules Techniques</h2>
+            <div className="w-16 h-16 rounded-3xl bg-white/10 flex items-center justify-center border border-white/10 shadow-xl group-hover:scale-110 transition-all">
+              <Cpu className="w-8 h-8 text-white" />
+            </div>
+            <h2 className="text-3xl font-black font-heading uppercase italic tracking-tighter text-white">Modules Techniques</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10">
             <div className="space-y-3">
               <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Année Cycle</label>
-              <CustomSelect 
-                options={years} 
-                value={formData.year} 
-                onChange={(val: string) => updateField("year", val)} 
+              <CustomSelect
+                options={years}
+                value={formData.year}
+                onChange={(val: string) => updateField("year", val)}
                 placeholder="Année..."
               />
             </div>
             <div className="space-y-3">
               <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Logique Propulsion</label>
-              <CustomSelect 
-                options={fuels} 
-                value={formData.fuel} 
-                onChange={(val: string) => updateField("fuel", val)} 
+              <CustomSelect
+                options={fuels}
+                value={formData.fuel}
+                onChange={(val: string) => updateField("fuel", val)}
                 placeholder="Carburant..."
               />
             </div>
             <div className="space-y-3">
               <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Puissance / HP</label>
               <div className="relative group/field">
-                 <Flame className="absolute right-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-700 transition-colors group-focus-within/field:text-white" />
-                 <input
-                   type="text"
-                   className="w-full bg-black/40 border border-white/5 rounded-2xl py-4 px-8 focus:border-white/20 outline-none transition-all text-sm font-black text-white shadow-inner placeholder:text-slate-800"
-                   value={formData.power}
-                   onChange={(e) => updateField("power", e.target.value)}
-                   placeholder="ex: 720 HP"
-                 />
+                <Flame className="absolute right-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-700 transition-colors group-focus-within/field:text-white" />
+                <input
+                  type="text"
+                  className="w-full bg-black/40 border border-white/5 rounded-2xl py-4 px-8 focus:border-white/20 outline-none transition-all text-sm font-black text-white shadow-inner placeholder:text-slate-800"
+                  value={formData.power}
+                  onChange={(e) => updateField("power", e.target.value)}
+                  placeholder="ex: 720 HP"
+                />
               </div>
             </div>
             <div className="space-y-3">
               <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Interface Transmission</label>
-              <CustomSelect 
-                options={transmissions} 
-                value={formData.transmission} 
-                onChange={(val: string) => updateField("transmission", val)} 
+              <CustomSelect
+                options={transmissions}
+                value={formData.transmission}
+                onChange={(val: string) => updateField("transmission", val)}
                 placeholder="Transmission..."
               />
             </div>
@@ -494,19 +521,19 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
         {/* Visibility Node */}
         <div className="p-10 rounded-[3rem] bg-surface/40 backdrop-blur-3xl border border-white/5 shadow-2xl relative group">
           <div className="flex items-center justify-between">
-             <div className="space-y-1">
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white italic">Signal Global</p>
-                <p className="text-[9px] text-slate-600 font-black uppercase tracking-widest">Visibilité Publique</p>
-             </div>
-             <button
-                type="button"
-                className={`relative w-16 h-8 rounded-full transition-all duration-700 ${formData.is_visible ? "bg-white shadow-[0_0_20px_rgba(255,255,255,0.4)]" : "bg-slate-900 border border-white/5"}`}
-                onClick={() => updateField("is_visible", !formData.is_visible)}
-              >
-                <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-all duration-700 shadow-xl flex items-center justify-center ${formData.is_visible ? "left-9" : "left-1"}`}>
-                   <div className={`w-1 h-1 rounded-full ${formData.is_visible ? "bg-black" : "bg-slate-300"}`}></div>
-                </div>
-              </button>
+            <div className="space-y-1">
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white italic">Signal Global</p>
+              <p className="text-[9px] text-slate-600 font-black uppercase tracking-widest">Visibilité Publique</p>
+            </div>
+            <button
+              type="button"
+              className={`relative w-16 h-8 rounded-full transition-all duration-700 ${formData.is_visible ? "bg-white shadow-[0_0_20px_rgba(255,255,255,0.4)]" : "bg-slate-900 border border-white/5"}`}
+              onClick={() => updateField("is_visible", !formData.is_visible)}
+            >
+              <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-all duration-700 shadow-xl flex items-center justify-center ${formData.is_visible ? "left-9" : "left-1"}`}>
+                <div className={`w-1 h-1 rounded-full ${formData.is_visible ? "bg-black" : "bg-slate-300"}`}></div>
+              </div>
+            </button>
           </div>
         </div>
 
@@ -514,33 +541,33 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
         <div className="p-10 rounded-[3.5rem] bg-surface/40 backdrop-blur-3xl border border-white/5 shadow-2xl space-y-8 relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
           <h3 className="text-xs font-black uppercase tracking-[0.4em] flex items-center gap-4 text-white">
-             <ImageIcon className="w-5 h-5 text-white" /> Visuel Principal
+            <ImageIcon className="w-5 h-5 text-white" /> Visuel Principal
           </h3>
           <div className="relative aspect-video rounded-4xl bg-black border border-white/10 flex flex-col items-center justify-center overflow-hidden group/upload cursor-pointer transition-all hover:border-white/20">
             {formData.image_url ? (
               <>
                 <img src={formData.image_url} alt="" className="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-1000 group-hover/upload:grayscale-0 group-hover/upload:scale-110" />
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover/upload:opacity-100 transition-opacity flex items-center justify-center">
-                   <button
-                     type="button"
-                     onClick={() => updateField("image_url", "")}
-                     className="w-16 h-16 bg-white text-black rounded-3xl flex items-center justify-center shadow-2xl hover:scale-110 transition-transform active:scale-95"
-                   >
-                     <X className="w-8 h-8" />
-                   </button>
+                  <button
+                    type="button"
+                    onClick={() => updateField("image_url", "")}
+                    className="w-16 h-16 bg-white text-black rounded-3xl flex items-center justify-center shadow-2xl hover:scale-110 transition-transform active:scale-95"
+                  >
+                    <X className="w-8 h-8" />
+                  </button>
                 </div>
               </>
             ) : (
               <>
                 {uploading ? (
                   <div className="text-center animate-pulse">
-                     <Loader2 className="w-12 h-12 text-white animate-spin mx-auto mb-4" />
-                     <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white">Sync en cours...</p>
+                    <Loader2 className="w-12 h-12 text-white animate-spin mx-auto mb-4" />
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white">Sync en cours...</p>
                   </div>
                 ) : (
                   <div className="text-center group/empty">
                     <div className="w-20 h-20 rounded-4xl bg-white/3 border border-white/10 flex items-center justify-center mx-auto mb-6 group-hover/upload:bg-white/10 group-hover/upload:border-white/20 transition-all">
-                       <Upload className="w-10 h-10 text-slate-700 transition-transform group-hover/upload:-translate-y-2 group-hover/upload:text-white" />
+                      <Upload className="w-10 h-10 text-slate-700 transition-transform group-hover/upload:-translate-y-2 group-hover/upload:text-white" />
                     </div>
                     <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Injecter Asset 4K</p>
                   </div>
@@ -566,57 +593,57 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
           </div>
 
           <div className="grid grid-cols-3 gap-4">
-             {formData.images.map((url: string, i: number) => (
-               <div key={i} className="relative aspect-square rounded-2xl overflow-hidden border border-white/10 group/img shadow-2xl">
-                 <img src={url} alt="" className="w-full h-full object-cover grayscale transition-all duration-700 group-hover/img:grayscale-0 group-hover/img:scale-125" />
-                 <button
-                   type="button"
-                   onClick={() => removeGalleryImage(i)}
-                   className="absolute inset-0 bg-white/80 opacity-0 group-hover/img:opacity-100 flex items-center justify-center transition-all duration-500 backdrop-blur-sm"
-                 >
-                   <Trash2 className="w-6 h-6 text-black" />
-                 </button>
-               </div>
-             ))}
-             {formData.images.length < 10 && (
-               <div className="relative aspect-square rounded-2xl border-2 border-dashed border-white/5 flex items-center justify-center hover:border-white/20 transition-all group/plus cursor-pointer bg-black/20 overflow-hidden">
-                 {uploadingGallery ? (
-                   <Loader2 className="w-8 h-8 text-white animate-spin" />
-                 ) : (
-                   <div className="text-center">
-                      <Plus className="w-8 h-8 text-slate-800 mx-auto mb-2 group-hover/plus:text-white group-hover/plus:rotate-90 transition-all duration-500" />
-                      <p className="text-[8px] font-black text-slate-700 uppercase tracking-widest">Ajouter</p>
-                   </div>
-                 )}
-                 <input
-                   type="file"
-                   accept="image/*"
-                   multiple
-                   className="absolute inset-0 opacity-0 cursor-pointer"
-                   onChange={handleGalleryUpload}
-                   disabled={uploadingGallery}
-                 />
-               </div>
-             )}
+            {formData.images.map((url: string, i: number) => (
+              <div key={i} className="relative aspect-square rounded-2xl overflow-hidden border border-white/10 group/img shadow-2xl">
+                <img src={url} alt="" className="w-full h-full object-cover grayscale transition-all duration-700 group-hover/img:grayscale-0 group-hover/img:scale-125" />
+                <button
+                  type="button"
+                  onClick={() => removeGalleryImage(i)}
+                  className="absolute inset-0 bg-white/80 opacity-0 group-hover/img:opacity-100 flex items-center justify-center transition-all duration-500 backdrop-blur-sm"
+                >
+                  <Trash2 className="w-6 h-6 text-black" />
+                </button>
+              </div>
+            ))}
+            {formData.images.length < 10 && (
+              <div className="relative aspect-square rounded-2xl border-2 border-dashed border-white/5 flex items-center justify-center hover:border-white/20 transition-all group/plus cursor-pointer bg-black/20 overflow-hidden">
+                {uploadingGallery ? (
+                  <Loader2 className="w-8 h-8 text-white animate-spin" />
+                ) : (
+                  <div className="text-center">
+                    <Plus className="w-8 h-8 text-slate-800 mx-auto mb-2 group-hover/plus:text-white group-hover/plus:rotate-90 transition-all duration-500" />
+                    <p className="text-[8px] font-black text-slate-700 uppercase tracking-widest">Ajouter</p>
+                  </div>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                  onChange={handleGalleryUpload}
+                  disabled={uploadingGallery}
+                />
+              </div>
+            )}
           </div>
         </div>
 
         {/* Global Override Control */}
         <div className="pt-6">
-           <button
-             type="submit"
-             disabled={loading || uploading || uploadingGallery}
-             className="w-full group relative px-12 py-8 bg-white text-black font-black text-[11px] uppercase tracking-[0.4em] rounded-[3rem] hover:bg-slate-200 transition-all duration-700 flex items-center justify-center gap-6 overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.6)] disabled:opacity-50"
-           >
-             {loading ? <Loader2 className="w-8 h-8 animate-spin relative z-10" /> : <ShieldCheck className="w-8 h-8 relative z-10 transition-transform group-hover:scale-110" />}
-             <span className="relative z-10">{loading ? "COMMISSION EN COURS..." : "AUTORISER LE PROTOCOLE"}</span>
-             <div className="absolute inset-0 bg-linear-to-r from-transparent via-black/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-           </button>
-           <div className="flex items-center justify-center gap-3 mt-8 opacity-20">
-              <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
-              <p className="text-[8px] text-white font-black uppercase tracking-[0.5em]">BENZ AUTO ENGINE v1.0.0</p>
-              <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
-           </div>
+          <button
+            type="submit"
+            disabled={loading || uploading || uploadingGallery}
+            className="w-full group relative px-12 py-8 bg-white text-black font-black text-[11px] uppercase tracking-[0.4em] rounded-[3rem] hover:bg-slate-200 transition-all duration-700 flex items-center justify-center gap-6 overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.6)] disabled:opacity-50"
+          >
+            {loading ? <Loader2 className="w-8 h-8 animate-spin relative z-10" /> : <ShieldCheck className="w-8 h-8 relative z-10 transition-transform group-hover:scale-110" />}
+            <span className="relative z-10">{loading ? "COMMISSION EN COURS..." : "AUTORISER LE PROTOCOLE"}</span>
+            <div className="absolute inset-0 bg-linear-to-r from-transparent via-black/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+          </button>
+          <div className="flex items-center justify-center gap-3 mt-8 opacity-20">
+            <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
+            <p className="text-[8px] text-white font-black uppercase tracking-[0.5em]">BENZ AUTO ENGINE v1.0.0</p>
+            <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
+          </div>
         </div>
       </div>
     </form>
