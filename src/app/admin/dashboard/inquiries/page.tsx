@@ -3,16 +3,11 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
-  Car, LayoutDashboard, Video, MessageSquare, Settings, Eye, LogOut,
-  Users, Tag, Package, Search, Phone, Calendar, CheckCircle2, XCircle,
-  Globe, ArrowRight, Activity, Clock, Layers, Filter, Sparkles, ChevronRight,
-  TrendingUp, Zap, ShieldCheck, MoreHorizontal
+  MessageSquare, TrendingUp, Clock, CheckCircle2, Phone,
+  XCircle, MoreHorizontal
 } from "lucide-react";
-import Link from "next/link";
 import { createClient } from "../../../../utils/supabase/client";
-
 import { Sidebar } from "../../../../components/Admin/Sidebar";
-
 
 export default function AdminInquiriesPage() {
   const [inquiries, setInquiries] = useState<any[]>([]);
@@ -24,7 +19,7 @@ export default function AdminInquiriesPage() {
     const session = localStorage.getItem("admin_session");
     if (!session) { router.push("/admin"); return; }
     fetchInquiries();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchInquiries = async () => {
     setLoading(true);
@@ -49,148 +44,126 @@ export default function AdminInquiriesPage() {
   const processedCount = inquiries.filter(i => i.status === 'Traité').length;
 
   return (
-    <div className="min-h-screen bg-background text-slate-200 flex flex-col xl:flex-row p-4 md:p-6 gap-4 md:gap-6 font-sans">
+    <div className="min-h-screen bg-background text-slate-200 flex flex-col xl:flex-row p-4 gap-4 font-sans">
       <Sidebar onLogout={handleLogout} />
 
-      <main className="grow flex flex-col min-w-0">
-        {/* Header Bar */}
-        <header className="min-h-28 py-6 md:py-0 bg-surface/40 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] mb-6 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 px-6 md:px-10 shadow-xl relative overflow-hidden">
-          <div className="flex items-center gap-6 relative z-10">
-            <div className="w-12 h-12 rounded-2xl bg-surface border border-white/10 flex items-center justify-center">
-              <MessageSquare className="w-6 h-6 text-white" />
+      <main className="grow flex flex-col min-w-0 gap-4">
+        <header className="bg-surface border border-white/5 rounded-3xl px-8 py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="flex items-center gap-4 relative z-10">
+            <div className="w-11 h-11 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
+              <MessageSquare className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h2 className="text-3xl font-black tracking-tighter text-white font-heading uppercase">Flux de Demandes</h2>
-              <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.4em] mt-1">Communications Entrantes en Direct</p>
+              <h1 className="text-2xl font-black text-white uppercase tracking-tight">Demandes</h1>
+              <p className="text-[9px] text-slate-600 font-bold uppercase tracking-[0.3em] mt-0.5">Communications Entrantes</p>
             </div>
-          </div>
-          <div className="flex items-center gap-6 relative z-10">
-             <div className="flex items-center gap-3 bg-white/5 px-6 py-3 rounded-2xl border border-white/10 shadow-xl">
-                <div className="w-2 h-2 rounded-full bg-white animate-pulse shadow-[0_0_10px_rgba(255,255,255,0.5)]"></div>
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white">Lien Système Actif</span>
-             </div>
           </div>
         </header>
 
         <div className="grow overflow-y-auto custom-scrollbar pr-2 pb-10">
-           {/* Analytic Sensors */}
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-              <div className="p-10 rounded-[3rem] bg-surface/40 backdrop-blur-xl border border-white/5 shadow-2xl relative overflow-hidden group text-center md:text-left">
-                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl group-hover:scale-150 transition-transform"></div>
-                 <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 mb-4">Total Demandes</p>
-                 <div className="flex items-center justify-between">
-                    <h3 className="text-5xl font-black font-heading tracking-tighter text-white italic uppercase">{inquiries.length}</h3>
-                    <TrendingUp className="w-8 h-8 text-slate-700 group-hover:text-white transition-colors" />
-                 </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div className="p-6 rounded-3xl bg-surface border border-white/5 flex items-center justify-between">
+              <div>
+                <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest mb-1">Total Demandes</p>
+                <p className="text-3xl font-black text-white">{inquiries.length}</p>
               </div>
-              <div className="p-10 rounded-[3rem] bg-surface/60 border border-white/10 shadow-2xl relative overflow-hidden group text-center md:text-left">
-                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl group-hover:scale-150 transition-transform"></div>
-                 <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 mb-4">En Attente</p>
-                 <div className="flex items-center justify-between">
-                    <h3 className="text-5xl font-black font-heading tracking-tighter text-white italic uppercase">{pendingCount}</h3>
-                    <Clock className="w-8 h-8 text-white/20 group-hover:text-white transition-colors animate-pulse" />
-                 </div>
+              <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
+                <TrendingUp className="w-5 h-5 text-white" />
               </div>
-              <div className="p-10 rounded-[3rem] bg-surface/80 border border-white/10 shadow-2xl relative overflow-hidden group text-center md:text-left">
-                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl group-hover:scale-150 transition-transform"></div>
-                 <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 mb-4">Traitées</p>
-                 <div className="flex items-center justify-between">
-                    <h3 className="text-5xl font-black font-heading tracking-tighter text-white italic uppercase">{processedCount}</h3>
-                    <CheckCircle2 className="w-8 h-8 text-white/20 group-hover:text-white transition-colors" />
-                 </div>
+            </div>
+            <div className="p-6 rounded-3xl bg-surface border border-white/5 flex items-center justify-between">
+              <div>
+                <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest mb-1">En Attente</p>
+                <p className="text-3xl font-black text-white">{pendingCount}</p>
               </div>
-           </div>
+              <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
+                <Clock className="w-5 h-5 text-amber-400" />
+              </div>
+            </div>
+            <div className="p-6 rounded-3xl bg-surface border border-white/5 flex items-center justify-between">
+              <div>
+                <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest mb-1">Traitées</p>
+                <p className="text-3xl font-black text-white">{processedCount}</p>
+              </div>
+              <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
+                <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+              </div>
+            </div>
+          </div>
 
-           <div className="bg-surface/40 backdrop-blur-3xl border border-white/5 rounded-[3.5rem] overflow-hidden shadow-2xl relative">
-              <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-[100px] pointer-events-none"></div>
-              
-              <div className="overflow-x-auto custom-scrollbar">
-                 <table className="w-full border-collapse">
-                    <thead>
-                       <tr className="bg-white/2 text-left">
-                          <th className="px-10 py-8 text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] border-b border-white/5">Identité Client</th>
-                          <th className="px-10 py-8 text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] border-b border-white/5">Contenu Demande</th>
-                          <th className="px-10 py-8 text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] border-b border-white/5">Statut</th>
-                          <th className="px-10 py-8 text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] border-b border-white/5 text-right">Actions</th>
-                       </tr>
-                    </thead>
-                    <tbody className="divide-y divide-white/3">
-                       {loading ? (
-                         <tr><td colSpan={4} className="py-32 text-center animate-pulse"><div className="w-12 h-12 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto"></div></td></tr>
-                       ) : inquiries.length === 0 ? (
-                         <tr><td colSpan={4} className="py-32 text-center text-slate-700 font-black uppercase tracking-widest italic text-xs">Aucun signal détecté</td></tr>
-                       ) : (
-                         inquiries.map((inq) => (
-                           <tr key={inq.id} className="hover:bg-white/1 transition-all group">
-                              <td className="px-10 py-10">
-                                 <div className="flex items-center gap-6">
-                                    <div className="w-16 h-16 rounded-[1.8rem] bg-slate-900 border border-white/5 flex items-center justify-center font-black text-2xl text-slate-600 shadow-xl group-hover:bg-white group-hover:text-black group-hover:scale-110 transition-all duration-700 group-hover:rotate-6">
-                                       {inq.customer_name?.[0]?.toUpperCase()}
-                                    </div>
-                                    <div className="min-w-0">
-                                       <p className="font-black text-2xl tracking-tighter text-white group-hover:text-white transition-colors italic uppercase truncate">{inq.customer_name}</p>
-                                       <div className="flex items-center gap-3 mt-2">
-                                          <Phone className="w-3.5 h-3.5 text-slate-700 group-hover:text-white/60 transition-colors" />
-                                          <p className="text-[10px] text-slate-600 font-black tracking-widest uppercase">{inq.customer_phone}</p>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </td>
-                              <td className="px-10 py-10">
-                                 <div className="space-y-2">
-                                    <p className="font-black text-sm tracking-tight text-white/80 line-clamp-1 italic uppercase group-hover:text-white transition-colors">{inq.items_list || "Demande Non Classifiée"}</p>
-                                    <div className="flex items-center gap-3">
-                                       <Clock className="w-3.5 h-3.5 text-slate-700" />
-                                       <p className="text-[10px] text-slate-600 font-black tracking-widest uppercase">{new Date(inq.created_at).toLocaleDateString()} @ {new Date(inq.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-                                    </div>
-                                 </div>
-                              </td>
-                              <td className="px-10 py-10">
-                                 <div className={`inline-flex items-center gap-3 px-6 py-3 rounded-2xl text-[9px] font-black uppercase tracking-[0.2em] border shadow-lg ${
-                                    inq.status === 'Traité' ? 'bg-white/5 text-white border-white/10' : 
-                                    inq.status === 'Annulé' ? 'bg-red-400/5 text-red-400 border-red-400/10' :
-                                    'bg-amber-400/5 text-amber-400 border-amber-400/10'
-                                 }`}>
-                                    <div className={`w-1.5 h-1.5 rounded-full ${inq.status === 'Traité' ? 'bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]' : inq.status === 'Annulé' ? 'bg-red-400 shadow-[0_0_10px_#f87171]' : 'bg-amber-400 shadow-[0_0_10px_#fbbf24] animate-pulse'}`} />
-                                    {inq.status}
-                                 </div>
-                              </td>
-                              <td className="px-10 py-10 text-right">
-                                 <div className="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-4 group-hover:translate-x-0">
-                                    <button 
-                                      onClick={() => handleStatusUpdate(inq.id, 'Traité')}
-                                      className="p-5 rounded-2xl bg-surface border border-white/5 hover:border-white/50 hover:text-white transition-all shadow-2xl"
-                                      title="Valider"
-                                    >
-                                       <CheckCircle2 className="w-6 h-6" />
-                                    </button>
-                                    <button 
-                                      onClick={() => handleStatusUpdate(inq.id, 'Annulé')}
-                                      className="p-5 rounded-2xl bg-surface border border-white/5 hover:border-red-500/50 hover:text-red-400 transition-all shadow-2xl"
-                                      title="Annuler"
-                                    >
-                                       <XCircle className="w-6 h-6" />
-                                    </button>
-                                 </div>
-                                 <MoreHorizontal className="w-6 h-6 text-slate-800 ml-auto group-hover:hidden" />
-                              </td>
-                           </tr>
-                         ))
-                       )}
-                    </tbody>
-                 </table>
-              </div>
-           </div>
+          <div className="bg-surface border border-white/5 rounded-3xl overflow-hidden">
+            <div className="overflow-x-auto custom-scrollbar">
+              <table className="w-full border-collapse min-w-[800px]">
+                <thead>
+                  <tr className="bg-white/2 text-left">
+                    <th className="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-white/5">Client</th>
+                    <th className="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-white/5">Détails</th>
+                    <th className="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-white/5">Statut</th>
+                    <th className="px-6 py-4 text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-white/5 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5">
+                  {loading ? (
+                    <tr><td colSpan={4} className="py-20 text-center"><div className="w-8 h-8 border-2 border-white/10 border-t-white rounded-full animate-spin mx-auto"></div></td></tr>
+                  ) : inquiries.length === 0 ? (
+                    <tr><td colSpan={4} className="py-20 text-center text-slate-500 font-bold uppercase tracking-widest text-xs">Aucune demande</td></tr>
+                  ) : (
+                    inquiries.map((inq) => (
+                      <tr key={inq.id} className="hover:bg-white/2 transition-colors group">
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-4">
+                            <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center font-black text-sm text-white">
+                              {inq.customer_name?.[0]?.toUpperCase()}
+                            </div>
+                            <div>
+                              <p className="font-bold text-sm text-white uppercase">{inq.customer_name}</p>
+                              <div className="flex items-center gap-2 mt-1">
+                                <Phone className="w-3 h-3 text-slate-500" />
+                                <p className="text-[10px] text-slate-400 font-bold tracking-widest">{inq.customer_phone}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <p className="font-bold text-sm text-white max-w-xs truncate">{inq.items_list || "Demande Non Classifiée"}</p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <Clock className="w-3 h-3 text-slate-500" />
+                            <p className="text-[10px] text-slate-400 font-bold tracking-widest">
+                              {new Date(inq.created_at).toLocaleDateString()} @ {new Date(inq.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </p>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest ${
+                            inq.status === 'Traité' ? 'bg-white/10 text-white' : 
+                            inq.status === 'Annulé' ? 'bg-red-500/10 text-red-400' :
+                            'bg-amber-400/10 text-amber-400'
+                          }`}>
+                            {inq.status}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button onClick={() => handleStatusUpdate(inq.id, 'Traité')} className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-white transition-colors" title="Valider">
+                              <CheckCircle2 className="w-4 h-4" />
+                            </button>
+                            <button onClick={() => handleStatusUpdate(inq.id, 'Annulé')} className="p-2 rounded-lg bg-white/5 hover:bg-red-500/10 hover:text-red-400 transition-colors" title="Annuler">
+                              <XCircle className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </main>
 
       <style jsx global>{`
-        @keyframes bounce-x {
-          0%, 100% { transform: translateX(0); }
-          50% { transform: translateX(5px); }
-        }
-        .animate-bounce-x { animation: bounce-x 1s infinite; }
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.05); border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }

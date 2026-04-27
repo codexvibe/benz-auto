@@ -13,6 +13,8 @@ import { createClient } from "../../../../utils/supabase/client";
 
 import { Sidebar } from "../../../../components/Admin/Sidebar";
 
+type SortKey = string;
+type SortDir = "asc" | "desc";
 
 // ─── Sort Button ──────────────────────────────────────────────────────────────
 function SortBtn({ label, col, sortKey, sortDir, onSort }: {
@@ -58,13 +60,13 @@ function DeleteModal({ name, onConfirm, onCancel }: { name: string; onConfirm: (
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 export default function StockPage() {
-  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [vehicles, setVehicles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [yearFilter, setYearFilter] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("name");
   const [sortDir, setSortDir] = useState<SortDir>("asc");
-  const [deleteTarget, setDeleteTarget] = useState<Vehicle | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<any | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const router = useRouter();
@@ -82,7 +84,7 @@ export default function StockPage() {
       .from("products")
       .select("id,name,model,year,mileage,horsepower,image_url,status,category,price,brand,is_visible,is_featured")
       .order("created_at", { ascending: false });
-    if (!error && data) setVehicles(data as Vehicle[]);
+    if (!error && data) setVehicles(data as any[]);
     setLoading(false);
   };
 

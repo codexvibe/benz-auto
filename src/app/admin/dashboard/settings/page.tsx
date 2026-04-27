@@ -3,16 +3,11 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
-  LayoutDashboard, Package, Users, Video, MessageSquare, Tag,
-  Settings, Eye, LogOut, Save, Shield, Globe, Bell, Smartphone,
-  Activity, ArrowRight, ShieldCheck, ChevronRight, Zap, RefreshCw,
-  Power, Lock, Database, HardDrive, Cpu, Car
+  Settings, Save, Power, Lock, RefreshCw, Database,
+  Smartphone
 } from "lucide-react";
-import Link from "next/link";
 import { createClient } from "../../../../utils/supabase/client";
-
 import { Sidebar } from "../../../../components/Admin/Sidebar";
-
 
 export default function SettingsPage() {
   const [loading, setLoading] = useState(false);
@@ -32,7 +27,7 @@ export default function SettingsPage() {
     const session = localStorage.getItem("admin_session");
     if (!session) { router.push("/admin"); return; }
     fetchSettings();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchSettings = async () => {
     setLoading(true);
@@ -49,7 +44,7 @@ export default function SettingsPage() {
     setLoading(true);
     await supabase.from("site_settings").update({ ...config, maintenance_mode: maintenance }).eq("id", 1);
     setLoading(false);
-    alert("CONFIGURATION SYSTÈME MISE À JOUR : Variables globales synchronisées.");
+    alert("Configuration sauvegardée avec succès.");
   };
 
   const handleLogout = () => {
@@ -58,191 +53,131 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-slate-200 flex flex-col xl:flex-row p-4 md:p-6 gap-4 md:gap-6 font-sans">
+    <div className="min-h-screen bg-background text-slate-200 flex flex-col xl:flex-row p-4 gap-4 font-sans">
       <Sidebar onLogout={handleLogout} />
 
-      <main className="grow flex flex-col min-w-0">
-        {/* Header Bar */}
-        <header className="min-h-28 py-6 md:py-0 bg-surface/40 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] mb-6 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 px-6 md:px-10 shadow-xl relative overflow-hidden shrink-0">
-          <div className="flex items-center gap-6 relative z-10">
-            <div className="w-12 h-12 rounded-2xl bg-surface border border-white/10 flex items-center justify-center">
-              <Settings className="w-6 h-6 text-white" />
+      <main className="grow flex flex-col min-w-0 gap-4">
+        <header className="bg-surface border border-white/5 rounded-3xl px-8 py-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="flex items-center gap-4 relative z-10">
+            <div className="w-11 h-11 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
+              <Settings className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h2 className="text-3xl font-black tracking-tighter text-white font-heading uppercase">Protocole Système</h2>
-              <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.4em] mt-1">Configuration Centrale</p>
+              <h1 className="text-2xl font-black text-white uppercase tracking-tight">Paramètres</h1>
+              <p className="text-[9px] text-slate-600 font-bold uppercase tracking-[0.3em] mt-0.5">Configuration du Site</p>
             </div>
           </div>
           <button 
             onClick={handleSave} 
             disabled={loading}
-            className="group relative px-12 py-5 bg-white text-black font-black text-xs uppercase tracking-[0.2em] rounded-4xl hover:bg-slate-200 transition-all duration-500 flex items-center gap-4 overflow-hidden shadow-2xl disabled:opacity-50 mt-4 md:mt-0"
+            className="px-6 py-3 bg-white text-black font-black text-xs uppercase tracking-widest rounded-xl hover:bg-slate-200 transition-colors disabled:opacity-50 flex items-center gap-2"
           >
-            <Save className="w-5 h-5 relative z-10" />
-            <span className="relative z-10">{loading ? "SYNCHRONISATION..." : "ENREGISTRER"}</span>
-            <div className="absolute inset-0 bg-linear-to-r from-transparent via-black/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+            <Save className="w-4 h-4" />
+            {loading ? "Sauvegarde..." : "Enregistrer"}
           </button>
         </header>
 
         <div className="grow overflow-y-auto custom-scrollbar pr-2 pb-10">
-           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Primary Config */}
-              <div className="lg:col-span-2 space-y-6">
-                 {/* Maintenance Shield */}
-                 <div className={`p-8 md:p-10 rounded-[3.5rem] border transition-all duration-1000 relative overflow-hidden group shadow-2xl ${maintenance ? "bg-red-500/10 border-red-500/20" : "bg-white/5 border-white/10"}`}>
-                    <div className="absolute top-0 right-0 w-96 h-96 opacity-10 blur-3xl pointer-events-none transition-all duration-1000 group-hover:scale-150">
-                       {maintenance ? <div className="w-full h-full bg-red-500"></div> : <div className="w-full h-full bg-white"></div>}
-                    </div>
-                    <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
-                       <div className="flex flex-col md:flex-row items-center gap-8 text-center md:text-left">
-                          <div className={`w-20 h-20 rounded-[2.5rem] flex items-center justify-center border shadow-xl transition-all duration-1000 ${maintenance ? "bg-red-500/20 border-red-500/30 text-red-400 rotate-12" : "bg-white/10 border-white/20 text-white"}`}>
-                             <Power className="w-10 h-10" />
-                          </div>
-                          <div>
-                             <h3 className="text-3xl font-black font-heading uppercase italic tracking-tighter text-white">Mode Maintenance</h3>
-                             <p className={`text-[10px] font-black uppercase tracking-[0.3em] mt-2 ${maintenance ? "text-red-500" : "text-slate-400"}`}>
-                                {maintenance ? "ACCÈS RESTREINT : Site public déconnecté" : "SYSTÈME ACTIF : Transmission opérationnelle"}
-                             </p>
-                          </div>
-                       </div>
-                       <button 
-                         onClick={() => setMaintenance(!maintenance)}
-                         className={`relative w-24 h-12 rounded-full transition-all duration-700 ${maintenance ? "bg-red-500 shadow-[0_0_30px_rgba(239,68,68,0.4)]" : "bg-slate-800"}`}
-                       >
-                          <div className={`absolute top-1.5 w-9 h-9 bg-white rounded-full transition-all duration-700 shadow-2xl flex items-center justify-center ${maintenance ? "left-13" : "left-1.5"}`}>
-                             {maintenance ? <Lock className="w-4 h-4 text-red-500" /> : <RefreshCw className="w-4 h-4 text-slate-400" />}
-                          </div>
-                       </button>
-                    </div>
-                 </div>
+          <div className="max-w-4xl space-y-4">
+            
+            <div className={`p-6 rounded-3xl border transition-colors flex flex-col sm:flex-row items-center justify-between gap-6 ${maintenance ? "bg-red-500/10 border-red-500/20" : "bg-surface border-white/5"}`}>
+              <div className="flex items-center gap-4">
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${maintenance ? "bg-red-500/20 text-red-400" : "bg-white/5 text-white border border-white/10"}`}>
+                  <Power className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-black uppercase text-white">Mode Maintenance</h3>
+                  <p className={`text-[10px] font-bold uppercase tracking-widest mt-1 ${maintenance ? "text-red-400" : "text-slate-500"}`}>
+                    {maintenance ? "Site inaccessible aux visiteurs" : "Site en ligne et accessible"}
+                  </p>
+                </div>
+              </div>
+              <button 
+                onClick={() => setMaintenance(!maintenance)}
+                className={`relative w-16 h-8 rounded-full transition-colors ${maintenance ? "bg-red-500" : "bg-white/10"}`}
+              >
+                <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-all flex items-center justify-center ${maintenance ? "left-9" : "left-1"}`}>
+                  {maintenance ? <Lock className="w-3 h-3 text-red-500" /> : <RefreshCw className="w-3 h-3 text-slate-400" />}
+                </div>
+              </button>
+            </div>
 
-                 {/* System Fields */}
-                 <div className="p-8 md:p-12 bg-surface/40 backdrop-blur-3xl border border-white/5 rounded-[3.5rem] shadow-2xl relative overflow-hidden group">
-                    <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-white/20 to-transparent opacity-0 group-focus-within:opacity-100 transition-opacity"></div>
-                    <h3 className="text-xl font-black font-heading uppercase italic mb-10 flex items-center gap-4 text-white">
-                       <Database className="w-6 h-6 text-white" /> Variables de Déploiement
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                       <div className="space-y-3">
-                          <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-2">Nom du Site</label>
-                          <input 
-                            type="text" 
-                            className="w-full bg-black/40 border border-white/5 rounded-2xl py-5 px-8 focus:border-white/20 outline-none transition-all font-black text-sm text-white placeholder:text-slate-800"
-                            value={config.site_name}
-                            onChange={e => setConfig({...config, site_name: e.target.value})}
-                            placeholder="BENZ AUTO DZ"
-                          />
-                       </div>
-                       <div className="space-y-3">
-                          <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-2">Email de Contact</label>
-                          <input 
-                            type="email" 
-                            className="w-full bg-black/40 border border-white/5 rounded-2xl py-5 px-8 focus:border-white/20 outline-none transition-all font-black text-sm text-white placeholder:text-slate-800"
-                            value={config.contact_email}
-                            onChange={e => setConfig({...config, contact_email: e.target.value})}
-                            placeholder="admin@benzauto.dz"
-                          />
-                       </div>
-                       <div className="space-y-3">
-                          <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-2">Téléphone</label>
-                          <input 
-                            type="text" 
-                            className="w-full bg-black/40 border border-white/5 rounded-2xl py-5 px-8 focus:border-white/20 outline-none transition-all font-black text-sm text-white placeholder:text-slate-800"
-                            value={config.contact_phone}
-                            onChange={e => setConfig({...config, contact_phone: e.target.value})}
-                            placeholder="+213 5XX XX XX XX"
-                          />
-                       </div>
-                       <div className="space-y-3">
-                          <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-2">Adresse Siège</label>
-                          <input 
-                            type="text" 
-                            className="w-full bg-black/40 border border-white/5 rounded-2xl py-5 px-8 focus:border-white/20 outline-none transition-all font-black text-sm text-white placeholder:text-slate-800"
-                            value={config.address}
-                            onChange={e => setConfig({...config, address: e.target.value})}
-                            placeholder="Alger, Algérie"
-                          />
-                       </div>
-                    </div>
-                    <div className="mt-10 pt-10 border-t border-white/5">
-                       <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 mb-6 flex items-center gap-2">
-                          <Smartphone className="w-4 h-4" /> Réseaux Sociaux
-                       </h4>
-                       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                          <input 
-                            type="text" 
-                            className="w-full bg-black/40 border border-white/5 rounded-2xl py-5 px-8 focus:border-white/20 outline-none transition-all font-black text-xs text-white placeholder:text-slate-800"
-                            value={config.facebook_url}
-                            onChange={e => setConfig({...config, facebook_url: e.target.value})}
-                            placeholder="Facebook URL"
-                          />
-                          <input 
-                            type="text" 
-                            className="w-full bg-black/40 border border-white/5 rounded-2xl py-5 px-8 focus:border-white/20 outline-none transition-all font-black text-xs text-white placeholder:text-slate-800"
-                            value={config.instagram_url}
-                            onChange={e => setConfig({...config, instagram_url: e.target.value})}
-                            placeholder="Instagram URL"
-                          />
-                       </div>
-                    </div>
-                 </div>
+            <div className="p-8 bg-surface border border-white/5 rounded-3xl">
+              <h3 className="text-sm font-black uppercase text-white mb-6 flex items-center gap-2">
+                <Database className="w-4 h-4" /> Informations Générales
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Nom du Site</label>
+                  <input 
+                    type="text" 
+                    className="w-full bg-background border border-white/5 rounded-xl py-3 px-4 focus:border-white/20 outline-none transition-colors font-bold text-sm text-white"
+                    value={config.site_name}
+                    onChange={e => setConfig({...config, site_name: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Adresse</label>
+                  <input 
+                    type="text" 
+                    className="w-full bg-background border border-white/5 rounded-xl py-3 px-4 focus:border-white/20 outline-none transition-colors font-bold text-sm text-white"
+                    value={config.address}
+                    onChange={e => setConfig({...config, address: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Email de Contact</label>
+                  <input 
+                    type="email" 
+                    className="w-full bg-background border border-white/5 rounded-xl py-3 px-4 focus:border-white/20 outline-none transition-colors font-bold text-sm text-white"
+                    value={config.contact_email}
+                    onChange={e => setConfig({...config, contact_email: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Téléphone</label>
+                  <input 
+                    type="text" 
+                    className="w-full bg-background border border-white/5 rounded-xl py-3 px-4 focus:border-white/20 outline-none transition-colors font-bold text-sm text-white"
+                    value={config.contact_phone}
+                    onChange={e => setConfig({...config, contact_phone: e.target.value})}
+                  />
+                </div>
               </div>
 
-              {/* Sidebar Diagnostics */}
-              <div className="space-y-6">
-                 <div className="p-10 rounded-[3rem] bg-linear-to-br from-white/5 to-transparent border border-white/5 shadow-2xl relative overflow-hidden">
-                    <h3 className="font-heading font-black text-xl mb-10 text-white italic uppercase tracking-tighter flex items-center gap-4">
-                       <Cpu className="w-6 h-6 text-white" /> Diagnostics
-                    </h3>
-                    <div className="space-y-6">
-                       <div className="p-6 rounded-3xl bg-white/2 border border-white/5 group">
-                          <div className="flex justify-between items-center mb-4">
-                             <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Allocation Mémoire</span>
-                             <span className="text-[10px] font-black text-white">84% Load</span>
-                          </div>
-                          <div className="h-1.5 bg-black/40 rounded-full overflow-hidden">
-                             <div className="h-full bg-white w-[84%] animate-pulse shadow-[0_0_10px_rgba(255,255,255,0.5)]"></div>
-                          </div>
-                       </div>
-                       <div className="p-6 rounded-3xl bg-white/2 border border-white/5 group">
-                          <div className="flex justify-between items-center mb-4">
-                             <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Cache Stockage</span>
-                             <span className="text-[10px] font-black text-white">Optimal</span>
-                          </div>
-                          <div className="h-1.5 bg-black/40 rounded-full overflow-hidden">
-                             <div className="h-full bg-white/20 w-[45%]"></div>
-                          </div>
-                       </div>
-                    </div>
-                    <div className="mt-12 flex items-center gap-4 p-5 rounded-2xl bg-surface/80 border border-white/5">
-                       <div className="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)] animate-pulse"></div>
-                       <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Dernière Synchro il y a 2 min</p>
-                    </div>
-                 </div>
-
-                 <div className="p-10 rounded-[3rem] bg-surface/40 backdrop-blur-3xl border border-white/5 shadow-2xl group">
-                    <h3 className="font-heading font-black text-xl mb-6 text-white italic uppercase tracking-tighter flex items-center gap-4">
-                       <ShieldCheck className="w-6 h-6 text-white" /> Intégrité
-                    </h3>
-                    <p className="text-xs text-slate-500 font-medium leading-relaxed mb-8">
-                       Les protocoles de sécurité sont mis à jour automatiquement. Des sauvegardes chiffrées sont générées toutes les 6 heures.
-                    </p>
-                    <button className="w-full py-5 rounded-2xl bg-white/3 border border-white/5 text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-white transition-all">
-                       Télécharger Log d'Audit
-                    </button>
-                 </div>
+              <h3 className="text-sm font-black uppercase text-white mt-10 mb-6 flex items-center gap-2 pt-6 border-t border-white/5">
+                <Smartphone className="w-4 h-4" /> Réseaux Sociaux
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Lien Facebook</label>
+                  <input 
+                    type="text" 
+                    className="w-full bg-background border border-white/5 rounded-xl py-3 px-4 focus:border-white/20 outline-none transition-colors font-bold text-sm text-white"
+                    value={config.facebook_url}
+                    onChange={e => setConfig({...config, facebook_url: e.target.value})}
+                    placeholder="https://facebook.com/..."
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Lien Instagram</label>
+                  <input 
+                    type="text" 
+                    className="w-full bg-background border border-white/5 rounded-xl py-3 px-4 focus:border-white/20 outline-none transition-colors font-bold text-sm text-white"
+                    value={config.instagram_url}
+                    onChange={e => setConfig({...config, instagram_url: e.target.value})}
+                    placeholder="https://instagram.com/..."
+                  />
+                </div>
               </div>
-           </div>
+            </div>
+
+          </div>
         </div>
       </main>
 
       <style jsx global>{`
-        @keyframes bounce-x {
-          0%, 100% { transform: translateX(0); }
-          50% { transform: translateX(5px); }
-        }
-        .animate-bounce-x { animation: bounce-x 1s infinite; }
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.05); border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
