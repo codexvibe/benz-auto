@@ -26,7 +26,7 @@ export function Hero() {
           </span>
         </div>
 
-        <h1 className="text-6xl md:text-8xl lg:text-9xl font-heading font-black text-white mb-6 leading-[0.9] tracking-tighter animate-slide-up" style={{ animationDelay: "0.2s" }}>
+        <h1 className="text-5xl md:text-8xl lg:text-9xl font-heading font-black text-white mb-6 leading-[0.9] tracking-tighter animate-slide-up" style={{ animationDelay: "0.2s" }}>
           LUXE <br />
           <span className="text-transparent bg-clip-text bg-linear-to-b from-white via-slate-200 to-slate-500">
             ABSOLU

@@ -12,41 +12,41 @@ import Link from "next/link";
 import { createClient } from "../../../../utils/supabase/client";
 
 const navItems = [
-  { href: "/admin/dashboard", icon: LayoutDashboard, label: "Overview" },
-  { href: "/admin/dashboard/stock", icon: Package, label: "Inventory" },
-  { href: "/admin/dashboard/clients", icon: Users, label: "CRM" },
-  { href: "/admin/dashboard/videos", icon: Video, label: "Media", active: true },
-  { href: "/admin/dashboard/inquiries", icon: MessageSquare, label: "Leads" },
-  { href: "/admin/dashboard/promos", icon: Tag, label: "Offers" },
-  { href: "/admin/dashboard/settings", icon: Settings, label: "System" },
+  { href: "/admin/dashboard", icon: LayoutDashboard, label: "Vue d'ensemble" },
+  { href: "/admin/dashboard/stock", icon: Package, label: "Inventaire" },
+  { href: "/admin/dashboard/clients", icon: Users, label: "Clients" },
+  { href: "/admin/dashboard/videos", icon: Video, label: "Médias (Reels)", active: true },
+  { href: "/admin/dashboard/inquiries", icon: MessageSquare, label: "Demandes" },
+  { href: "/admin/dashboard/promos", icon: Tag, label: "Promotions" },
+  { href: "/admin/dashboard/settings", icon: Settings, label: "Paramètres" },
 ];
 
 function Sidebar({ onLogout }: { onLogout: () => void }) {
   return (
-    <aside className="w-full xl:w-80 bg-[#0F172A]/40 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] p-8 flex flex-col shrink-0 relative overflow-hidden shadow-2xl">
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#38BDF8] to-transparent"></div>
+    <aside className="w-full xl:w-80 bg-surface/40 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] p-8 flex flex-col shrink-0 relative overflow-hidden shadow-2xl">
+      <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-white/20 to-transparent"></div>
       <div className="flex items-center gap-4 mb-16">
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#38BDF8] to-[#818CF8] flex items-center justify-center shadow-[0_0_30px_rgba(56,189,248,0.3)] rotate-3">
-          <Globe className="w-8 h-8 text-white animate-pulse" />
+        <div className="w-14 h-14 rounded-2xl bg-surface border border-white/10 flex items-center justify-center shadow-2xl rotate-3">
+          <Car className="w-8 h-8 text-white" />
         </div>
         <div>
-          <span className="font-heading font-black text-2xl tracking-tighter text-white block">OSIRIS</span>
-          <span className="text-[10px] text-[#38BDF8] font-black uppercase tracking-[0.3em] mt-1 block">Benz Auto Core</span>
+          <span className="font-heading font-black text-2xl tracking-tight text-white block uppercase">BENZ AUTO</span>
+          <span className="text-[10px] text-slate-500 font-bold uppercase tracking-[0.3em] mt-1 block">Espace Admin</span>
         </div>
       </div>
-      <nav className="space-y-3 flex-grow">
+      <nav className="space-y-3 grow">
         {navItems.map((item) => (
           <Link key={item.href} href={item.href}
-            className={`flex items-center gap-4 px-6 py-4 rounded-2xl font-bold transition-all duration-500 group relative overflow-hidden ${item.active ? "bg-white/5 text-white shadow-[0_10px_20px_rgba(0,0,0,0.2)]" : "text-slate-500 hover:text-slate-200 hover:bg-white/[0.02]"}`}>
-            {item.active && <div className="absolute left-0 top-0 w-1 h-full bg-[#38BDF8]"></div>}
-            <item.icon className={`w-5 h-5 transition-all duration-500 ${item.active ? "text-[#38BDF8] scale-110" : "group-hover:text-slate-200"}`} />
-            <span className="text-sm tracking-tight">{item.label}</span>
-            {item.active && <ArrowRight className="w-4 h-4 ml-auto text-[#38BDF8] animate-bounce-x" />}
+            className={`flex items-center gap-4 px-6 py-4 rounded-2xl font-bold transition-all duration-500 group relative overflow-hidden ${item.active ? "bg-white/5 text-white shadow-lg" : "text-slate-500 hover:text-slate-200 hover:bg-white/2"}`}>
+            {item.active && <div className="absolute left-0 top-0 w-1 h-full bg-white"></div>}
+            <item.icon className={`w-5 h-5 transition-all duration-500 ${item.active ? "text-white scale-110" : "group-hover:text-slate-200"}`} />
+            <span className="text-sm uppercase tracking-widest">{item.label}</span>
+            {item.active && <ArrowRight className="w-4 h-4 ml-auto text-white animate-bounce-x" />}
           </Link>
         ))}
       </nav>
-      <button onClick={onLogout} className="w-full flex items-center justify-between px-8 py-5 rounded-3xl text-slate-400 hover:text-white hover:bg-red-500/10 border border-white/[0.03] hover:border-red-500/20 transition-all duration-500 group mt-auto">
-        <span className="text-sm font-black uppercase tracking-widest">Disconnect</span>
+      <button onClick={onLogout} className="w-full flex items-center justify-between px-8 py-5 rounded-3xl text-slate-400 hover:text-white hover:bg-white/5 border border-white/3 hover:border-white/10 transition-all duration-500 group mt-auto">
+        <span className="text-sm font-black uppercase tracking-widest">Déconnexion</span>
         <LogOut className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
       </button>
     </aside>
@@ -73,7 +73,7 @@ export default function AdminVideosPage() {
   };
 
   const handleDelete = async (id: number) => {
-    if (!confirm("🚨 MEDIA DESTRUCTION: Erase this asset from global registry?")) return;
+    if (!confirm("🚨 ATTENTION : Supprimer définitivement ce média ?")) return;
     const { error } = await supabase.from("videos").delete().eq("id", id);
     if (!error) setVideos(videos.filter(v => v.id !== id));
   };
@@ -84,48 +84,47 @@ export default function AdminVideosPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#05070A] text-slate-200 flex flex-col xl:flex-row p-4 md:p-6 gap-4 md:gap-6 font-sans selection:bg-[#38BDF8]/30">
+    <div className="min-h-screen bg-background text-slate-200 flex flex-col xl:flex-row p-4 md:p-6 gap-4 md:gap-6 font-sans">
       <Sidebar onLogout={handleLogout} />
 
-      <main className="flex-grow flex flex-col min-w-0">
+      <main className="grow flex flex-col min-w-0">
         {/* Header Bar */}
-        <header className="min-h-28 py-6 md:py-0 bg-[#0F172A]/40 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] mb-6 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 px-6 md:px-10 shadow-xl relative overflow-hidden shrink-0">
+        <header className="min-h-28 py-6 md:py-0 bg-surface/40 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] mb-6 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 px-6 md:px-10 shadow-xl relative overflow-hidden shrink-0">
           <div className="flex items-center gap-6 relative z-10">
-            <div className="w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-center">
-              <Clapperboard className="w-6 h-6 text-[#38BDF8]" />
+            <div className="w-12 h-12 rounded-2xl bg-surface border border-white/10 flex items-center justify-center">
+              <Clapperboard className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h2 className="text-3xl font-black tracking-tighter text-white font-heading uppercase italic">Visual Archive</h2>
-              <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.4em] mt-1">Vlogs, Reviews & Tech Tests</p>
+              <h2 className="text-3xl font-black tracking-tighter text-white font-heading uppercase">Médiathèque</h2>
+              <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.4em] mt-1">Reels & Vidéos de Présentation</p>
             </div>
           </div>
 
           <Link
             href="/admin/dashboard/videos/new"
-            className="group relative px-10 py-5 bg-[#38BDF8] text-white font-black text-xs uppercase tracking-[0.2em] rounded-[2rem] hover:bg-[#0EA5E9] transition-all duration-500 flex items-center gap-4 overflow-hidden shadow-[0_20px_40px_rgba(56,189,248,0.2)]"
+            className="group relative px-10 py-5 bg-white text-black font-black text-xs uppercase tracking-[0.2em] rounded-4xl hover:bg-slate-200 transition-all duration-500 flex items-center gap-4 overflow-hidden shadow-2xl"
           >
             <Plus className="w-5 h-5 relative z-10 transition-transform group-hover:rotate-90" />
-            <span className="relative z-10">Broadcast Asset</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+            <span className="relative z-10">Publier un Reel</span>
           </Link>
         </header>
 
-        <div className="flex-grow overflow-y-auto custom-scrollbar pr-2 pb-10">
+        <div className="grow overflow-y-auto custom-scrollbar pr-2 pb-10">
            {/* Analytic Sensors */}
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
               {[
-                { label: "Content Reach", value: "1.2M", icon: Activity, color: "text-[#38BDF8]" },
-                { label: "Archived Clips", value: videos.length, icon: Layers, color: "text-indigo-400" },
-                { label: "Active Nodes", value: "24/7", icon: Monitor, color: "text-emerald-400" },
-                { label: "Engagement", value: "84%", icon: Sparkles, color: "text-amber-400" },
+                { label: "Portée Contenu", value: "1.2M", icon: Activity, color: "text-white" },
+                { label: "Clips Archivés", value: videos.length, icon: Layers, color: "text-white" },
+                { label: "Statut Nœud", value: "24/7", icon: Monitor, color: "text-white" },
+                { label: "Engagement", value: "84%", icon: Sparkles, color: "text-white" },
               ].map((stat, i) => (
-                <div key={i} className="p-8 rounded-[2.5rem] bg-[#0F172A]/40 backdrop-blur-xl border border-white/[0.05] shadow-2xl group overflow-hidden relative">
-                   <div className="absolute top-0 right-0 w-24 h-24 bg-white/[0.02] rounded-full blur-2xl group-hover:bg-[#38BDF8]/5 transition-all"></div>
+                <div key={i} className="p-8 rounded-[2.5rem] bg-surface/40 backdrop-blur-xl border border-white/5 shadow-2xl group overflow-hidden relative">
+                   <div className="absolute top-0 right-0 w-24 h-24 bg-white/2 rounded-full blur-2xl group-hover:bg-white/5 transition-all"></div>
                    <div className="flex items-center gap-4 mb-4">
                       <stat.icon className={`w-5 h-5 ${stat.color}`} />
                       <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">{stat.label}</span>
                    </div>
-                   <h3 className="text-3xl font-black font-heading text-white italic tracking-tighter">{stat.value}</h3>
+                   <h3 className="text-3xl font-black font-heading text-white italic tracking-tighter uppercase">{stat.value}</h3>
                 </div>
               ))}
            </div>
@@ -133,49 +132,49 @@ export default function AdminVideosPage() {
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {loading ? (
                 Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="aspect-video rounded-[3rem] bg-white/[0.02] border border-white/[0.05] animate-pulse shadow-2xl"></div>
+                  <div key={i} className="aspect-video rounded-[3rem] bg-white/2 border border-white/5 animate-pulse shadow-2xl"></div>
                 ))
               ) : videos.length === 0 ? (
-                <div className="col-span-full py-32 text-center flex flex-col items-center bg-[#0F172A]/20 rounded-[4rem] border border-white/5 border-dashed">
-                   <div className="w-24 h-24 rounded-[2.5rem] bg-white/[0.02] border border-white/5 flex items-center justify-center mb-8 rotate-12 opacity-40">
+                <div className="col-span-full py-32 text-center flex flex-col items-center bg-surface/20 rounded-[4rem] border border-white/5 border-dashed">
+                   <div className="w-24 h-24 rounded-[2.5rem] bg-white/2 border border-white/5 flex items-center justify-center mb-8 rotate-12 opacity-40">
                       <Video className="w-10 h-10 text-slate-500" />
                    </div>
-                   <h3 className="text-2xl font-black font-heading uppercase italic text-slate-700 tracking-tight">No Media Registered</h3>
-                   <p className="text-xs text-slate-600 mt-4 font-black uppercase tracking-[0.3em]">Buffer is currently void</p>
+                   <h3 className="text-2xl font-black font-heading uppercase italic text-slate-700 tracking-tight">Aucun Média Enregistré</h3>
+                   <p className="text-xs text-slate-600 mt-4 font-black uppercase tracking-[0.3em]">La bibliothèque est vide</p>
                 </div>
               ) : (
                 videos.map((v) => (
-                  <div key={v.id} className="group p-6 rounded-[3.5rem] bg-[#0F172A]/40 backdrop-blur-3xl border border-white/[0.05] hover:border-[#38BDF8]/20 transition-all duration-700 relative overflow-hidden shadow-2xl flex flex-col">
+                  <div key={v.id} className="group p-6 rounded-[3.5rem] bg-surface/40 backdrop-blur-3xl border border-white/5 hover:border-white/20 transition-all duration-700 relative overflow-hidden shadow-2xl flex flex-col">
                     <div className="relative aspect-video rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl mb-8 group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all">
                        <img src={v.thumbnail} alt="" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100" />
                        <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-all flex items-center justify-center">
-                          <div className="w-16 h-16 rounded-[1.8rem] bg-[#0F172A]/80 backdrop-blur-xl border border-white/20 flex items-center justify-center group-hover:scale-110 transition-all group-hover:bg-[#38BDF8] group-hover:border-[#38BDF8] shadow-2xl">
-                             <Play className="w-8 h-8 text-white fill-white transition-transform group-hover:rotate-12" />
+                          <div className="w-16 h-16 rounded-[1.8rem] bg-surface/80 backdrop-blur-xl border border-white/20 flex items-center justify-center group-hover:scale-110 transition-all group-hover:bg-white group-hover:border-white shadow-2xl">
+                             <Play className="w-8 h-8 text-white fill-white group-hover:text-black group-hover:fill-black transition-transform group-hover:rotate-12" />
                           </div>
                        </div>
                        <div className="absolute top-6 right-6 px-4 py-2 rounded-2xl bg-black/60 backdrop-blur-md border border-white/10 flex items-center gap-3">
-                          {v.platform === "YouTube" ? <Video className="w-4 h-4 text-red-500 shadow-[0_0_10px_#ef4444]" /> : <Camera className="w-4 h-4 text-pink-500 shadow-[0_0_10px_#ec4899]" />}
+                          {v.platform === "YouTube" ? <Video className="w-4 h-4 text-white" /> : <Camera className="w-4 h-4 text-white" />}
                           <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white italic">{v.platform}</span>
                        </div>
                     </div>
                     
-                    <div className="px-4 pb-4 flex-grow flex flex-col">
-                       <h3 className="font-black text-2xl tracking-tighter mb-4 text-white group-hover:text-[#38BDF8] transition-colors line-clamp-1 italic uppercase">{v.title}</h3>
+                    <div className="px-4 pb-4 grow flex flex-col">
+                       <h3 className="font-black text-2xl tracking-tighter mb-4 text-white group-hover:text-white transition-colors line-clamp-1 italic uppercase">{v.title}</h3>
                        <div className="mt-auto flex items-center justify-between">
                           <div className="flex items-center gap-6 text-slate-500">
                              <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest">
-                                <Activity className="w-4 h-4 text-[#38BDF8]/60" /> {v.views || 0}
+                                <Activity className="w-4 h-4 text-white/60" /> {v.views || 0}
                              </div>
                              <div className="w-1 h-1 rounded-full bg-slate-800"></div>
                              <p className="text-[10px] font-black uppercase tracking-widest italic">{new Date(v.created_at).toLocaleDateString()}</p>
                           </div>
                           <div className="flex gap-3 translate-y-2 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                             <button className="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.05] hover:border-[#38BDF8]/50 hover:text-[#38BDF8] transition-all shadow-2xl">
+                             <button className="p-4 rounded-2xl bg-surface border border-white/5 hover:border-white/20 hover:text-white transition-all shadow-2xl">
                                 <Share2 className="w-5 h-5" />
                              </button>
                              <button 
-                               onClick={() => handleDelete(v.id)}
-                               className="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.05] hover:border-red-500/50 hover:text-red-400 transition-all shadow-2xl"
+                                onClick={() => handleDelete(v.id)}
+                                className="p-4 rounded-2xl bg-surface border border-white/5 hover:border-red-500/50 hover:text-red-400 transition-all shadow-2xl"
                              >
                                 <Trash2 className="w-5 h-5" />
                              </button>
@@ -198,7 +197,7 @@ export default function AdminVideosPage() {
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.05); border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(56,189,248,0.2); }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
       `}</style>
     </div>
   );

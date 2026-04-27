@@ -118,7 +118,7 @@ export default function CarDetailPage() {
               <div className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-md border border-white/20 text-white text-[10px] font-bold rounded-lg mb-6 uppercase tracking-[0.2em]">
                 {car.category}
               </div>
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-heading font-black text-white mb-6 tracking-tighter leading-none">
+              <h1 className="text-4xl md:text-7xl lg:text-8xl font-heading font-black text-white mb-6 tracking-tighter leading-none">
                 {car.name}
               </h1>
               <div className="flex flex-wrap items-center gap-8 text-slate-300 text-sm uppercase tracking-widest font-bold">

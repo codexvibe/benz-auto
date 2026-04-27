@@ -24,7 +24,8 @@ import {
   ShieldCheck,
   MousePointer2,
   Trash2,
-  Search
+  Search,
+  MoreHorizontal
 } from "lucide-react";
 import { createClient } from "../../utils/supabase/client";
 
@@ -91,23 +92,23 @@ function CustomSelect({ options, value, onChange, placeholder, icon: Icon }: any
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full bg-black/40 border border-white/5 rounded-2xl py-5 px-8 flex items-center justify-between text-sm font-black text-white shadow-inner hover:border-[#38BDF8]/30 transition-all group"
+        className="w-full bg-black/40 border border-white/5 rounded-2xl py-5 px-8 flex items-center justify-between text-sm font-black text-white shadow-inner hover:border-white/20 transition-all group"
       >
-        <div className="flex items-center gap-4">
-           {Icon && <Icon className="w-4 h-4 text-slate-700 group-hover:text-[#38BDF8] transition-colors" />}
-           <span className={value ? "text-white" : "text-slate-700 italic"}>{selectedLabel || placeholder}</span>
+        <div className="flex items-center gap-4 min-w-0">
+           {Icon && <Icon className="w-4 h-4 text-slate-700 group-hover:text-white transition-colors shrink-0" />}
+           <span className={`truncate ${value ? "text-white" : "text-slate-700 italic"}`}>{selectedLabel || placeholder}</span>
         </div>
-        <ChevronDown className={`w-5 h-5 text-slate-700 transition-transform duration-500 ${isOpen ? "rotate-180 text-[#38BDF8]" : ""}`} />
+        <ChevronDown className={`w-5 h-5 text-slate-700 transition-transform duration-500 shrink-0 ${isOpen ? "rotate-180 text-white" : ""}`} />
       </button>
 
       {isOpen && (
-        <div className="absolute z-[100] top-full mt-4 w-full bg-[#0F172A]/90 backdrop-blur-3xl border border-white/10 rounded-[2.5rem] shadow-[0_30px_60px_rgba(0,0,0,0.6)] overflow-hidden animate-in fade-in zoom-in duration-300">
+        <div className="absolute z-[100] top-full mt-4 w-full bg-surface/95 backdrop-blur-3xl border border-white/10 rounded-4xl shadow-[0_30px_60px_rgba(0,0,0,0.6)] overflow-hidden animate-in fade-in zoom-in duration-300">
           <div className="p-6 border-b border-white/5 relative">
             <Search className="absolute left-10 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600" />
             <input
               type="text"
-              placeholder="Filter..."
-              className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-6 text-xs font-bold text-white outline-none focus:border-[#38BDF8]/40 transition-all"
+              placeholder="Filtrer..."
+              className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-6 text-xs font-bold text-white outline-none focus:border-white/20 transition-all"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               autoFocus
@@ -115,7 +116,7 @@ function CustomSelect({ options, value, onChange, placeholder, icon: Icon }: any
           </div>
           <div className="max-h-80 overflow-y-auto custom-scrollbar p-3">
             {filtered.length === 0 ? (
-              <div className="py-12 text-center text-[10px] font-black uppercase text-slate-700 tracking-widest">No matching nodes</div>
+              <div className="py-12 text-center text-[10px] font-black uppercase text-slate-700 tracking-widest">Aucun résultat</div>
             ) : (
               filtered.map((opt: any) => {
                 const optValue = typeof opt === 'string' ? opt : opt.value;
@@ -131,7 +132,7 @@ function CustomSelect({ options, value, onChange, placeholder, icon: Icon }: any
                     }}
                     className={`w-full text-left px-8 py-5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all mb-1 ${
                       value === optValue 
-                        ? "bg-[#38BDF8] text-white shadow-lg rotate-1 scale-[1.02]" 
+                        ? "bg-white text-black shadow-lg scale-[1.02]" 
                         : "text-slate-500 hover:bg-white/5 hover:text-white"
                     }`}
                   >
@@ -313,149 +314,149 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
   const years = Array.from({ length: 2026 - 1950 + 1 }, (_, i) => (2026 - i).toString());
   const fuels = ["Essence", "Diesel", "Hybride", "Électrique", "GPL"];
   const transmissions = [
-    { value: "Automatique", label: "Digital / Automatic" },
-    { value: "Manuelle", label: "Manual Overlay" },
-    { value: "4x4 / Intégrale", label: "All-Wheel Logic" },
-    { value: "4x2 / Traction", label: "Front-Wheel Vector" },
-    { value: "Propulsion", label: "Rear-Wheel Power" }
+    { value: "Automatique", label: "Automatique / Digital" },
+    { value: "Manuelle", label: "Manuelle" },
+    { value: "4x4 / Intégrale", label: "4x4 / Intégrale" },
+    { value: "4x2 / Traction", label: "Traction Avant" },
+    { value: "Propulsion", label: "Propulsion Arrière" }
   ];
   const statuses = [
-    { value: "Disponible", label: "Operational / Available" },
-    { value: "Vendu", label: "Deployed / Sold" },
-    { value: "Réservé", label: "Reserved Node" },
-    { value: "Arrivage", label: "Inbound Flow" }
+    { value: "Disponible", label: "Disponible / En Stock" },
+    { value: "Vendu", label: "Déjà Vendu" },
+    { value: "Réservé", label: "Réservé" },
+    { value: "Arrivage", label: "Arrivage Prochain" }
   ];
 
   return (
-    <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-10 pb-20 animate-fade-in font-sans">
+    <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-10 pb-20 font-sans">
       <div className="lg:col-span-2 space-y-10">
         {/* Core Identity Panel */}
-        <div className="p-12 rounded-[3.5rem] bg-[#0F172A]/40 backdrop-blur-3xl border border-white/5 relative overflow-hidden group shadow-2xl">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-[#38BDF8]/5 rounded-full blur-[80px] pointer-events-none group-hover:scale-125 transition-transform duration-1000"></div>
+        <div className="p-8 md:p-12 rounded-[3.5rem] bg-surface/40 backdrop-blur-3xl border border-white/5 relative overflow-hidden group shadow-2xl">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-[80px] pointer-events-none group-hover:scale-125 transition-transform duration-1000"></div>
           
-          <div className="flex items-center justify-between mb-12 relative z-10">
-             <div className="flex items-center gap-6">
-                <div className="w-16 h-16 rounded-[1.8rem] bg-[#38BDF8]/10 flex items-center justify-center border border-[#38BDF8]/20 shadow-xl group-hover:rotate-12 transition-all">
-                   <Globe className="w-8 h-8 text-[#38BDF8]" />
+          <div className="flex flex-col md:flex-row items-center justify-between mb-12 relative z-10 gap-6">
+             <div className="flex items-center gap-6 text-center md:text-left">
+                <div className="w-16 h-16 rounded-3xl bg-white/10 flex items-center justify-center border border-white/10 shadow-xl group-hover:rotate-12 transition-all">
+                   <Globe className="w-8 h-8 text-white" />
                 </div>
                 <div>
-                   <h2 className="text-3xl font-black font-heading uppercase italic tracking-tighter text-white">Identity Registry</h2>
-                   <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.3em] mt-1">Core Asset Configuration</p>
+                   <h2 className="text-3xl font-black font-heading uppercase italic tracking-tighter text-white">Registre Identité</h2>
+                   <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.3em] mt-1">Configuration Centrale de l'Actif</p>
                 </div>
              </div>
-             <label className="flex items-center gap-4 px-6 py-3 rounded-2xl bg-white/[0.03] border border-white/10 cursor-pointer hover:bg-white/[0.06] transition-all group/star shadow-lg">
+             <label className="flex items-center gap-4 px-6 py-3 rounded-2xl bg-white/3 border border-white/10 cursor-pointer hover:bg-white/6 transition-all group/star shadow-lg">
                <input
                  type="checkbox"
                  className="hidden"
                  checked={formData.is_featured}
                  onChange={(e) => updateField("is_featured", e.target.checked)}
                />
-               <Star className={`w-5 h-5 transition-all ${formData.is_featured ? "text-amber-400 fill-amber-400 drop-shadow-[0_0_10px_rgba(251,191,36,0.4)] scale-110" : "text-slate-600 group-hover/star:text-slate-400"}`} />
-               <span className={`text-[10px] font-black uppercase tracking-widest ${formData.is_featured ? "text-white" : "text-slate-500"}`}>Priority Asset</span>
+               <Star className={`w-5 h-5 transition-all ${formData.is_featured ? "text-white fill-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)] scale-110" : "text-slate-600 group-hover/star:text-slate-400"}`} />
+               <span className={`text-[10px] font-black uppercase tracking-widest ${formData.is_featured ? "text-white" : "text-slate-500"}`}>Priorité Vitrine</span>
              </label>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
             <div className="space-y-4">
-              <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Authorized Manufacturer</label>
+              <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Constructeur Autorisé</label>
               <CustomSelect 
                 options={allBrands} 
                 value={formData.brand} 
                 onChange={(val: string) => updateField("brand", val)} 
-                placeholder="Select Origin..."
+                placeholder="Sélectionner Marque..."
                 icon={Globe}
               />
             </div>
 
             <div className="space-y-4">
-              <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Model Designation</label>
+              <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Désignation Modèle</label>
               <CustomSelect 
                 options={filteredModels} 
                 value={formData.name} 
                 onChange={(val: string) => updateField("name", val)} 
-                placeholder="Select Designation..."
+                placeholder="Sélectionner Modèle..."
                 icon={Car}
               />
             </div>
 
             <div className="space-y-4">
-              <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Classification Layer</label>
+              <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Classification</label>
               <CustomSelect 
                 options={CATEGORIES} 
                 value={formData.category} 
                 onChange={(val: string) => updateField("category", val)} 
-                placeholder="Select Class..."
+                placeholder="Sélectionner Type..."
                 icon={Layers}
               />
             </div>
 
             <div className="space-y-4">
-              <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Commercial Availability</label>
+              <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Disponibilité Commerciale</label>
               <CustomSelect 
                 options={statuses} 
                 value={formData.status} 
                 onChange={(val: string) => updateField("status", val)} 
-                placeholder="Status..."
+                placeholder="Statut..."
                 icon={Activity}
               />
             </div>
           </div>
 
           <div className="mt-12 space-y-4 relative z-10">
-            <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Strategic Narrative</label>
+            <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Narratif Stratégique</label>
             <textarea
               rows={6}
-              className="w-full bg-black/40 border border-white/5 rounded-[2.5rem] py-8 px-10 focus:border-[#38BDF8]/50 outline-none transition-all text-sm font-bold text-white resize-none placeholder:text-slate-800 shadow-inner leading-relaxed"
+              className="w-full bg-black/40 border border-white/5 rounded-4xl py-8 px-10 focus:border-white/20 outline-none transition-all text-sm font-bold text-white resize-none placeholder:text-slate-800 shadow-inner leading-relaxed"
               value={formData.description}
               onChange={(e) => updateField("description", e.target.value)}
-              placeholder="Define high-level specifications and asset history..."
+              placeholder="Définir les spécifications et l'historique..."
             />
           </div>
         </div>
 
         {/* Technical Specification Hub */}
-        <div className="p-12 rounded-[3.5rem] bg-[#0F172A]/40 backdrop-blur-3xl border border-white/5 relative overflow-hidden group shadow-2xl">
+        <div className="p-8 md:p-12 rounded-[3.5rem] bg-surface/40 backdrop-blur-3xl border border-white/5 relative overflow-hidden group shadow-2xl">
           <div className="flex items-center gap-6 mb-12 relative z-10">
-             <div className="w-16 h-16 rounded-[1.8rem] bg-[#38BDF8]/10 flex items-center justify-center border border-[#38BDF8]/20 shadow-xl group-hover:scale-110 transition-all">
-                <Cpu className="w-8 h-8 text-[#38BDF8]" />
+             <div className="w-16 h-16 rounded-3xl bg-white/10 flex items-center justify-center border border-white/10 shadow-xl group-hover:scale-110 transition-all">
+                <Cpu className="w-8 h-8 text-white" />
              </div>
-             <h2 className="text-3xl font-black font-heading uppercase italic tracking-tighter text-white">Kernel Modules</h2>
+             <h2 className="text-3xl font-black font-heading uppercase italic tracking-tighter text-white">Modules Techniques</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10">
             <div className="space-y-3">
-              <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Cycle Year</label>
+              <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Année Cycle</label>
               <CustomSelect 
                 options={years} 
                 value={formData.year} 
                 onChange={(val: string) => updateField("year", val)} 
-                placeholder="Year..."
+                placeholder="Année..."
               />
             </div>
             <div className="space-y-3">
-              <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Propulsion Logic</label>
+              <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Logique Propulsion</label>
               <CustomSelect 
                 options={fuels} 
                 value={formData.fuel} 
                 onChange={(val: string) => updateField("fuel", val)} 
-                placeholder="Fuel..."
+                placeholder="Carburant..."
               />
             </div>
             <div className="space-y-3">
-              <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Energy Flux / HP</label>
+              <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Puissance / HP</label>
               <div className="relative group/field">
-                 <Flame className="absolute right-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-700 transition-colors group-focus-within/field:text-amber-500" />
+                 <Flame className="absolute right-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-700 transition-colors group-focus-within/field:text-white" />
                  <input
                    type="text"
-                   className="w-full bg-black/40 border border-white/5 rounded-2xl py-4 px-8 focus:border-[#38BDF8]/50 outline-none transition-all text-sm font-black text-white shadow-inner"
+                   className="w-full bg-black/40 border border-white/5 rounded-2xl py-4 px-8 focus:border-white/20 outline-none transition-all text-sm font-black text-white shadow-inner placeholder:text-slate-800"
                    value={formData.power}
                    onChange={(e) => updateField("power", e.target.value)}
-                   placeholder="e.g. 720 HP"
+                   placeholder="ex: 720 HP"
                  />
               </div>
             </div>
             <div className="space-y-3">
-              <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Transmission Interface</label>
+              <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Interface Transmission</label>
               <CustomSelect 
                 options={transmissions} 
                 value={formData.transmission} 
@@ -464,24 +465,24 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
               />
             </div>
             <div className="space-y-3">
-              <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Credit Valuation</label>
+              <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Évaluation DA</label>
               <input
                 type="text"
                 required
-                className="w-full bg-black/40 border border-white/5 rounded-2xl py-4 px-8 focus:border-[#38BDF8]/50 outline-none transition-all text-lg font-black text-[#38BDF8] shadow-inner italic"
+                className="w-full bg-black/40 border border-white/5 rounded-2xl py-4 px-8 focus:border-white/20 outline-none transition-all text-lg font-black text-white shadow-inner italic placeholder:text-slate-800"
                 value={formData.price}
                 onChange={(e) => updateField("price", e.target.value)}
-                placeholder="Valuation in DA"
+                placeholder="Prix en DA"
               />
             </div>
             <div className="space-y-3">
-              <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Distance Log / ODO</label>
+              <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-4">Log Distance / ODO</label>
               <input
                 type="text"
-                className="w-full bg-black/40 border border-white/5 rounded-2xl py-4 px-8 focus:border-[#38BDF8]/50 outline-none transition-all text-sm font-black text-white shadow-inner"
+                className="w-full bg-black/40 border border-white/5 rounded-2xl py-4 px-8 focus:border-white/20 outline-none transition-all text-sm font-black text-white shadow-inner placeholder:text-slate-800"
                 value={formData.mileage}
                 onChange={(e) => updateField("mileage", e.target.value)}
-                placeholder="e.g. 5,000 KM"
+                placeholder="ex: 5,000 KM"
               />
             </div>
           </div>
@@ -491,31 +492,31 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
       {/* Right Command Column */}
       <div className="space-y-8">
         {/* Visibility Node */}
-        <div className="p-10 rounded-[3rem] bg-[#0F172A]/40 backdrop-blur-3xl border border-white/5 shadow-2xl relative group">
+        <div className="p-10 rounded-[3rem] bg-surface/40 backdrop-blur-3xl border border-white/5 shadow-2xl relative group">
           <div className="flex items-center justify-between">
              <div className="space-y-1">
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white italic">Global Signal</p>
-                <p className="text-[9px] text-slate-600 font-black uppercase tracking-widest">Public Visibility Toggle</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white italic">Signal Global</p>
+                <p className="text-[9px] text-slate-600 font-black uppercase tracking-widest">Visibilité Publique</p>
              </div>
              <button
                 type="button"
-                className={`relative w-16 h-8 rounded-full transition-all duration-700 ${formData.is_visible ? "bg-[#38BDF8] shadow-[0_0_20px_rgba(56,189,248,0.4)]" : "bg-slate-900 border border-white/5"}`}
+                className={`relative w-16 h-8 rounded-full transition-all duration-700 ${formData.is_visible ? "bg-white shadow-[0_0_20px_rgba(255,255,255,0.4)]" : "bg-slate-900 border border-white/5"}`}
                 onClick={() => updateField("is_visible", !formData.is_visible)}
               >
                 <div className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-all duration-700 shadow-xl flex items-center justify-center ${formData.is_visible ? "left-9" : "left-1"}`}>
-                   <div className={`w-1 h-1 rounded-full ${formData.is_visible ? "bg-[#38BDF8]" : "bg-slate-300"}`}></div>
+                   <div className={`w-1 h-1 rounded-full ${formData.is_visible ? "bg-black" : "bg-slate-300"}`}></div>
                 </div>
               </button>
           </div>
         </div>
 
         {/* Hero Asset Node */}
-        <div className="p-10 rounded-[3.5rem] bg-[#0F172A]/40 backdrop-blur-3xl border border-white/5 shadow-2xl space-y-8 relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-[#38BDF8]/5 rounded-full blur-2xl"></div>
+        <div className="p-10 rounded-[3.5rem] bg-surface/40 backdrop-blur-3xl border border-white/5 shadow-2xl space-y-8 relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
           <h3 className="text-xs font-black uppercase tracking-[0.4em] flex items-center gap-4 text-white">
-             <ImageIcon className="w-5 h-5 text-[#38BDF8]" /> Primary Visual
+             <ImageIcon className="w-5 h-5 text-white" /> Visuel Principal
           </h3>
-          <div className="relative aspect-video rounded-[2.5rem] bg-black border border-white/10 flex flex-col items-center justify-center overflow-hidden group/upload cursor-pointer transition-all hover:border-[#38BDF8]/40">
+          <div className="relative aspect-video rounded-4xl bg-black border border-white/10 flex flex-col items-center justify-center overflow-hidden group/upload cursor-pointer transition-all hover:border-white/20">
             {formData.image_url ? (
               <>
                 <img src={formData.image_url} alt="" className="absolute inset-0 w-full h-full object-cover grayscale transition-all duration-1000 group-hover/upload:grayscale-0 group-hover/upload:scale-110" />
@@ -523,7 +524,7 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
                    <button
                      type="button"
                      onClick={() => updateField("image_url", "")}
-                     className="w-16 h-16 bg-[#38BDF8] text-white rounded-[1.8rem] flex items-center justify-center shadow-2xl hover:scale-110 transition-transform active:scale-95"
+                     className="w-16 h-16 bg-white text-black rounded-3xl flex items-center justify-center shadow-2xl hover:scale-110 transition-transform active:scale-95"
                    >
                      <X className="w-8 h-8" />
                    </button>
@@ -533,15 +534,15 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
               <>
                 {uploading ? (
                   <div className="text-center animate-pulse">
-                     <Loader2 className="w-12 h-12 text-[#38BDF8] animate-spin mx-auto mb-4" />
-                     <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#38BDF8]">Syncing Assets...</p>
+                     <Loader2 className="w-12 h-12 text-white animate-spin mx-auto mb-4" />
+                     <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white">Sync en cours...</p>
                   </div>
                 ) : (
                   <div className="text-center group/empty">
-                    <div className="w-20 h-20 rounded-[2.2rem] bg-white/[0.03] border border-white/10 flex items-center justify-center mx-auto mb-6 group-hover/upload:bg-[#38BDF8]/10 group-hover/upload:border-[#38BDF8]/20 transition-all">
-                       <Upload className="w-10 h-10 text-slate-700 transition-transform group-hover/upload:-translate-y-2 group-hover/upload:text-[#38BDF8]" />
+                    <div className="w-20 h-20 rounded-4xl bg-white/3 border border-white/10 flex items-center justify-center mx-auto mb-6 group-hover/upload:bg-white/10 group-hover/upload:border-white/20 transition-all">
+                       <Upload className="w-10 h-10 text-slate-700 transition-transform group-hover/upload:-translate-y-2 group-hover/upload:text-white" />
                     </div>
-                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Inject 4K Master Asset</p>
+                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Injecter Asset 4K</p>
                   </div>
                 )}
                 <input
@@ -556,10 +557,10 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
         </div>
 
         {/* Gallery Matrix */}
-        <div className="p-10 rounded-[3.5rem] bg-[#0F172A]/40 backdrop-blur-3xl border border-white/5 shadow-2xl space-y-8 relative overflow-hidden group">
+        <div className="p-10 rounded-[3.5rem] bg-surface/40 backdrop-blur-3xl border border-white/5 shadow-2xl space-y-8 relative overflow-hidden group">
           <div className="flex items-center justify-between">
             <h3 className="text-xs font-black uppercase tracking-[0.4em] flex items-center gap-4 text-white">
-              <Layers className="w-5 h-5 text-[#38BDF8]" /> Multi-Layer Visuals
+              <Layers className="w-5 h-5 text-white" /> Galerie Multi-Angles
             </h3>
             <span className="text-[9px] font-black text-slate-600 bg-black/40 px-4 py-2 rounded-full border border-white/5 tracking-tighter">{formData.images.length} / 10</span>
           </div>
@@ -571,20 +572,20 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
                  <button
                    type="button"
                    onClick={() => removeGalleryImage(i)}
-                   className="absolute inset-0 bg-[#38BDF8]/80 opacity-0 group-hover/img:opacity-100 flex items-center justify-center transition-all duration-500 backdrop-blur-sm"
+                   className="absolute inset-0 bg-white/80 opacity-0 group-hover/img:opacity-100 flex items-center justify-center transition-all duration-500 backdrop-blur-sm"
                  >
-                   <Trash2 className="w-6 h-6 text-white" />
+                   <Trash2 className="w-6 h-6 text-black" />
                  </button>
                </div>
              ))}
              {formData.images.length < 10 && (
-               <div className="relative aspect-square rounded-2xl border-2 border-dashed border-white/5 flex items-center justify-center hover:border-[#38BDF8]/40 transition-all group/plus cursor-pointer bg-black/20 overflow-hidden">
+               <div className="relative aspect-square rounded-2xl border-2 border-dashed border-white/5 flex items-center justify-center hover:border-white/20 transition-all group/plus cursor-pointer bg-black/20 overflow-hidden">
                  {uploadingGallery ? (
-                   <Loader2 className="w-8 h-8 text-[#38BDF8] animate-spin" />
+                   <Loader2 className="w-8 h-8 text-white animate-spin" />
                  ) : (
                    <div className="text-center">
-                      <Plus className="w-8 h-8 text-slate-800 mx-auto mb-2 group-hover/plus:text-[#38BDF8] group-hover/plus:rotate-90 transition-all duration-500" />
-                      <p className="text-[8px] font-black text-slate-700 uppercase tracking-widest">Add Node</p>
+                      <Plus className="w-8 h-8 text-slate-800 mx-auto mb-2 group-hover/plus:text-white group-hover/plus:rotate-90 transition-all duration-500" />
+                      <p className="text-[8px] font-black text-slate-700 uppercase tracking-widest">Ajouter</p>
                    </div>
                  )}
                  <input
@@ -605,15 +606,15 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
            <button
              type="submit"
              disabled={loading || uploading || uploadingGallery}
-             className="w-full group relative px-12 py-8 bg-white text-black font-black text-[11px] uppercase tracking-[0.4em] rounded-[3rem] hover:bg-[#38BDF8] hover:text-white transition-all duration-700 flex items-center justify-center gap-6 overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.6)] disabled:opacity-50"
+             className="w-full group relative px-12 py-8 bg-white text-black font-black text-[11px] uppercase tracking-[0.4em] rounded-[3rem] hover:bg-slate-200 transition-all duration-700 flex items-center justify-center gap-6 overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.6)] disabled:opacity-50"
            >
              {loading ? <Loader2 className="w-8 h-8 animate-spin relative z-10" /> : <ShieldCheck className="w-8 h-8 relative z-10 transition-transform group-hover:scale-110" />}
-             <span className="relative z-10">{loading ? "COMMITTING DATA..." : "AUTHORIZE PROTOCOL"}</span>
-             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+             <span className="relative z-10">{loading ? "COMMISSION EN COURS..." : "AUTORISER LE PROTOCOLE"}</span>
+             <div className="absolute inset-0 bg-linear-to-r from-transparent via-black/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
            </button>
            <div className="flex items-center justify-center gap-3 mt-8 opacity-20">
               <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
-              <p className="text-[8px] text-white font-black uppercase tracking-[0.5em]">OSIRIS ENGINE v8.4.2</p>
+              <p className="text-[8px] text-white font-black uppercase tracking-[0.5em]">BENZ AUTO ENGINE v1.0.0</p>
               <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
            </div>
         </div>
