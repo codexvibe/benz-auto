@@ -3,72 +3,92 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
-  Settings, Save, Phone, Mail, MapPin, CheckCircle2, Lock,
-  LayoutDashboard, Video, MessageSquare, Eye, LogOut, Users, Tag,
-  AlertTriangle, Power, Car
+  LayoutDashboard, Package, Users, Video, MessageSquare, Tag,
+  Settings, Eye, LogOut, Save, Shield, Globe, Bell, Smartphone,
+  Activity, ArrowRight, ShieldCheck, ChevronRight, Zap, RefreshCw,
+  Power, Lock, Database, HardDrive, Cpu
 } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "../../../../utils/supabase/client";
 
-const InstagramIcon = ({ className }: { className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
-  </svg>
-);
+const navItems = [
+  { href: "/admin/dashboard", icon: LayoutDashboard, label: "Overview" },
+  { href: "/admin/dashboard/stock", icon: Package, label: "Inventory" },
+  { href: "/admin/dashboard/clients", icon: Users, label: "CRM" },
+  { href: "/admin/dashboard/videos", icon: Video, label: "Media" },
+  { href: "/admin/dashboard/inquiries", icon: MessageSquare, label: "Leads" },
+  { href: "/admin/dashboard/promos", icon: Tag, label: "Offers" },
+  { href: "/admin/dashboard/settings", icon: Settings, label: "System", active: true },
+];
 
-const YoutubeIcon = ({ className }: { className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M2.5 7.1C2.6 5.8 3.6 4.8 4.9 4.7 7.3 4.5 12 4.5 12 4.5s4.7 0 7.1.2c1.3.1 2.3 1.1 2.4 2.4.2 1.6.2 4.9.2 4.9s0 3.3-.2 4.9c-.1 1.3-1.1 2.3-2.4 2.4-2.4.2-7.1.2-7.1.2s-4.7 0-7.1-.2c-1.3-.1-2.3-1.1-2.4-2.4-.2-1.6-.2-4.9-.2-4.9s0-3.3.2-4.9z"/>
-    <polygon points="10 15 15 12 10 9 10 15"/>
-  </svg>
-);
+function Sidebar({ onLogout }: { onLogout: () => void }) {
+  return (
+    <aside className="w-80 bg-[#0F172A]/40 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] p-8 flex flex-col shrink-0 relative overflow-hidden shadow-2xl">
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#38BDF8] to-transparent"></div>
+      <div className="flex items-center gap-4 mb-16">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#38BDF8] to-[#818CF8] flex items-center justify-center shadow-[0_0_30px_rgba(56,189,248,0.3)] rotate-3">
+          <Globe className="w-8 h-8 text-white animate-pulse" />
+        </div>
+        <div>
+          <span className="font-heading font-black text-2xl tracking-tight text-white block">OSIRIS</span>
+          <span className="text-[10px] text-[#38BDF8] font-bold uppercase tracking-[0.3em] mt-1 block">Benz Auto Core</span>
+        </div>
+      </div>
+      <nav className="space-y-3 flex-grow">
+        {navItems.map((item) => (
+          <Link key={item.href} href={item.href}
+            className={`flex items-center gap-4 px-6 py-4 rounded-2xl font-bold transition-all duration-300 group relative overflow-hidden ${item.active ? "bg-white/5 text-white shadow-[0_10px_20px_rgba(0,0,0,0.2)]" : "text-slate-500 hover:text-slate-200 hover:bg-white/[0.02]"}`}>
+            {item.active && <div className="absolute left-0 top-0 w-1 h-full bg-[#38BDF8]"></div>}
+            <item.icon className={`w-5 h-5 transition-all duration-500 ${item.active ? "text-[#38BDF8] scale-110" : "group-hover:text-slate-200"}`} />
+            <span className="text-sm tracking-tight">{item.label}</span>
+            {item.active && <ArrowRight className="w-4 h-4 ml-auto text-[#38BDF8] animate-bounce-x" />}
+          </Link>
+        ))}
+      </nav>
+      <button onClick={onLogout} className="w-full flex items-center justify-between px-8 py-5 rounded-3xl text-slate-400 hover:text-white hover:bg-red-500/10 border border-white/[0.03] hover:border-red-500/20 transition-all duration-500 group mt-auto">
+        <span className="text-sm font-black uppercase tracking-widest">Disconnect</span>
+        <LogOut className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+      </button>
+    </aside>
+  );
+}
 
-export default function AdminSettingsPage() {
-  const [formData, setFormData] = useState({
-    site_name: "Benz Auto DZ",
-    phone: "+213 00 00 00 00",
-    email: "contact@benzautodz.com",
-    address: "Alger, Algérie",
-    instagram: "benzauto_dz",
-    youtube: "BenzAutoDZ",
-    passcode: "ZONE2026",
-  });
-  const [maintenanceMode, setMaintenanceMode] = useState(false);
-  const [maintenanceLoading, setMaintenanceLoading] = useState(false);
+export default function SettingsPage() {
   const [loading, setLoading] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const [maintenance, setMaintenance] = useState(false);
+  const [config, setConfig] = useState({
+    site_name: "Benz Auto DZ",
+    contact_email: "",
+    contact_phone: "",
+    address: "",
+    facebook_url: "",
+    instagram_url: "",
+  });
   const router = useRouter();
   const supabase = createClient();
 
   useEffect(() => {
     const session = localStorage.getItem("admin_session");
-    if (!session) router.push("/admin");
+    if (!session) { router.push("/admin"); return; }
     fetchSettings();
   }, []);
 
   const fetchSettings = async () => {
-    const { data } = await supabase.from("site_settings").select("*").eq("id", 1).single();
-    if (data) setMaintenanceMode(data.maintenance_mode);
+    setLoading(true);
+    const { data } = await supabase.from("site_settings").select("*").single();
+    if (data) {
+      setConfig(data);
+      setMaintenance(data.maintenance_mode);
+    }
+    setLoading(false);
   };
 
-  const toggleMaintenance = async () => {
-    setMaintenanceLoading(true);
-    const newVal = !maintenanceMode;
-    await supabase.from("site_settings").update({ maintenance_mode: newVal, updated_at: new Date().toISOString() }).eq("id", 1);
-    setMaintenanceMode(newVal);
-    setMaintenanceLoading(false);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setSaved(true);
-      setTimeout(() => setSaved(false), 3000);
-    }, 800);
+    await supabase.from("site_settings").update({ ...config, maintenance_mode: maintenance }).eq("id", 1);
+    setLoading(false);
+    alert("SYSTEM CONFIGURATION UPDATED: Global variables synchronized.");
   };
 
   const handleLogout = () => {
@@ -76,162 +96,197 @@ export default function AdminSettingsPage() {
     router.push("/admin");
   };
 
-  const navItems = [
-    { href: "/admin/dashboard", icon: LayoutDashboard, label: "Tableau de Bord" },
-    { href: "/admin/dashboard/clients", icon: Users, label: "CRM Clients" },
-    { href: "/admin/dashboard/videos", icon: Video, label: "Vlogs & Tests" },
-    { href: "/admin/dashboard/inquiries", icon: MessageSquare, label: "Demandes (Leads)" },
-    { href: "/admin/dashboard/promos", icon: Tag, label: "Codes Promos" },
-    { href: "/admin/dashboard/settings", icon: Settings, label: "Paramètres", active: true },
-    { href: "/", icon: Eye, label: "Voir le site" },
-  ];
-
   return (
-    <div className="min-h-screen bg-[#050505] text-white flex">
-      <aside className="w-64 border-r border-white/5 bg-black p-6 flex flex-col hidden md:flex shrink-0">
-        <div className="flex items-center gap-3 mb-10 px-2">
-          <div className="w-10 h-10 rounded-xl bg-[#ff0000] flex items-center justify-center">
-            <Car className="w-6 h-6 text-white" />
-          </div>
-          <span className="font-heading font-bold text-lg tracking-tight">ADMIN <span className="text-[#ff0000]">BA</span></span>
-        </div>
-        <nav className="space-y-1 flex-grow">
-          {navItems.map((item) => (
-            <Link key={item.href} href={item.href}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all ${item.active ? "bg-[#ff0000]/10 text-[#ff0000]" : "text-gray-400 hover:bg-white/5 hover:text-white"}`}>
-              <item.icon className="w-5 h-5" />{item.label}
-            </Link>
-          ))}
-        </nav>
-        <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-500/10 transition-all mt-auto">
-          <LogOut className="w-5 h-5" />Déconnexion
-        </button>
-      </aside>
+    <div className="min-h-screen bg-[#05070A] text-slate-200 flex p-6 gap-6 font-sans selection:bg-[#38BDF8]/30">
+      <Sidebar onLogout={handleLogout} />
 
-      <main className="flex-grow p-4 md:p-8 overflow-y-auto max-w-4xl">
-        <header className="mb-8">
-          <h1 className="text-3xl font-bold mb-1">Paramètres du Site</h1>
-          <p className="text-gray-500">Configurez vos informations et gérez la plateforme.</p>
+      <main className="flex-grow flex flex-col min-w-0">
+        {/* Header Bar */}
+        <header className="h-28 bg-[#0F172A]/40 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] mb-6 flex items-center justify-between px-10 shadow-xl relative overflow-hidden shrink-0">
+          <div className="flex items-center gap-6 relative z-10">
+            <div className="w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-center">
+              <Settings className="w-6 h-6 text-[#38BDF8]" />
+            </div>
+            <div>
+              <h2 className="text-3xl font-black tracking-tighter text-white font-heading uppercase italic">Kernel Protocol</h2>
+              <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.4em] mt-1">Core System Configuration</p>
+            </div>
+          </div>
+          <button 
+            onClick={handleSave} 
+            disabled={loading}
+            className="group relative px-12 py-5 bg-[#38BDF8] text-white font-black text-xs uppercase tracking-[0.2em] rounded-[2rem] hover:bg-[#0EA5E9] transition-all duration-500 flex items-center gap-4 overflow-hidden shadow-[0_20px_40px_rgba(56,189,248,0.2)] disabled:opacity-50"
+          >
+            <Save className="w-5 h-5 relative z-10" />
+            <span className="relative z-10">{loading ? "SYNCING..." : "COMMIT CHANGES"}</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+          </button>
         </header>
 
-        {/* ⚡ MAINTENANCE MODE — Critical Section */}
-        <div className={`rounded-2xl border p-6 mb-8 transition-all duration-500 ${maintenanceMode ? "border-red-500/50 bg-red-500/5" : "border-white/5 glass-dark"}`}>
-          <div className="flex items-center justify-between">
-            <div className="flex items-start gap-4">
-              <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${maintenanceMode ? "bg-red-500/20 text-red-500" : "bg-gray-500/10 text-gray-400"}`}>
-                <Power className="w-6 h-6" />
+        <div className="flex-grow overflow-y-auto custom-scrollbar pr-2 pb-10">
+           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Primary Config */}
+              <div className="lg:col-span-2 space-y-6">
+                 {/* Maintenance Shield */}
+                 <div className={`p-10 rounded-[3.5rem] border transition-all duration-1000 relative overflow-hidden group shadow-2xl ${maintenance ? "bg-red-500/10 border-red-500/20" : "bg-emerald-500/10 border-emerald-500/20"}`}>
+                    <div className="absolute top-0 right-0 w-96 h-96 opacity-10 blur-3xl pointer-events-none transition-all duration-1000 group-hover:scale-150">
+                       {maintenance ? <div className="w-full h-full bg-red-500"></div> : <div className="w-full h-full bg-emerald-500"></div>}
+                    </div>
+                    <div className="relative z-10 flex items-center justify-between">
+                       <div className="flex items-center gap-8">
+                          <div className={`w-20 h-20 rounded-[2.5rem] flex items-center justify-center border shadow-xl transition-all duration-1000 ${maintenance ? "bg-red-500/20 border-red-500/30 text-red-400 rotate-12" : "bg-emerald-500/20 border-emerald-500/30 text-emerald-400"}`}>
+                             <Power className="w-10 h-10" />
+                          </div>
+                          <div>
+                             <h3 className="text-3xl font-black font-heading uppercase italic tracking-tighter text-white">Maintenance Protocol</h3>
+                             <p className={`text-[10px] font-black uppercase tracking-[0.3em] mt-2 ${maintenance ? "text-red-500" : "text-emerald-500"}`}>
+                                {maintenance ? "GATEWAY RESTRICTED: Public access severed" : "GATEWAY ACTIVE: Public transmission operational"}
+                             </p>
+                          </div>
+                       </div>
+                       <button 
+                         onClick={() => setMaintenance(!maintenance)}
+                         className={`relative w-24 h-12 rounded-full transition-all duration-700 ${maintenance ? "bg-red-500 shadow-[0_0_30px_rgba(239,68,68,0.4)]" : "bg-slate-800"}`}
+                       >
+                          <div className={`absolute top-1.5 w-9 h-9 bg-white rounded-full transition-all duration-700 shadow-2xl flex items-center justify-center ${maintenance ? "left-13" : "left-1.5"}`}>
+                             {maintenance ? <Lock className="w-4 h-4 text-red-500" /> : <RefreshCw className="w-4 h-4 text-slate-400 animate-spin-slow" />}
+                          </div>
+                       </button>
+                    </div>
+                 </div>
+
+                 {/* System Fields */}
+                 <div className="p-12 bg-[#0F172A]/40 backdrop-blur-3xl border border-white/5 rounded-[3.5rem] shadow-2xl relative overflow-hidden group">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#38BDF8] to-transparent opacity-0 group-focus-within:opacity-100 transition-opacity"></div>
+                    <h3 className="text-xl font-black font-heading uppercase italic mb-10 flex items-center gap-4 text-white">
+                       <Database className="w-6 h-6 text-[#38BDF8]" /> Deployment Variables
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                       <div className="space-y-3">
+                          <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-2">Identity Hub</label>
+                          <input 
+                            type="text" 
+                            className="w-full bg-black/40 border border-white/5 rounded-2xl py-5 px-8 focus:border-[#38BDF8]/50 outline-none transition-all font-black text-sm text-white"
+                            value={config.site_name}
+                            onChange={e => setConfig({...config, site_name: e.target.value})}
+                            placeholder="BENZ AUTO DZ"
+                          />
+                       </div>
+                       <div className="space-y-3">
+                          <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-2">Secure Email Endpoint</label>
+                          <input 
+                            type="email" 
+                            className="w-full bg-black/40 border border-white/5 rounded-2xl py-5 px-8 focus:border-[#38BDF8]/50 outline-none transition-all font-black text-sm text-white"
+                            value={config.contact_email}
+                            onChange={e => setConfig({...config, contact_email: e.target.value})}
+                            placeholder="admin@benzauto.dz"
+                          />
+                       </div>
+                       <div className="space-y-3">
+                          <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-2">Hotline Signal</label>
+                          <input 
+                            type="text" 
+                            className="w-full bg-black/40 border border-white/5 rounded-2xl py-5 px-8 focus:border-[#38BDF8]/50 outline-none transition-all font-black text-sm text-white"
+                            value={config.contact_phone}
+                            onChange={e => setConfig({...config, contact_phone: e.target.value})}
+                            placeholder="+213 5XX XX XX XX"
+                          />
+                       </div>
+                       <div className="space-y-3">
+                          <label className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 ml-2">HQ Geo-Location</label>
+                          <input 
+                            type="text" 
+                            className="w-full bg-black/40 border border-white/5 rounded-2xl py-5 px-8 focus:border-[#38BDF8]/50 outline-none transition-all font-black text-sm text-white"
+                            value={config.address}
+                            onChange={e => setConfig({...config, address: e.target.value})}
+                            placeholder="Alger, Algérie"
+                          />
+                       </div>
+                    </div>
+                    <div className="mt-10 pt-10 border-t border-white/[0.05]">
+                       <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 mb-6 flex items-center gap-2">
+                          <Smartphone className="w-4 h-4" /> Social Nodes
+                       </h4>
+                       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                          <input 
+                            type="text" 
+                            className="w-full bg-black/40 border border-white/5 rounded-2xl py-5 px-8 focus:border-[#38BDF8]/50 outline-none transition-all font-black text-xs text-white"
+                            value={config.facebook_url}
+                            onChange={e => setConfig({...config, facebook_url: e.target.value})}
+                            placeholder="Facebook URL"
+                          />
+                          <input 
+                            type="text" 
+                            className="w-full bg-black/40 border border-white/5 rounded-2xl py-5 px-8 focus:border-[#38BDF8]/50 outline-none transition-all font-black text-xs text-white"
+                            value={config.instagram_url}
+                            onChange={e => setConfig({...config, instagram_url: e.target.value})}
+                            placeholder="Instagram URL"
+                          />
+                       </div>
+                    </div>
+                 </div>
               </div>
-              <div>
-                <h2 className="text-xl font-bold">Mode Maintenance</h2>
-                <p className="text-gray-400 text-sm mt-1">
-                  {maintenanceMode
-                    ? "⚠️ Le site public est actuellement HORS LIGNE. Seul le dashboard admin reste accessible."
-                    : "Le site public est en ligne et visible par les visiteurs."}
-                </p>
-                {maintenanceMode && (
-                  <div className="mt-2 flex items-center gap-2 text-red-400 text-xs font-bold animate-pulse">
-                    <AlertTriangle className="w-3 h-3" /> MAINTENANCE ACTIVE
-                  </div>
-                )}
+
+              {/* Sidebar Diagnostics */}
+              <div className="space-y-6">
+                 <div className="p-10 rounded-[3rem] bg-gradient-to-br from-[#38BDF8]/10 to-transparent border border-white/5 shadow-2xl relative overflow-hidden">
+                    <h3 className="font-heading font-black text-xl mb-10 text-white italic uppercase tracking-tighter flex items-center gap-4">
+                       <Cpu className="w-6 h-6 text-[#38BDF8]" /> Diagnostics
+                    </h3>
+                    <div className="space-y-6">
+                       <div className="p-6 rounded-3xl bg-white/[0.02] border border-white/[0.05] group">
+                          <div className="flex justify-between items-center mb-4">
+                             <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Memory Allocation</span>
+                             <span className="text-[10px] font-black text-[#38BDF8]">84% Load</span>
+                          </div>
+                          <div className="h-1.5 bg-black/40 rounded-full overflow-hidden">
+                             <div className="h-full bg-gradient-to-r from-[#38BDF8] to-indigo-500 w-[84%] animate-pulse shadow-[0_0_10px_#38BDF8]"></div>
+                          </div>
+                       </div>
+                       <div className="p-6 rounded-3xl bg-white/[0.02] border border-white/[0.05] group">
+                          <div className="flex justify-between items-center mb-4">
+                             <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Storage Cache</span>
+                             <span className="text-[10px] font-black text-emerald-400">Optimal</span>
+                          </div>
+                          <div className="h-1.5 bg-black/40 rounded-full overflow-hidden">
+                             <div className="h-full bg-emerald-400 w-[45%] shadow-[0_0_10px_#34d399]"></div>
+                          </div>
+                       </div>
+                    </div>
+                    <div className="mt-12 flex items-center gap-4 p-5 rounded-2xl bg-[#0F172A]/80 border border-white/[0.05]">
+                       <div className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_10px_#34d399] animate-pulse"></div>
+                       <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Global Sync Completed 2m ago</p>
+                    </div>
+                 </div>
+
+                 <div className="p-10 rounded-[3rem] bg-[#0F172A]/40 backdrop-blur-3xl border border-white/5 shadow-2xl group">
+                    <h3 className="font-heading font-black text-xl mb-6 text-white italic uppercase tracking-tighter flex items-center gap-4">
+                       <ShieldCheck className="w-6 h-6 text-[#38BDF8]" /> Integrity
+                    </h3>
+                    <p className="text-xs text-slate-500 font-medium leading-relaxed mb-8">
+                       Core security protocols are updated automatically. Encrypted backups are generated every 6 hours to redundant storage nodes.
+                    </p>
+                    <button className="w-full py-5 rounded-2xl bg-white/[0.03] border border-white/5 text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-white transition-all">
+                       Download Audit Log
+                    </button>
+                 </div>
               </div>
-            </div>
-            <button
-              onClick={toggleMaintenance}
-              disabled={maintenanceLoading}
-              className={`relative w-16 h-8 rounded-full transition-all duration-300 focus:outline-none shrink-0 ${maintenanceMode ? "bg-red-500" : "bg-gray-700"}`}
-            >
-              <span className={`absolute top-1 w-6 h-6 bg-white rounded-full shadow-md transition-all duration-300 ${maintenanceMode ? "left-9" : "left-1"}`} />
-            </button>
-          </div>
+           </div>
         </div>
-
-        <form onSubmit={handleSubmit} className="space-y-6 pb-20">
-          {/* Coordonnées */}
-          <div className="glass-dark p-8 rounded-3xl border border-white/10 space-y-6">
-            <h2 className="text-xl font-bold flex items-center gap-2">
-              <span className="w-1.5 h-6 bg-[#ff0000] rounded-full" />Coordonnées
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Téléphone</label>
-                <div className="relative">
-                  <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600" />
-                  <input type="text" className="w-full bg-black/40 border border-white/10 rounded-xl py-4 pl-12 pr-6 focus:border-[#ff0000] outline-none"
-                    value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} />
-                </div>
-              </div>
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Email</label>
-                <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600" />
-                  <input type="email" className="w-full bg-black/40 border border-white/10 rounded-xl py-4 pl-12 pr-6 focus:border-[#ff0000] outline-none"
-                    value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} />
-                </div>
-              </div>
-              <div className="md:col-span-2">
-                <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Adresse Showroom</label>
-                <div className="relative">
-                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600" />
-                  <input type="text" className="w-full bg-black/40 border border-white/10 rounded-xl py-4 pl-12 pr-6 focus:border-[#ff0000] outline-none"
-                    value={formData.address} onChange={e => setFormData({ ...formData, address: e.target.value })} />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Réseaux Sociaux */}
-          <div className="glass-dark p-8 rounded-3xl border border-white/10 space-y-6">
-            <h2 className="text-xl font-bold flex items-center gap-2">
-              <span className="w-1.5 h-6 bg-[#ff0000] rounded-full" />Réseaux Sociaux
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Instagram</label>
-                <div className="relative">
-                  <InstagramIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600" />
-                  <input type="text" className="w-full bg-black/40 border border-white/10 rounded-xl py-4 pl-12 pr-6 focus:border-[#ff0000] outline-none"
-                    value={formData.instagram} onChange={e => setFormData({ ...formData, instagram: e.target.value })} />
-                </div>
-              </div>
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">YouTube</label>
-                <div className="relative">
-                  <YoutubeIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-600" />
-                  <input type="text" className="w-full bg-black/40 border border-white/10 rounded-xl py-4 pl-12 pr-6 focus:border-[#ff0000] outline-none"
-                    value={formData.youtube} onChange={e => setFormData({ ...formData, youtube: e.target.value })} />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Sécurité */}
-          <div className="glass-dark p-8 rounded-3xl border border-white/10 space-y-6">
-            <h2 className="text-xl font-bold flex items-center gap-2 text-red-500">
-              <Lock className="w-5 h-5" />Accès Admin
-            </h2>
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Passcode Actuel</label>
-              <input type="text" className="w-full bg-black/40 border border-white/10 rounded-xl py-4 px-6 focus:border-[#ff0000] outline-none font-mono text-lg tracking-widest"
-                value={formData.passcode} onChange={e => setFormData({ ...formData, passcode: e.target.value })} />
-              <p className="text-[10px] text-gray-600 mt-2">Attention: Changer ce code affectera votre prochain accès.</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <button type="submit" disabled={loading}
-              className="px-10 py-4 bg-[#ff0000] text-white font-bold rounded-2xl hover:bg-[#cc0000] transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(255,0,0,0.3)] disabled:opacity-50">
-              {loading ? "..." : <Save className="w-5 h-5" />}
-              {loading ? "Enregistrement..." : "Enregistrer les Paramètres"}
-            </button>
-            {saved && (
-              <div className="flex items-center gap-2 text-green-500">
-                <CheckCircle2 className="w-5 h-5" />
-                <span className="text-sm font-bold">Modifications enregistrées !</span>
-              </div>
-            )}
-          </div>
-        </form>
       </main>
+
+      <style jsx global>{`
+        @keyframes bounce-x {
+          0%, 100% { transform: translateX(0); }
+          50% { transform: translateX(5px); }
+        }
+        .animate-bounce-x { animation: bounce-x 1s infinite; }
+        .animate-spin-slow { animation: spin 3s linear infinite; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.05); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(56,189,248,0.2); }
+      `}</style>
     </div>
   );
 }

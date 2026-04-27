@@ -4,10 +4,54 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
   Car, LayoutDashboard, Video, MessageSquare, Settings, Eye, LogOut,
-  Users, Tag, Plus, Trash2, ToggleLeft, ToggleRight, CheckCircle2
+  Users, Tag, Plus, Trash2, ToggleLeft, ToggleRight, CheckCircle2,
+  Package, Zap, Percent, Calendar, Gift, Sparkles, ChevronRight,
+  Globe, ArrowRight, Activity, Layers, ArrowUpRight
 } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "../../../../utils/supabase/client";
+
+const navItems = [
+  { href: "/admin/dashboard", icon: LayoutDashboard, label: "Overview" },
+  { href: "/admin/dashboard/stock", icon: Package, label: "Inventory" },
+  { href: "/admin/dashboard/clients", icon: Users, label: "CRM" },
+  { href: "/admin/dashboard/videos", icon: Video, label: "Media" },
+  { href: "/admin/dashboard/inquiries", icon: MessageSquare, label: "Leads" },
+  { href: "/admin/dashboard/promos", icon: Tag, label: "Offers", active: true },
+  { href: "/admin/dashboard/settings", icon: Settings, label: "System" },
+];
+
+function Sidebar({ onLogout }: { onLogout: () => void }) {
+  return (
+    <aside className="w-80 bg-[#0F172A]/40 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] p-8 flex flex-col shrink-0 relative overflow-hidden shadow-2xl">
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#38BDF8] to-transparent"></div>
+      <div className="flex items-center gap-4 mb-16">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#38BDF8] to-[#818CF8] flex items-center justify-center shadow-[0_0_30px_rgba(56,189,248,0.3)] rotate-3">
+          <Globe className="w-8 h-8 text-white animate-pulse" />
+        </div>
+        <div>
+          <span className="font-heading font-black text-2xl tracking-tighter text-white block">OSIRIS</span>
+          <span className="text-[10px] text-[#38BDF8] font-black uppercase tracking-[0.3em] mt-1 block">Benz Auto Core</span>
+        </div>
+      </div>
+      <nav className="space-y-3 flex-grow">
+        {navItems.map((item) => (
+          <Link key={item.href} href={item.href}
+            className={`flex items-center gap-4 px-6 py-4 rounded-2xl font-bold transition-all duration-500 group relative overflow-hidden ${item.active ? "bg-white/5 text-white shadow-[0_10px_20px_rgba(0,0,0,0.2)]" : "text-slate-500 hover:text-slate-200 hover:bg-white/[0.02]"}`}>
+            {item.active && <div className="absolute left-0 top-0 w-1 h-full bg-[#38BDF8]"></div>}
+            <item.icon className={`w-5 h-5 transition-all duration-500 ${item.active ? "text-[#38BDF8] scale-110" : "group-hover:text-slate-200"}`} />
+            <span className="text-sm tracking-tight">{item.label}</span>
+            {item.active && <ArrowRight className="w-4 h-4 ml-auto text-[#38BDF8] animate-bounce-x" />}
+          </Link>
+        ))}
+      </nav>
+      <button onClick={onLogout} className="w-full flex items-center justify-between px-8 py-5 rounded-3xl text-slate-400 hover:text-white hover:bg-red-500/10 border border-white/[0.03] hover:border-red-500/20 transition-all duration-500 group mt-auto">
+        <span className="text-sm font-black uppercase tracking-widest">Disconnect</span>
+        <LogOut className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+      </button>
+    </aside>
+  );
+}
 
 export default function PromosPage() {
   const [promos, setPromos] = useState<any[]>([]);
@@ -62,7 +106,7 @@ export default function PromosPage() {
   };
 
   const deletePromo = async (id: number) => {
-    if (!confirm("Supprimer ce code promo ?")) return;
+    if (!confirm("🚨 CAMPAIGN TERMINATION: Proceed with absolute deletion?")) return;
     await supabase.from("promo_codes").delete().eq("id", id);
     fetchPromos();
   };
@@ -72,169 +116,221 @@ export default function PromosPage() {
     router.push("/admin");
   };
 
-  const navItems = [
-    { href: "/admin/dashboard", icon: LayoutDashboard, label: "Tableau de Bord" },
-    { href: "/admin/dashboard/clients", icon: Users, label: "CRM Clients" },
-    { href: "/admin/dashboard/videos", icon: Video, label: "Vlogs & Tests" },
-    { href: "/admin/dashboard/inquiries", icon: MessageSquare, label: "Demandes (Leads)" },
-    { href: "/admin/dashboard/promos", icon: Tag, label: "Codes Promos", active: true },
-    { href: "/admin/dashboard/settings", icon: Settings, label: "Paramètres" },
-    { href: "/", icon: Eye, label: "Voir le site" },
-  ];
-
   return (
-    <div className="min-h-screen bg-[#050505] text-white flex">
-      <aside className="w-64 border-r border-white/5 bg-black p-6 flex flex-col hidden md:flex shrink-0">
-        <div className="flex items-center gap-3 mb-10 px-2">
-          <div className="w-10 h-10 rounded-xl bg-[#ff0000] flex items-center justify-center">
-            <Car className="w-6 h-6 text-white" />
-          </div>
-          <span className="font-heading font-bold text-lg tracking-tight">ADMIN <span className="text-[#ff0000]">BA</span></span>
-        </div>
-        <nav className="space-y-1 flex-grow">
-          {navItems.map((item) => (
-            <Link key={item.href} href={item.href}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all ${item.active ? "bg-[#ff0000]/10 text-[#ff0000]" : "text-gray-400 hover:bg-white/5 hover:text-white"}`}>
-              <item.icon className="w-5 h-5" />{item.label}
-            </Link>
-          ))}
-        </nav>
-        <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-500/10 transition-all mt-auto">
-          <LogOut className="w-5 h-5" />Déconnexion
-        </button>
-      </aside>
+    <div className="min-h-screen bg-[#05070A] text-slate-200 flex p-6 gap-6 font-sans selection:bg-[#38BDF8]/30">
+      <Sidebar onLogout={handleLogout} />
 
-      <main className="flex-grow p-4 md:p-8 overflow-y-auto">
-        <header className="mb-8">
-          <h1 className="text-3xl font-bold mb-1">Codes Promos</h1>
-          <p className="text-gray-500">Créez et gérez vos codes de réduction.</p>
+      <main className="flex-grow flex flex-col min-w-0">
+        {/* Header Bar */}
+        <header className="h-28 bg-[#0F172A]/40 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] mb-6 flex items-center justify-between px-10 shadow-xl relative overflow-hidden">
+          <div className="flex items-center gap-6 relative z-10">
+            <div className="w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-center">
+              <Tag className="w-6 h-6 text-[#38BDF8]" />
+            </div>
+            <div>
+              <h2 className="text-3xl font-black tracking-tighter text-white font-heading uppercase italic">Marketing Vectors</h2>
+              <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.4em] mt-1">Campaign Matrix & Codes</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-4 relative z-10">
+             <div className="px-6 py-3 rounded-2xl bg-[#38BDF8]/10 border border-[#38BDF8]/20 text-[10px] font-black text-[#38BDF8] uppercase tracking-widest flex items-center gap-4 shadow-xl">
+                <Sparkles className="w-4 h-4" /> {promos.length} ACTIVE VECTORS
+             </div>
+          </div>
         </header>
 
-        {/* Create Form */}
-        <form onSubmit={handleCreate} className="glass-dark rounded-2xl border border-white/5 p-6 mb-8">
-          <h2 className="font-bold text-lg mb-5 flex items-center gap-2">
-            <Plus className="w-5 h-5 text-[#ff0000]" /> Créer un nouveau code
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Code Promo</label>
-              <input
-                type="text"
-                placeholder="EX: BENZ20"
-                value={form.code}
-                onChange={e => setForm({ ...form, code: e.target.value.toUpperCase() })}
-                className="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 focus:outline-none focus:border-[#ff0000] font-mono tracking-widest transition-all"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Réduction</label>
-              <input
-                type="text"
-                placeholder="Ex: 10"
-                value={form.discount_amount}
-                onChange={e => setForm({ ...form, discount_amount: e.target.value })}
-                className="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 focus:outline-none focus:border-[#ff0000] transition-all"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Type</label>
-              <select
-                value={form.discount_type}
-                onChange={e => setForm({ ...form, discount_type: e.target.value })}
-                className="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 focus:outline-none focus:border-[#ff0000] transition-all"
-              >
-                <option value="percentage">Pourcentage (%)</option>
-                <option value="fixed">Montant fixe (DA)</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Expire le</label>
-              <input
-                type="date"
-                value={form.expires_at}
-                onChange={e => setForm({ ...form, expires_at: e.target.value })}
-                className="w-full bg-black/40 border border-white/10 rounded-xl py-3 px-4 focus:outline-none focus:border-[#ff0000] transition-all"
-              />
-            </div>
-          </div>
-          <div className="mt-4 flex items-center gap-4">
-            <button
-              type="submit"
-              disabled={saving}
-              className="px-6 py-3 bg-[#ff0000] text-white font-bold rounded-xl hover:bg-[#cc0000] transition-all flex items-center gap-2 disabled:opacity-50"
-            >
-              <Plus className="w-4 h-4" />
-              {saving ? "Création..." : "Créer le Code"}
-            </button>
-            {saved && (
-              <div className="flex items-center gap-2 text-green-400 text-sm">
-                <CheckCircle2 className="w-4 h-4" /> Code créé avec succès !
-              </div>
-            )}
-          </div>
-        </form>
+        <div className="flex-grow overflow-y-auto custom-scrollbar pr-2">
+           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Campaign Creator Surface */}
+              <div className="lg:col-span-1">
+                 <form onSubmit={handleCreate} className="p-10 rounded-[3rem] bg-[#0F172A]/40 backdrop-blur-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#38BDF8] to-transparent opacity-0 group-focus-within:opacity-100 transition-opacity"></div>
+                    <div className="flex items-center gap-4 mb-10">
+                       <Zap className="w-6 h-6 text-[#38BDF8] animate-pulse" />
+                       <h3 className="text-2xl font-black font-heading uppercase italic text-white tracking-tight">Initiate Code</h3>
+                    </div>
 
-        {/* Promos List */}
-        <div className="glass-dark rounded-2xl border border-white/5 overflow-hidden">
-          <div className="px-6 py-4 border-b border-white/5">
-            <h2 className="font-bold">Codes Actifs ({promos.length})</h2>
-          </div>
-          {loading ? (
-            <div className="py-12 text-center text-gray-500">Chargement...</div>
-          ) : promos.length === 0 ? (
-            <div className="py-12 text-center text-gray-500">Aucun code promo créé</div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="text-left text-xs text-gray-500 uppercase tracking-widest bg-white/5">
-                    <th className="px-6 py-3 font-bold">Code</th>
-                    <th className="px-6 py-3 font-bold">Réduction</th>
-                    <th className="px-6 py-3 font-bold">Expiration</th>
-                    <th className="px-6 py-3 font-bold">Statut</th>
-                    <th className="px-6 py-3 font-bold text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/5">
-                  {promos.map((promo) => (
-                    <tr key={promo.id} className="hover:bg-white/5 transition-colors">
-                      <td className="px-6 py-4">
-                        <span className="font-mono font-bold text-[#ff0000] bg-[#ff0000]/10 px-3 py-1 rounded-lg">{promo.code}</span>
-                      </td>
-                      <td className="px-6 py-4 font-bold">
-                        {promo.discount_amount}{promo.discount_type === "percentage" ? "%" : " DA"}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-400">
-                        {promo.expires_at ? new Date(promo.expires_at).toLocaleDateString("fr-DZ") : "Sans expiration"}
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className={`text-xs font-bold px-2 py-1 rounded-md ${promo.is_active ? "bg-green-500/10 text-green-400" : "bg-gray-500/10 text-gray-500"}`}>
-                          {promo.is_active ? "Actif" : "Désactivé"}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 text-right">
-                        <div className="flex items-center justify-end gap-2">
-                          <button
-                            onClick={() => togglePromo(promo.id, promo.is_active)}
-                            className={`p-2 rounded-lg transition-all ${promo.is_active ? "text-green-400 hover:bg-green-500/10" : "text-gray-600 hover:bg-white/5"}`}
-                          >
-                            {promo.is_active ? <ToggleRight className="w-5 h-5" /> : <ToggleLeft className="w-5 h-5" />}
-                          </button>
-                          <button onClick={() => deletePromo(promo.id)} className="p-2 rounded-lg hover:bg-red-500/10 text-red-500 transition-all">
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+                    <div className="space-y-8">
+                       <div>
+                          <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 mb-4">Redemption String</label>
+                          <input
+                            type="text"
+                            placeholder="EX: ALPHA-2026"
+                            className="w-full bg-black/40 border border-white/5 rounded-2xl py-6 px-8 focus:border-[#38BDF8]/50 outline-none transition-all font-mono text-xl font-black tracking-[0.3em] uppercase text-white placeholder:text-slate-800 shadow-inner"
+                            value={form.code}
+                            onChange={e => setForm({ ...form, code: e.target.value.toUpperCase() })}
+                            required
+                          />
+                       </div>
+
+                       <div className="grid grid-cols-2 gap-4">
+                          <div>
+                             <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 mb-4">Value</label>
+                             <div className="relative">
+                                <Percent className="absolute right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-700" />
+                                <input
+                                  type="text"
+                                  placeholder="25"
+                                  className="w-full bg-black/40 border border-white/5 rounded-2xl py-6 px-8 focus:border-[#38BDF8]/50 outline-none transition-all font-black text-xl text-white shadow-inner"
+                                  value={form.discount_amount}
+                                  onChange={e => setForm({ ...form, discount_amount: e.target.value })}
+                                  required
+                                />
+                             </div>
+                          </div>
+                          <div>
+                             <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 mb-4">Logic</label>
+                             <select
+                               className="w-full bg-black/40 border border-white/5 rounded-2xl py-6 px-8 focus:border-[#38BDF8]/50 outline-none transition-all font-black text-xs text-white appearance-none cursor-pointer shadow-inner"
+                               value={form.discount_type}
+                               onChange={e => setForm({ ...form, discount_type: e.target.value })}
+                             >
+                                <option value="percentage">Ratio (%)</option>
+                                <option value="fixed">Fixed (DA)</option>
+                             </select>
+                          </div>
+                       </div>
+
+                       <div>
+                          <label className="block text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 mb-4">Termination Date</label>
+                          <div className="relative">
+                             <Calendar className="absolute left-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-700 pointer-events-none" />
+                             <input
+                               type="date"
+                               className="w-full bg-black/40 border border-white/5 rounded-2xl py-6 pl-16 pr-8 focus:border-[#38BDF8]/50 outline-none transition-all font-black text-xs text-white shadow-inner"
+                               value={form.expires_at}
+                               onChange={e => setForm({ ...form, expires_at: e.target.value })}
+                             />
+                          </div>
+                       </div>
+
+                       <button
+                         type="submit"
+                         disabled={saving}
+                         className="w-full group relative py-6 bg-[#38BDF8] text-white font-black text-xs uppercase tracking-[0.3em] rounded-[2rem] hover:bg-[#0EA5E9] transition-all duration-500 flex items-center justify-center gap-4 overflow-hidden shadow-[0_20px_40px_rgba(56,189,248,0.2)] disabled:opacity-50 mt-4"
+                       >
+                          <ArrowUpRight className="w-6 h-6 relative z-10 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                          <span className="relative z-10">{saving ? "PROCESSING..." : "ACTIVATE VECTOR"}</span>
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                       </button>
+                       {saved && (
+                         <div className="flex items-center justify-center gap-3 text-emerald-400 text-[10px] font-black uppercase tracking-[0.2em] mt-4 animate-bounce">
+                            <CheckCircle2 className="w-5 h-5" /> Campaign Successfully Deployed
+                         </div>
+                       )}
+                    </div>
+                 </form>
+              </div>
+
+              {/* Vector Matrix Surface */}
+              <div className="lg:col-span-2 space-y-6">
+                 <div className="bg-[#0F172A]/40 backdrop-blur-3xl border border-white/5 rounded-[3rem] overflow-hidden shadow-2xl relative min-h-[500px] flex flex-col">
+                    <div className="absolute top-0 right-0 w-96 h-96 bg-[#38BDF8]/5 rounded-full blur-[100px] pointer-events-none"></div>
+                    <div className="p-10 border-b border-white/[0.05] flex items-center justify-between">
+                       <h3 className="font-black text-2xl font-heading uppercase italic tracking-tighter flex items-center gap-4 text-white">
+                          <Layers className="w-6 h-6 text-[#38BDF8]" /> Active Marketing Matrix
+                       </h3>
+                    </div>
+
+                    <div className="overflow-x-auto flex-grow custom-scrollbar">
+                       <table className="w-full border-collapse">
+                          <thead>
+                             <tr className="bg-white/[0.02] text-left">
+                                <th className="px-10 py-8 text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Redemption Link</th>
+                                <th className="px-10 py-8 text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Valuation</th>
+                                <th className="px-10 py-8 text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Termination</th>
+                                <th className="px-10 py-8 text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Status Feed</th>
+                                <th className="px-10 py-8 text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] text-right">Ops Control</th>
+                             </tr>
+                          </thead>
+                          <tbody className="divide-y divide-white/[0.03]">
+                             {loading ? (
+                               <tr><td colSpan={5} className="py-32 text-center animate-pulse"><div className="w-12 h-12 border-2 border-[#38BDF8] border-t-transparent rounded-full animate-spin mx-auto"></div></td></tr>
+                             ) : promos.length === 0 ? (
+                               <tr><td colSpan={5} className="py-32 text-center text-slate-700 font-black uppercase tracking-widest italic text-xs">No marketing vectors registered in cluster</td></tr>
+                             ) : (
+                               promos.map((p) => (
+                                 <tr key={p.id} className="hover:bg-white/[0.01] transition-all group">
+                                    <td className="px-10 py-8">
+                                       <div className="flex items-center gap-6">
+                                          <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center font-mono font-black text-[#38BDF8] text-xl border border-white/[0.05] shadow-xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                                             #
+                                          </div>
+                                          <span className="font-mono font-black text-2xl tracking-[0.3em] text-white group-hover:text-[#38BDF8] transition-colors uppercase italic">{p.code}</span>
+                                       </div>
+                                    </td>
+                                    <td className="px-10 py-8">
+                                       <div className="flex items-baseline gap-2">
+                                          <span className="text-3xl font-black tracking-tighter text-white italic">{p.discount_amount}</span>
+                                          <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">{p.discount_type === "percentage" ? "Percent" : "DZD Index"}</span>
+                                       </div>
+                                    </td>
+                                    <td className="px-10 py-8">
+                                       <div className="flex items-center gap-3 text-xs font-black text-slate-500 tracking-widest italic uppercase">
+                                          <Calendar className="w-4 h-4 text-[#38BDF8]/40" />
+                                          {p.expires_at ? new Date(p.expires_at).toLocaleDateString("fr-DZ") : "INDEFINITE"}
+                                       </div>
+                                    </td>
+                                    <td className="px-10 py-8">
+                                       <div className={`inline-flex items-center gap-3 px-5 py-2.5 rounded-2xl text-[9px] font-black uppercase tracking-[0.2em] border ${
+                                          p.is_active ? "bg-emerald-400/5 text-emerald-400 border-emerald-400/10 shadow-[0_0_15px_rgba(52,211,153,0.1)]" : "bg-slate-500/5 text-slate-500 border-white/5"
+                                       }`}>
+                                          <div className={`w-1.5 h-1.5 rounded-full ${p.is_active ? 'bg-emerald-400 animate-pulse shadow-[0_0_10px_#34d399]' : 'bg-slate-800'}`} />
+                                          {p.is_active ? "TRANSMITTING" : "PAUSED"}
+                                       </div>
+                                    </td>
+                                    <td className="px-10 py-8 text-right">
+                                       <div className="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-4 group-hover:translate-x-0">
+                                          <button
+                                            onClick={() => togglePromo(p.id, p.is_active)}
+                                            className={`p-4 rounded-2xl transition-all border shadow-2xl ${p.is_active ? 'bg-emerald-400/10 border-emerald-400/20 text-emerald-400 hover:bg-emerald-400/20' : 'bg-white/[0.03] border-white/5 text-slate-700 hover:text-white hover:bg-white/10'}`}
+                                          >
+                                             {p.is_active ? <ToggleRight className="w-8 h-8" /> : <ToggleLeft className="w-8 h-8" />}
+                                          </button>
+                                          <button onClick={() => deletePromo(p.id)} className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-red-500/50 hover:text-red-400 transition-all shadow-2xl">
+                                             <Trash2 className="w-6 h-6" />
+                                          </button>
+                                       </div>
+                                       <MoreVertical className="w-6 h-6 text-slate-800 ml-auto group-hover:hidden" />
+                                    </td>
+                                 </tr>
+                               ))
+                             )}
+                          </tbody>
+                       </table>
+                    </div>
+                 </div>
+
+                 {/* System Insight */}
+                 <div className="p-10 rounded-[3rem] bg-gradient-to-r from-indigo-500/10 to-[#38BDF8]/10 border border-white/5 flex items-center justify-between group shadow-2xl relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl translate-x-10 translate-y-[-20px] group-hover:scale-150 transition-transform duration-1000"></div>
+                    <div className="flex items-center gap-8 relative z-10">
+                       <div className="w-16 h-16 rounded-[1.5rem] bg-[#38BDF8]/20 flex items-center justify-center text-[#38BDF8] group-hover:rotate-12 transition-all duration-500 shadow-xl border border-[#38BDF8]/30">
+                          <Activity className="w-8 h-8" />
+                       </div>
+                       <div>
+                          <h4 className="font-black text-lg uppercase tracking-[0.2em] mb-2 text-white italic">Vector Intelligence</h4>
+                          <p className="text-xs text-slate-500 max-w-lg leading-relaxed font-medium">Marketing codes are hashed and synchronized across all checkout nodes. High-frequency usage detected in the last 24h cycle.</p>
+                       </div>
+                    </div>
+                    <ArrowRight className="w-8 h-8 text-slate-800 group-hover:translate-x-3 transition-all duration-500 group-hover:text-[#38BDF8]" />
+                 </div>
+              </div>
+           </div>
         </div>
       </main>
+
+      <style jsx global>{`
+        @keyframes bounce-x {
+          0%, 100% { transform: translateX(0); }
+          50% { transform: translateX(5px); }
+        }
+        .animate-bounce-x { animation: bounce-x 1s infinite; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.05); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(56,189,248,0.2); }
+      `}</style>
     </div>
   );
 }
