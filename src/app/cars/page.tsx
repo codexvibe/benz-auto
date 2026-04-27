@@ -4,7 +4,7 @@ import { Header } from "../../components/Header";
 import { Footer } from "../../components/Footer";
 import { Search, Filter, Calendar, Gauge, MapPin, Info } from "lucide-react";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useDeferredValue } from "react";
 import { createClient } from "../../utils/supabase/client";
 import { useCompare } from "../../context/CompareContext";
 import { ComparisonBar } from "../../components/ComparisonBar";
@@ -14,6 +14,7 @@ export default function CarsPage() {
   const [vehicles, setVehicles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const deferredSearch = useDeferredValue(searchTerm); // non-blocking search
   const [selectedCategory, setSelectedCategory] = useState("Tous");
   const supabase = createClient();
   const { addToCompare, isInCompare, removeFromCompare } = useCompare();
@@ -22,12 +23,13 @@ export default function CarsPage() {
     async function fetchVehicles() {
       const { data } = await supabase
         .from("products")
-        .select("*");
+        .select("id, name, year, mileage, price, image_url, location, category, status, is_featured, is_visible")
+        .eq("is_visible", true);
       if (data) setVehicles(data);
       setLoading(false);
     }
     fetchVehicles();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const categories = ["Tous", "SUV", "Sportive", "Berline", "Luxe"];
 
@@ -56,7 +58,7 @@ export default function CarsPage() {
   ];
 
   const filteredCars = displayVehicles.filter(car => {
-    const matchesSearch = car.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = car.name.toLowerCase().includes(deferredSearch.toLowerCase());
     const matchesCategory = selectedCategory === "Tous" || car.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });

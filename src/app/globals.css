@@ -68,12 +68,24 @@
   }
   .animate-slide-up {
     animation: slideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    will-change: transform, opacity;
   }
   .animate-fade-in {
     animation: fadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    will-change: opacity;
   }
   .animate-scale-in {
     animation: scaleIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    will-change: transform, opacity;
+  }
+  /* Paint performance for hover-heavy cards */
+  .group {
+    contain: layout style;
+  }
+  /* Skip rendering off-screen sections */
+  section:not(:first-of-type) {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 800px;
   }
 }
 

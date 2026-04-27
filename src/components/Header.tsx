@@ -1,20 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Menu, X, Car } from "lucide-react";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+  const handleScroll = useCallback(() => {
+    setIsScrolled(window.scrollY > 20);
   }, []);
+
+  useEffect(() => {
+    // Passive listener for better scroll performance
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
 
   const navLinks = [
     { name: "Accueil", href: "/" },
@@ -25,6 +27,7 @@ export function Header() {
 
   return (
     <header
+      role="banner"
       className={`fixed top-0 w-full z-50 transition-all duration-700 ${
         isScrolled ? "glass-dark py-3" : "bg-transparent py-6"
       }`}
@@ -32,8 +35,8 @@ export function Header() {
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 group-hover:border-white/30 group-hover:bg-white/10 group-hover:box-glow-chrome transition-all duration-500">
+          <Link href="/" className="flex items-center gap-3 group" aria-label="Benz Auto DZ — Accueil">
+            <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 group-hover:border-white/30 group-hover:bg-white/10 transition-all duration-500">
               <Car className="w-6 h-6 text-white group-hover:scale-110 transition-transform duration-500" />
             </div>
             <span className="text-xl font-heading font-bold tracking-widest uppercase">
@@ -42,24 +45,24 @@ export function Header() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-10">
+          <nav className="hidden md:flex items-center gap-10" aria-label="Navigation principale">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-sm font-medium text-slate-400 hover:text-white transition-colors duration-500 relative group uppercase tracking-widest"
+                className="text-sm font-medium text-slate-400 hover:text-white transition-colors duration-300 relative group uppercase tracking-widest"
               >
                 {link.name}
-                <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-px bg-white transition-all duration-500 group-hover:w-full group-hover:box-glow-chrome"></span>
+                <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-px bg-white transition-all duration-300 group-hover:w-full" />
               </Link>
             ))}
           </nav>
 
-          {/* CTA Button */}
+          {/* CTA */}
           <div className="hidden md:block">
             <Link
               href="/cars"
-              className="px-8 py-3 rounded-full border border-white/20 text-white text-sm font-bold uppercase tracking-widest hover:bg-white/10 hover:border-white/50 transition-all duration-500 box-glow-chrome-hover"
+              className="px-8 py-3 rounded-full border border-white/20 text-white text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-black hover:border-white transition-all duration-300"
             >
               Découvrir
             </Link>
@@ -69,6 +72,8 @@ export function Header() {
           <button
             className="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors duration-300"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -76,7 +81,8 @@ export function Header() {
       </div>
 
       {/* Mobile Nav */}
-      <div
+      <nav
+        aria-label="Navigation mobile"
         className={`md:hidden absolute top-full left-0 w-full glass-dark transition-all duration-500 overflow-hidden ${
           mobileMenuOpen ? "max-h-80 border-b border-white/10 opacity-100" : "max-h-0 opacity-0"
         }`}
@@ -93,7 +99,7 @@ export function Header() {
             </Link>
           ))}
         </div>
-      </div>
+      </nav>
     </header>
   );
 }
