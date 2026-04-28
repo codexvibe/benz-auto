@@ -3,12 +3,16 @@
 import { useState, useEffect } from "react";
 import { createClient } from "../utils/supabase/client";
 
+// Global cache to prevent flickering between page navigations
+let cachedSettings: any = null;
+
 export function useSiteSettings() {
-  const [settings, setSettings] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [settings, setSettings] = useState<any>(cachedSettings);
+  const [loading, setLoading] = useState(!cachedSettings);
   const supabase = createClient();
 
   useEffect(() => {
+    // If already cached, don't show loading but still refresh in background
     async function fetchSettings() {
       try {
         const { data, error } = await supabase
@@ -24,7 +28,9 @@ export function useSiteSettings() {
           if (Array.isArray(sLinks) || !sLinks) {
             sLinks = {};
           }
-          setSettings({ ...data, social_links: sLinks });
+          const updated = { ...data, social_links: sLinks };
+          cachedSettings = updated;
+          setSettings(updated);
         }
       } catch (err) {
         console.error("Error fetching site settings:", err);
@@ -38,3 +44,4 @@ export function useSiteSettings() {
 
   return { settings, loading };
 }
+
