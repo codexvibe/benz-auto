@@ -9,7 +9,8 @@ import {
   ChevronLeft, 
   Share2, 
   Heart, 
-  MessageCircle, 
+  MessageCircle,
+  MessageSquare,
   Phone,
   ShieldCheck,
   Zap,
@@ -245,6 +246,7 @@ export default function CarDetailPage() {
                 </div>
 
                 <div className="space-y-4">
+                  {/* Bouton d'appel : Toujours visible */}
                   <a 
                     href={`tel:${car.seller_phone || settings?.contact_phone || "+213 555 00 00 00"}`} 
                     className="w-full py-4 bg-white text-black font-bold uppercase tracking-widest text-xs rounded-xl hover:bg-slate-200 transition-all duration-500 flex items-center justify-center gap-3 hover:box-glow-chrome"
@@ -252,18 +254,43 @@ export default function CarDetailPage() {
                     <Phone className="w-4 h-4" />
                     Appeler {car.seller_phone ? "Vendeur" : ""}
                   </a>
-                  <a 
-                    href={
-                      car.seller_socials?.find((s: any) => s.platform === "WhatsApp")?.url 
-                        ? `https://wa.me/${car.seller_socials.find((s: any) => s.platform === "WhatsApp").url.replace(/\s/g, '')}`
-                        : `https://wa.me/${(car.seller_phone || settings?.contact_phone || "+213 555 00 00 00").replace(/\s/g, '')}`
-                    }
-                    target="_blank" 
-                    className="w-full py-4 bg-transparent border border-white/20 text-white font-bold uppercase tracking-widest text-xs rounded-xl hover:bg-white/10 hover:border-white/50 transition-all duration-500 flex items-center justify-center gap-3"
-                  >
-                    <MessageCircle className="w-4 h-4" />
-                    WhatsApp {car.seller_socials?.some((s: any) => s.platform === "WhatsApp") ? "Vendeur" : ""}
-                  </a>
+
+                  {/* Boutons Sociaux : Seulement si ajoutés pour le vendeur */}
+                  {car.seller_socials && car.seller_socials.length > 0 ? (
+                    car.seller_socials.map((soc: any, idx: number) => {
+                      const isWhatsApp = soc.platform === "WhatsApp";
+                      const isViber = soc.platform === "Viber";
+                      const isMessenger = soc.platform === "Messenger";
+                      
+                      let href = soc.url;
+                      if (isWhatsApp) href = `https://wa.me/${soc.url.replace(/\s/g, '')}`;
+                      if (isViber) href = `viber://chat?number=${soc.url.replace(/\s/g, '')}`;
+
+                      return (
+                        <a 
+                          key={idx}
+                          href={href}
+                          target="_blank" 
+                          className="w-full py-4 bg-transparent border border-white/20 text-white font-bold uppercase tracking-widest text-xs rounded-xl hover:bg-white/10 hover:border-white/50 transition-all duration-500 flex items-center justify-center gap-3 animate-fade-in"
+                        >
+                          {isWhatsApp && <MessageCircle className="w-4 h-4" />}
+                          {isViber && <Phone className="w-4 h-4" />}
+                          {isMessenger && <MessageSquare className="w-4 h-4" />}
+                          {soc.platform} Vendeur
+                        </a>
+                      );
+                    })
+                  ) : !car.seller_phone ? (
+                    /* Fallback Benz Auto seulement si pas de vendeur saisi */
+                    <a 
+                      href={`https://wa.me/${(settings?.contact_phone || "+213 555 00 00 00").replace(/\s/g, '')}`}
+                      target="_blank" 
+                      className="w-full py-4 bg-transparent border border-white/20 text-white font-bold uppercase tracking-widest text-xs rounded-xl hover:bg-white/10 hover:border-white/50 transition-all duration-500 flex items-center justify-center gap-3"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      WhatsApp
+                    </a>
+                  ) : null}
                 </div>
 
                 <div className="mt-10 pt-8 border-t border-white/5 text-center">
