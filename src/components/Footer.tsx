@@ -31,8 +31,13 @@ const YoutubeIcon = ({ className }: { className?: string }) => (
 );
 
 export function Footer() {
-  const { settings } = useSiteSettings();
+  const { settings, loading } = useSiteSettings();
   const [formStatus, setFormStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const socialPlatforms = [
     { name: "Instagram", icon: Camera, color: "hover:text-[#e1306c]" },
@@ -132,23 +137,29 @@ export function Footer() {
                 <div className="p-2 rounded-lg bg-white/5 border border-white/10">
                   <MapPin className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-slate-400 text-sm mt-1">{settings?.address || "Alger, Algérie"}</span>
+                <span className="text-slate-400 text-sm mt-1">
+                  {mounted ? (settings?.address || "Alger, Algérie") : <span className="opacity-0">Chargement...</span>}
+                </span>
               </li>
               <li className="flex items-center gap-4">
                 <div className="p-2 rounded-lg bg-white/5 border border-white/10">
                   <Phone className="w-4 h-4 text-white" />
                 </div>
-                <a href={`tel:${settings?.contact_phone}`} className="text-slate-400 hover:text-white transition-colors text-sm">
-                  {settings?.contact_phone || "+213 00 00 00 00"}
-                </a>
+                {mounted ? (
+                  <a href={`tel:${settings?.contact_phone}`} className="text-slate-400 hover:text-white transition-colors text-sm">
+                    {settings?.contact_phone || "+213 00 00 00 00"}
+                  </a>
+                ) : <span className="opacity-0">+213 00 00 00 00</span>}
               </li>
               <li className="flex items-center gap-4">
                 <div className="p-2 rounded-lg bg-white/5 border border-white/10">
                   <Mail className="w-4 h-4 text-white" />
                 </div>
-                <a href={`mailto:${settings?.contact_email}`} className="text-slate-400 hover:text-white transition-colors text-sm">
-                  {settings?.contact_email || "contact@benzautodz.com"}
-                </a>
+                {mounted ? (
+                  <a href={`mailto:${settings?.contact_email}`} className="text-slate-400 hover:text-white transition-colors text-sm">
+                    {settings?.contact_email || "contact@benzautodz.com"}
+                  </a>
+                ) : <span className="opacity-0">contact@benzautodz.com</span>}
               </li>
             </ul>
           </div>
