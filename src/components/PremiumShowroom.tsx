@@ -55,7 +55,7 @@ export function PremiumShowroom() {
           </span>
           <h2 className="text-4xl md:text-6xl font-heading font-black mb-6 tracking-tighter">
             VÉHICULES{" "}
-            <span className="text-transparent bg-clip-text bg-linear-to-b from-white to-slate-500">
+            <span className="text-transparent bg-clip-text bg-linear-to-b from-white via-brand-red to-brand-red-dark">
               EN VENTE
             </span>
           </h2>
@@ -92,7 +92,7 @@ export function PremiumShowroom() {
                 {/* Top Badges */}
                 <div className="absolute top-6 w-full px-6 flex justify-between items-center z-10">
                   {car.is_featured ? (
-                    <div className="px-4 py-1.5 bg-white/10 backdrop-blur-md rounded-full text-[10px] font-bold tracking-widest text-white uppercase border border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                    <div className="px-4 py-1.5 bg-brand-red backdrop-blur-md rounded-full text-[10px] font-bold tracking-widest text-white uppercase border border-brand-red shadow-[0_0_20px_rgba(230,0,0,0.4)]">
                       En Vedette
                     </div>
                   ) : <div />}
@@ -105,7 +105,7 @@ export function PremiumShowroom() {
 
                 {/* Bottom Details */}
                 <div className="absolute bottom-0 left-0 w-full p-8 z-10 flex flex-col justify-end h-full">
-                  <h3 className="text-2xl font-bold text-white mb-4 leading-tight group-hover:text-glow-chrome transition-all duration-500 line-clamp-2">
+                  <h3 className="text-2xl font-bold text-white mb-4 leading-tight group-hover:text-glow-red transition-all duration-500 line-clamp-2">
                     {car.name}
                   </h3>
                   <div className="flex items-center gap-4 text-xs font-medium tracking-wider text-slate-300 mb-6 uppercase">
@@ -117,7 +117,7 @@ export function PremiumShowroom() {
                     <span className="font-bold text-lg text-white group-hover:text-glow-chrome transition-all duration-500">
                       {car.price}
                     </span>
-                    <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500">
+                    <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-brand-red group-hover:border-brand-red group-hover:text-white transition-all duration-500">
                       <Info className="w-4 h-4" />
                     </div>
                   </div>
@@ -130,7 +130,7 @@ export function PremiumShowroom() {
         <div className="mt-24 text-center">
           <Link
             href="/cars"
-            className="inline-block px-12 py-5 text-sm font-bold uppercase tracking-[0.2em] text-white border border-white/20 rounded-full hover:bg-white hover:text-black transition-all duration-500"
+            className="inline-block px-12 py-5 text-sm font-bold uppercase tracking-[0.2em] text-white border border-white/20 rounded-full hover:bg-brand-red hover:border-brand-red transition-all duration-500"
           >
             Voir tous les véhicules en vente
           </Link>

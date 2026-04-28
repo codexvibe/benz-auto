@@ -6,19 +6,12 @@ const nextConfig: NextConfig = {
 
   images: {
     formats: ["image/avif", "image/webp"],
-    minimumCacheTTL: 86400, // 24h cache for optimized images
     remotePatterns: [
       {
         protocol: "https",
         hostname: "ylkdkuicruliuhjewaew.supabase.co",
         port: "",
         pathname: "/storage/v1/object/public/**",
-      },
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-        port: "",
-        pathname: "/**",
       },
     ],
   },

@@ -40,7 +40,7 @@ export function Hero() {
           style={{ animationDelay: "0.2s" }}
         >
           LUXE <br />
-          <span className="text-transparent bg-clip-text bg-linear-to-b from-white via-slate-200 to-slate-500">
+          <span className="text-transparent bg-clip-text bg-linear-to-b from-white via-brand-red to-brand-red-dark">
             ABSOLU
           </span>
         </h1>
@@ -56,7 +56,7 @@ export function Hero() {
         <div className="flex flex-col sm:flex-row gap-6 animate-slide-up" style={{ animationDelay: "0.6s" }}>
           <Link
             href="/cars"
-            className="px-10 py-5 bg-white text-black font-bold uppercase tracking-widest text-sm rounded-full hover:bg-slate-200 hover:scale-105 transition-all duration-500 flex items-center justify-center gap-2 shadow-[0_0_40px_rgba(255,255,255,0.2)]"
+            className="px-10 py-5 bg-white text-black font-bold uppercase tracking-widest text-sm rounded-full hover:bg-brand-red hover:text-white hover:scale-105 transition-all duration-500 flex items-center justify-center gap-2 shadow-[0_0_40px_rgba(230,0,0,0.2)]"
           >
             Véhicules en Vente
           </Link>
@@ -64,7 +64,7 @@ export function Hero() {
             href="#vlogs"
             className="px-10 py-5 glass-panel text-white border border-white/20 rounded-full hover:bg-white/10 hover:border-white/50 transition-all duration-500 flex items-center justify-center gap-3 group uppercase tracking-widest text-sm font-bold"
           >
-            <Play className="w-4 h-4 text-slate-300 group-hover:text-white transition-colors" />
+            <Play className="w-4 h-4 text-brand-red group-hover:text-white transition-colors" />
             Voir les Reels
           </Link>
         </div>
@@ -73,7 +73,7 @@ export function Hero() {
       {/* Scroll indicator */}
       <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center opacity-50 hover:opacity-100 transition-opacity duration-500 cursor-pointer">
         <span className="text-[10px] font-bold uppercase tracking-[0.3em] mb-4 text-slate-400">Découvrir</span>
-        <div className="w-px h-16 bg-linear-to-b from-white/50 to-transparent animate-pulse" />
+        <div className="w-px h-16 bg-linear-to-b from-brand-red to-transparent animate-pulse" />
       </div>
     </section>
   );

@@ -75,7 +75,7 @@ export function Footer() {
                 <Car className="w-6 h-6 text-white group-hover:scale-110 transition-transform duration-500" />
               </div>
               <span className="text-xl font-heading font-bold tracking-widest uppercase text-white">
-                {settings?.site_name?.split(' ')[0] || "BENZ"} {settings?.site_name?.split(' ').slice(1).join(' ') || "AUTO DZ"}
+                {settings?.site_name?.split(' ')[0] || "BENZ"} <span className="text-brand-red">{settings?.site_name?.split(' ').slice(1).join(' ') || "AUTO DZ"}</span>
               </span>
             </Link>
             <p className="text-slate-400 mb-10 text-sm leading-relaxed font-light">
@@ -92,7 +92,7 @@ export function Footer() {
                     href={url as string} 
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 rounded-full bg-surface border border-white/10 flex items-center justify-center hover:border-white/30 hover:bg-white/5 text-white transition-all duration-500 group hover:box-glow-chrome"
+                    className="w-12 h-12 rounded-full bg-surface border border-white/10 flex items-center justify-center hover:border-brand-red hover:bg-brand-red/5 text-white transition-all duration-500 group hover:box-glow-red"
                   >
                     <Icon className={`w-5 h-5 ${platform.color} transition-colors duration-500`} />
                   </a>
@@ -110,19 +110,19 @@ export function Footer() {
             <ul className="space-y-4">
               <li>
                 <Link href="/" className="text-slate-400 hover:text-white transition-colors text-sm flex items-center gap-3 group">
-                  <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-white transition-colors"></span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-brand-red transition-colors"></span>
                   Accueil
                 </Link>
               </li>
               <li>
                 <Link href="#vlogs" className="text-slate-400 hover:text-white transition-colors text-sm flex items-center gap-3 group">
-                  <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-white transition-colors"></span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-brand-red transition-colors"></span>
                   Derniers Reels
                 </Link>
               </li>
               <li>
                 <Link href="/cars" className="text-slate-400 hover:text-white transition-colors text-sm flex items-center gap-3 group">
-                  <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-white transition-colors"></span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-brand-red transition-colors"></span>
                   Véhicules en Vente
                 </Link>
               </li>
@@ -197,7 +197,7 @@ export function Footer() {
                 disabled={formStatus !== "idle"}
                 className={`w-full flex items-center justify-center gap-2 py-3.5 rounded-xl text-xs font-bold uppercase tracking-[0.2em] transition-all duration-500 ${
                   formStatus === "idle" 
-                    ? "bg-white text-black hover:bg-slate-200 hover:box-glow-chrome" 
+                    ? "bg-white text-black hover:bg-brand-red hover:text-white hover:box-glow-red" 
                     : formStatus === "sending"
                     ? "bg-white/10 text-white border border-white/20"
                     : "bg-green-500/20 text-green-400 border border-green-500/50"

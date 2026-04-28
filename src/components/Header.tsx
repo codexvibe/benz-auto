@@ -42,7 +42,7 @@ export function Header() {
               <Car className="w-6 h-6 text-white group-hover:scale-110 transition-transform duration-500" />
             </div>
             <span className="text-xl font-heading font-bold tracking-widest uppercase">
-              {settings?.site_name?.split(' ')[0] || "BENZ"} <span className="text-slate-400 font-light">{settings?.site_name?.split(' ').slice(1).join(' ') || "AUTO DZ"}</span>
+              {settings?.site_name?.split(' ')[0] || "BENZ"} <span className="text-brand-red">{settings?.site_name?.split(' ').slice(1).join(' ') || "AUTO DZ"}</span>
             </span>
           </Link>
 
@@ -55,7 +55,7 @@ export function Header() {
                 className="text-sm font-medium text-slate-400 hover:text-white transition-colors duration-300 relative group uppercase tracking-widest"
               >
                 {link.name}
-                <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-px bg-white transition-all duration-300 group-hover:w-full" />
+                <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-px bg-brand-red transition-all duration-300 group-hover:w-full" />
               </Link>
             ))}
           </nav>
@@ -64,7 +64,7 @@ export function Header() {
           <div className="hidden md:block">
             <Link
               href="/cars"
-              className="px-8 py-3 rounded-full border border-white/20 text-white text-sm font-bold uppercase tracking-widest hover:bg-white hover:text-black hover:border-white transition-all duration-300"
+              className="px-8 py-3 rounded-full border border-white/20 text-white text-sm font-bold uppercase tracking-widest hover:bg-brand-red hover:text-white hover:border-brand-red transition-all duration-300"
             >
               Découvrir
             </Link>

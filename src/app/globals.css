@@ -3,8 +3,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-neon-chrome: #E2E8F0;
-  --color-neon-white: #ffffff;
+  --color-brand-red: #E60000;
+  --color-brand-red-dark: #990000;
   --color-background: #020202;
   --color-surface: #0a0a0a;
   --color-surface-light: #151515;
@@ -44,15 +44,28 @@
   .text-glow-chrome {
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.4), 0 0 30px rgba(255, 255, 255, 0.2);
   }
+  .text-glow-red {
+    text-shadow: 0 0 15px rgba(230, 0, 0, 0.4), 0 0 30px rgba(230, 0, 0, 0.2);
+  }
   .box-glow-chrome {
     box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+  }
+  .box-glow-red {
+    box-shadow: 0 0 30px rgba(230, 0, 0, 0.15);
   }
   .box-glow-chrome-hover:hover {
     box-shadow: 0 10px 40px rgba(255, 255, 255, 0.1);
   }
+  .box-glow-red-hover:hover {
+    box-shadow: 0 10px 40px rgba(230, 0, 0, 0.2);
+  }
   .border-glow-chrome-hover:hover {
     border-color: rgba(255, 255, 255, 0.3);
     box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05), 0 0 20px rgba(255, 255, 255, 0.05);
+  }
+  .border-glow-red-hover:hover {
+    border-color: rgba(230, 0, 0, 0.4);
+    box-shadow: inset 0 0 20px rgba(230, 0, 0, 0.1), 0 0 20px rgba(230, 0, 0, 0.1);
   }
   .glass-dark {
     background-color: rgba(5, 5, 5, 0.6);
