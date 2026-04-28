@@ -1,25 +1,38 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
   Settings, Save, Power, Lock, RefreshCw, Database,
-  Smartphone
+  Smartphone, Camera, Users, Video, Send, Music,
+  MessageCircle, ChevronDown, Check, Trash2, Plus
 } from "lucide-react";
 import { createClient } from "../../../../utils/supabase/client";
 import { Sidebar } from "../../../../components/Admin/Sidebar";
 
+const SOCIAL_PLATFORMS = [
+  { name: "Instagram", icon: Camera },
+  { name: "Facebook", icon: Users },
+  { name: "YouTube", icon: Video },
+  { name: "Canal/Telegram", icon: Send },
+  { name: "TikTok", icon: Music },
+  { name: "X (Twitter)", icon: MessageCircle }
+];
+
 export default function SettingsPage() {
   const [loading, setLoading] = useState(false);
   const [maintenance, setMaintenance] = useState(false);
-  const [config, setConfig] = useState({
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  
+  const [config, setConfig] = useState<any>({
     site_name: "Benz Auto DZ",
     contact_email: "",
     contact_phone: "",
     address: "",
-    facebook_url: "",
-    instagram_url: "",
+    social_links: { "Instagram": "" }
   });
+  
   const router = useRouter();
   const supabase = createClient();
 
@@ -27,13 +40,24 @@ export default function SettingsPage() {
     const session = localStorage.getItem("admin_session");
     if (!session) { router.push("/admin"); return; }
     fetchSettings();
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchSettings = async () => {
     setLoading(true);
     const { data } = await supabase.from("site_settings").select("*").single();
     if (data) {
-      setConfig(data);
+      setConfig({
+        ...data,
+        social_links: data.social_links || { "Instagram": data.instagram_url || "" }
+      });
       setMaintenance(data.maintenance_mode);
     }
     setLoading(false);
@@ -112,7 +136,7 @@ export default function SettingsPage() {
                   <input 
                     type="text" 
                     className="w-full bg-background border border-white/5 rounded-xl py-3 px-4 focus:border-white/20 outline-none transition-colors font-bold text-sm text-white"
-                    value={config.site_name}
+                    value={config.site_name || ""}
                     onChange={e => setConfig({...config, site_name: e.target.value})}
                   />
                 </div>
@@ -121,7 +145,7 @@ export default function SettingsPage() {
                   <input 
                     type="text" 
                     className="w-full bg-background border border-white/5 rounded-xl py-3 px-4 focus:border-white/20 outline-none transition-colors font-bold text-sm text-white"
-                    value={config.address}
+                    value={config.address || ""}
                     onChange={e => setConfig({...config, address: e.target.value})}
                   />
                 </div>
@@ -130,7 +154,7 @@ export default function SettingsPage() {
                   <input 
                     type="email" 
                     className="w-full bg-background border border-white/5 rounded-xl py-3 px-4 focus:border-white/20 outline-none transition-colors font-bold text-sm text-white"
-                    value={config.contact_email}
+                    value={config.contact_email || ""}
                     onChange={e => setConfig({...config, contact_email: e.target.value})}
                   />
                 </div>
@@ -139,7 +163,7 @@ export default function SettingsPage() {
                   <input 
                     type="text" 
                     className="w-full bg-background border border-white/5 rounded-xl py-3 px-4 focus:border-white/20 outline-none transition-colors font-bold text-sm text-white"
-                    value={config.contact_phone}
+                    value={config.contact_phone || ""}
                     onChange={e => setConfig({...config, contact_phone: e.target.value})}
                   />
                 </div>
@@ -148,28 +172,87 @@ export default function SettingsPage() {
               <h3 className="text-sm font-black uppercase text-white mt-10 mb-6 flex items-center gap-2 pt-6 border-t border-white/5">
                 <Smartphone className="w-4 h-4" /> Réseaux Sociaux
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Lien Facebook</label>
-                  <input 
-                    type="text" 
-                    className="w-full bg-background border border-white/5 rounded-xl py-3 px-4 focus:border-white/20 outline-none transition-colors font-bold text-sm text-white"
-                    value={config.facebook_url}
-                    onChange={e => setConfig({...config, facebook_url: e.target.value})}
-                    placeholder="https://facebook.com/..."
-                  />
-                </div>
-                <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Lien Instagram</label>
-                  <input 
-                    type="text" 
-                    className="w-full bg-background border border-white/5 rounded-xl py-3 px-4 focus:border-white/20 outline-none transition-colors font-bold text-sm text-white"
-                    value={config.instagram_url}
-                    onChange={e => setConfig({...config, instagram_url: e.target.value})}
-                    placeholder="https://instagram.com/..."
-                  />
-                </div>
+              
+              <div className="max-w-md relative" ref={dropdownRef}>
+                <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Ajouter un réseau</label>
+                <button 
+                  onClick={() => setShowDropdown(!showDropdown)} 
+                  className="w-full bg-background border border-white/5 rounded-xl py-3 px-4 flex items-center justify-between text-xs font-bold text-slate-300 hover:border-white/20 transition-colors"
+                >
+                  <span className="flex items-center gap-2"><Plus className="w-4 h-4" /> Sélectionner les réseaux...</span>
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${showDropdown ? "rotate-180" : ""}`} />
+                </button>
+                
+                {showDropdown && (
+                  <div className="absolute top-full left-0 w-full mt-2 bg-surface border border-white/5 rounded-xl p-2 z-50 shadow-2xl flex flex-col gap-1 max-h-60 overflow-y-auto custom-scrollbar">
+                    {SOCIAL_PLATFORMS.map(platform => {
+                      const isSelected = config.social_links?.hasOwnProperty(platform.name);
+                      return (
+                        <button 
+                          key={platform.name}
+                          onClick={() => {
+                            const newLinks = { ...(config.social_links || {}) };
+                            if (isSelected) delete newLinks[platform.name];
+                            else newLinks[platform.name] = "";
+                            setConfig({ ...config, social_links: newLinks });
+                          }}
+                          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/5 transition-colors text-left group"
+                        >
+                          <div className={`w-4 h-4 rounded-md border flex items-center justify-center transition-colors ${isSelected ? 'bg-white border-white text-black' : 'border-slate-500 group-hover:border-slate-300'}`}>
+                            {isSelected && <Check className="w-3 h-3" />}
+                          </div>
+                          <platform.icon className={`w-4 h-4 transition-colors ${isSelected ? 'text-white' : 'text-slate-500'}`} />
+                          <span className={`text-xs font-bold transition-colors ${isSelected ? 'text-white' : 'text-slate-400'}`}>{platform.name}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
+
+              <div className="space-y-4 mt-6">
+                {config.social_links && Object.keys(config.social_links).length === 0 && (
+                   <div className="py-6 text-center border border-dashed border-white/5 rounded-xl">
+                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-600">Aucun réseau social configuré</p>
+                   </div>
+                )}
+                {config.social_links && Object.keys(config.social_links).map(platformName => {
+                  const platform = SOCIAL_PLATFORMS.find(p => p.name === platformName);
+                  const Icon = platform ? platform.icon : Smartphone;
+                  return (
+                    <div key={platformName} className="flex items-center gap-4 animate-in fade-in slide-in-from-bottom-2">
+                      <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                        <Icon className="w-5 h-5 text-white" />
+                      </div>
+                      <div className="grow">
+                        <label className="block text-[9px] font-black uppercase tracking-widest text-slate-500 mb-1 ml-1">{platformName}</label>
+                        <input 
+                          type="text" 
+                          className="w-full bg-background border border-white/5 rounded-xl py-2.5 px-4 focus:border-white/20 outline-none transition-colors font-bold text-sm text-white"
+                          value={config.social_links[platformName]}
+                          onChange={e => setConfig({
+                            ...config, 
+                            social_links: { ...config.social_links, [platformName]: e.target.value }
+                          })}
+                          placeholder={`Lien ${platformName}`}
+                        />
+                      </div>
+                      <button 
+                        onClick={() => {
+                           const newLinks = { ...config.social_links };
+                           delete newLinks[platformName];
+                           setConfig({ ...config, social_links: newLinks });
+                        }}
+                        className="w-12 h-12 mt-4 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 flex items-center justify-center transition-colors shrink-0"
+                        title="Supprimer"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+
             </div>
 
           </div>
