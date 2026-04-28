@@ -251,7 +251,14 @@ export default function StockPage() {
                       <td className="px-6 py-4">
                         <div className="w-14 h-10 rounded-lg overflow-hidden border border-white/5 bg-white/5 relative">
                           {v.image_url ? (
-                            <Image src={v.image_url} alt={v.name} fill sizes="56px" className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                            <img 
+                              src={v.image_url} 
+                              alt={v.name} 
+                              className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=200&auto=format&fit=crop";
+                              }}
+                            />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center">
                               <ImageIcon className="w-4 h-4 text-slate-700" />

@@ -5,9 +5,19 @@ import { Footer } from "../../components/Footer";
 import { Mail, Phone, MapPin, Send, Camera, Play, Globe } from "lucide-react";
 import { motion } from "framer-motion";
 import { useSiteSettings } from "../../hooks/useSiteSettings";
+import { createClient } from "../../utils/supabase/client";
+import { useState } from "react";
 
 export default function ContactPage() {
   const { settings } = useSiteSettings();
+  const supabase = createClient();
+  const [formStatus, setFormStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    subject: "Acheter un véhicule",
+    message: ""
+  });
 
   const socialPlatforms = [
     { name: "Instagram", icon: Camera, color: "hover:text-[#e1306c]" },
@@ -17,6 +27,27 @@ export default function ContactPage() {
     { name: "WhatsApp", icon: Phone, color: "hover:text-[#25d366]" },
     { name: "Canal", icon: Send, color: "hover:text-[#0088cc]" },
   ];
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormStatus("sending");
+
+    const { error } = await supabase.from("orders").insert([{
+      customer_name: `${formData.firstName} ${formData.lastName}`,
+      customer_phone: "Non spécifié",
+      items_list: `[CONTACT: ${formData.subject}] ${formData.message}`,
+      status: "En attente"
+    }]);
+
+    if (!error) {
+      setFormStatus("sent");
+      setFormData({ firstName: "", lastName: "", subject: "Acheter un véhicule", message: "" });
+      setTimeout(() => setFormStatus("idle"), 3000);
+    } else {
+      setFormStatus("idle");
+      alert("Erreur lors de l'envoi.");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background text-white">
@@ -107,21 +138,37 @@ export default function ContactPage() {
                 
                 <h2 className="text-2xl font-bold mb-8 uppercase tracking-tight">Formulaire de contact</h2>
                 
-                <form className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label className="text-[10px] text-slate-500 font-bold uppercase tracking-widest ml-4">Nom</label>
-                      <input type="text" className="w-full bg-black/30 border border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-white/30 transition-all" />
+                      <input 
+                        type="text" 
+                        required
+                        value={formData.lastName}
+                        onChange={e => setFormData({ ...formData, lastName: e.target.value })}
+                        className="w-full bg-black/30 border border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-white/30 transition-all" 
+                      />
                     </div>
                     <div className="space-y-2">
                       <label className="text-[10px] text-slate-500 font-bold uppercase tracking-widest ml-4">Prénom</label>
-                      <input type="text" className="w-full bg-black/30 border border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-white/30 transition-all" />
+                      <input 
+                        type="text" 
+                        required
+                        value={formData.firstName}
+                        onChange={e => setFormData({ ...formData, firstName: e.target.value })}
+                        className="w-full bg-black/30 border border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-white/30 transition-all" 
+                      />
                     </div>
                   </div>
 
                   <div className="space-y-2">
                     <label className="text-[10px] text-slate-500 font-bold uppercase tracking-widest ml-4">Objet</label>
-                    <select className="w-full bg-black/30 border border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-white/30 transition-all appearance-none">
+                    <select 
+                      value={formData.subject}
+                      onChange={e => setFormData({ ...formData, subject: e.target.value })}
+                      className="w-full bg-black/30 border border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-white/30 transition-all appearance-none"
+                    >
                       <option className="bg-surface">Acheter un véhicule</option>
                       <option className="bg-surface">Vendre mon véhicule</option>
                       <option className="bg-surface">Partenariat</option>
@@ -131,11 +178,23 @@ export default function ContactPage() {
 
                   <div className="space-y-2">
                     <label className="text-[10px] text-slate-500 font-bold uppercase tracking-widest ml-4">Message</label>
-                    <textarea rows={4} className="w-full bg-black/30 border border-white/10 rounded-3xl py-4 px-6 text-sm focus:outline-none focus:border-white/30 transition-all resize-none"></textarea>
+                    <textarea 
+                      rows={4} 
+                      required
+                      value={formData.message}
+                      onChange={e => setFormData({ ...formData, message: e.target.value })}
+                      className="w-full bg-black/30 border border-white/10 rounded-3xl py-4 px-6 text-sm focus:outline-none focus:border-white/30 transition-all resize-none"
+                    ></textarea>
                   </div>
 
-                  <button className="w-full py-5 rounded-2xl bg-white text-black font-black uppercase tracking-widest text-xs hover:bg-slate-200 transition-all flex items-center justify-center gap-3 group">
-                    Envoyer le message
+                  <button 
+                    type="submit"
+                    disabled={formStatus !== "idle"}
+                    className={`w-full py-5 rounded-2xl font-black uppercase tracking-widest text-xs transition-all flex items-center justify-center gap-3 group ${
+                      formStatus === "idle" ? "bg-white text-black hover:bg-slate-200" : "bg-white/10 text-white"
+                    }`}
+                  >
+                    {formStatus === "idle" ? "Envoyer le message" : formStatus === "sending" ? "Envoi..." : "Message Envoyé !"}
                     <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                   </button>
                 </form>

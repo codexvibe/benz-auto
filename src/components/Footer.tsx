@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useSiteSettings } from "../hooks/useSiteSettings";
+import { createClient } from "../utils/supabase/client";
 import { 
   Globe, 
   MessageCircle, // For WhatsApp/Canal
@@ -31,9 +32,11 @@ const YoutubeIcon = ({ className }: { className?: string }) => (
 );
 
 export function Footer() {
-  const { settings, loading } = useSiteSettings();
+  const { settings } = useSiteSettings();
   const [formStatus, setFormStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [formData, setFormData] = useState({ name: "", phone: "", car: "" });
   const [mounted, setMounted] = useState(false);
+  const supabase = createClient();
 
   useEffect(() => {
     setMounted(true);
@@ -50,14 +53,25 @@ export function Footer() {
     { name: "Canal", icon: Send, color: "hover:text-[#0088cc]" },
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormStatus("sending");
-    // Simulate sending
-    setTimeout(() => {
+    
+    const { error } = await supabase.from("orders").insert([{
+      customer_name: formData.name,
+      customer_phone: formData.phone,
+      items_list: `[TOURNAGE] ${formData.car}`,
+      status: "En attente"
+    }]);
+
+    if (!error) {
       setFormStatus("sent");
+      setFormData({ name: "", phone: "", car: "" });
       setTimeout(() => setFormStatus("idle"), 3000);
-    }, 1500);
+    } else {
+      setFormStatus("idle");
+      alert("Une erreur est survenue lors de l'envoi.");
+    }
   };
 
   return (
@@ -167,6 +181,8 @@ export function Footer() {
                   type="text" 
                   placeholder="Votre nom" 
                   required
+                  value={formData.name}
+                  onChange={e => setFormData({ ...formData, name: e.target.value })}
                   className="w-full bg-surface border border-white/10 rounded-xl px-5 py-3.5 text-sm text-white focus:outline-none focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all placeholder:text-slate-600"
                 />
               </div>
@@ -175,6 +191,8 @@ export function Footer() {
                   type="tel" 
                   placeholder="Téléphone" 
                   required
+                  value={formData.phone}
+                  onChange={e => setFormData({ ...formData, phone: e.target.value })}
                   className="w-full bg-surface border border-white/10 rounded-xl px-5 py-3.5 text-sm text-white focus:outline-none focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all placeholder:text-slate-600"
                 />
               </div>
@@ -183,6 +201,8 @@ export function Footer() {
                   placeholder="Modèle de la voiture à vendre..." 
                   rows={2}
                   required
+                  value={formData.car}
+                  onChange={e => setFormData({ ...formData, car: e.target.value })}
                   className="w-full bg-surface border border-white/10 rounded-xl px-5 py-3.5 text-sm text-white focus:outline-none focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all resize-none placeholder:text-slate-600"
                 ></textarea>
               </div>
