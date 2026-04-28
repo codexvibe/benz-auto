@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
 import { Menu, X, Car } from "lucide-react";
+import { useSiteSettings } from "../hooks/useSiteSettings";
 
 export function Header() {
+  const { settings } = useSiteSettings();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -40,7 +42,7 @@ export function Header() {
               <Car className="w-6 h-6 text-white group-hover:scale-110 transition-transform duration-500" />
             </div>
             <span className="text-xl font-heading font-bold tracking-widest uppercase">
-              BENZ AUTO <span className="text-slate-400 font-light">DZ</span>
+              {settings?.site_name?.split(' ')[0] || "BENZ"} <span className="text-slate-400 font-light">{settings?.site_name?.split(' ').slice(1).join(' ') || "AUTO DZ"}</span>
             </span>
           </Link>
 

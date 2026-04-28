@@ -2,11 +2,21 @@
 
 import { Header } from "../../components/Header";
 import { Footer } from "../../components/Footer";
-import { Mail, Phone, MapPin, Send, Camera, Play } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Camera, Play, Instagram, Youtube, Facebook, Globe, MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
+import { useSiteSettings } from "../../hooks/useSiteSettings";
 
 export default function ContactPage() {
-  return (
+  const { settings } = useSiteSettings();
+
+  const socialPlatforms = [
+    { name: "Instagram", icon: Instagram, color: "hover:text-[#e1306c]" },
+    { name: "YouTube", icon: Youtube, color: "hover:text-[#ff0000]" },
+    { name: "Facebook", icon: Facebook, color: "hover:text-[#1877f2]" },
+    { name: "TikTok", icon: Globe, color: "hover:text-[#ff0050]" },
+    { name: "WhatsApp", icon: MessageCircle, color: "hover:text-[#25d366]" },
+    { name: "Canal", icon: Send, color: "hover:text-[#0088cc]" },
+  ];
     <div className="min-h-screen bg-background text-white">
       <Header />
       
@@ -40,7 +50,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <div className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Email</div>
-                      <div className="text-xl font-medium">contact@benzauto.dz</div>
+                      <div className="text-xl font-medium">{settings?.contact_email || "contact@benzauto.dz"}</div>
                     </div>
                   </div>
 
@@ -50,7 +60,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <div className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Téléphone</div>
-                      <div className="text-xl font-medium">+213 (0) 555 00 00 00</div>
+                      <div className="text-xl font-medium">{settings?.contact_phone || "+213 (0) 555 00 00 00"}</div>
                     </div>
                   </div>
 
@@ -60,18 +70,28 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <div className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Showroom</div>
-                      <div className="text-xl font-medium">Alger, Algérie</div>
+                      <div className="text-xl font-medium">{settings?.address || "Alger, Algérie"}</div>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-16 pt-16 border-t border-white/5 flex gap-8">
-                  <a href="#" className="p-4 rounded-xl bg-surface border border-white/5 hover:border-white/20 transition-all">
-                    <Camera className="w-6 h-6" />
-                  </a>
-                  <a href="#" className="p-4 rounded-xl bg-surface border border-white/5 hover:border-white/20 transition-all">
-                    <Play className="w-6 h-6" />
-                  </a>
+                <div className="mt-16 pt-16 border-t border-white/5 flex gap-6 flex-wrap">
+                  {settings?.social_links && Object.entries(settings.social_links).map(([name, url]) => {
+                    if (!url) return null;
+                    const platform = socialPlatforms.find(p => p.name.toLowerCase() === name.toLowerCase()) || { icon: Globe };
+                    const Icon = platform.icon;
+                    return (
+                      <a 
+                        key={name}
+                        href={url as string} 
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-4 rounded-xl bg-surface border border-white/5 hover:border-white/20 transition-all group"
+                      >
+                        <Icon className="w-6 h-6 text-slate-400 group-hover:text-white transition-colors" />
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
 
