@@ -1,6 +1,5 @@
 "use client";
 
-import { Mail, MapPin, Phone, Car, Send } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { useSiteSettings } from "../hooks/useSiteSettings";
