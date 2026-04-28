@@ -82,7 +82,7 @@ export default function StockPage() {
     setLoading(true);
     const { data, error } = await supabase
       .from("products")
-      .select("id,name,model,year,mileage,horsepower,image_url,status,category,price,brand,is_visible,is_featured")
+      .select("id,name,model,year,mileage,power,image_url,status,category,price,brand,is_visible,is_featured")
       .order("created_at", { ascending: false });
     if (!error && data) setVehicles(data as any[]);
     setLoading(false);
@@ -209,7 +209,7 @@ export default function StockPage() {
                     <SortBtn label="KM" col="mileage" sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
                   </th>
                   <th className="px-4 py-5 text-left hidden lg:table-cell">
-                    <SortBtn label="CV" col="horsepower" sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                    <SortBtn label="CV" col="power" sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
                   </th>
                   <th className="px-4 py-5 text-left hidden sm:table-cell">
                     <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Statut</span>
@@ -283,7 +283,7 @@ export default function StockPage() {
 
                       {/* Horsepower */}
                       <td className="px-4 py-4 hidden lg:table-cell">
-                        <span className="text-xs text-slate-400 font-bold">{v.horsepower ? `${v.horsepower} cv` : "—"}</span>
+                        <span className="text-xs text-slate-400 font-bold">{v.power ? `${v.power} cv` : "—"}</span>
                       </td>
 
                       {/* Status */}
