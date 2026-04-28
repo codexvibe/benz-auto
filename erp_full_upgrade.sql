@@ -23,6 +23,7 @@ CREATE TABLE products (
   year TEXT,
   price TEXT NOT NULL DEFAULT 'Sur demande',
   mileage TEXT,
+  location TEXT DEFAULT 'Alger',
   engine TEXT,
   power TEXT,
   transmission TEXT DEFAULT 'Automatique',
