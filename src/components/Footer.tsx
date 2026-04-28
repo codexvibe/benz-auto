@@ -74,7 +74,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-slate-400 mb-10 text-sm leading-relaxed font-light">
-              L'excellence de la vente automobile. Nous réalisons des vidéos professionnelles de votre véhicule pour le vendre au meilleur prix, et nous vous proposons une sélection exclusive de voitures de luxe.
+              {settings?.site_description || "L'excellence de la vente automobile. Nous réalisons des vidéos professionnelles de votre véhicule pour le vendre au meilleur prix, et nous vous proposons une sélection exclusive de voitures de luxe."}
             </p>
             <div className="flex items-center gap-4 flex-wrap">
               {settings?.social_links && Object.entries(settings.social_links).map(([name, url]) => {

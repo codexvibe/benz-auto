@@ -186,6 +186,17 @@ export default function SettingsPage() {
                 </div>
               </div>
 
+              <div className="mt-6">
+                <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">Description du Site (Footer)</label>
+                <textarea 
+                  rows={3}
+                  className="w-full bg-background border border-white/5 rounded-xl py-3 px-4 focus:border-white/20 outline-none transition-colors font-bold text-sm text-white resize-none"
+                  value={config.site_description || ""}
+                  onChange={e => setConfig({...config, site_description: e.target.value})}
+                  placeholder="Texte de présentation qui s'affiche dans le pied de page..."
+                ></textarea>
+              </div>
+
               <h3 className="text-sm font-black uppercase text-white mt-10 mb-6 flex items-center gap-2 pt-6 border-t border-white/5">
                 <Smartphone className="w-4 h-4" /> Réseaux Sociaux
               </h3>
