@@ -127,6 +127,7 @@ interface FormData {
   location: string; engine: string; power: string; transmission: string;
   fuel: string; images: string[]; is_visible: boolean;
   is_featured: boolean; status: string;
+  seller_phone: string; seller_socials: any[];
 }
 
 interface VehicleFormProps {
@@ -145,10 +146,12 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
     description: "", year: "", mileage: "", location: "Showroom Alger",
     engine: "", power: "", transmission: "Automatique", fuel: "Essence",
     images: [], is_visible: true, is_featured: false, status: "Disponible",
+    seller_phone: "", seller_socials: [],
   };
 
   const [form, setForm] = useState<FormData>({ ...defaults, ...initialData,
-    images: Array.isArray(initialData?.images) ? initialData.images : [] });
+    images: Array.isArray(initialData?.images) ? initialData.images : [],
+    seller_socials: Array.isArray(initialData?.seller_socials) ? initialData.seller_socials : [] });
   const [uploading, setUploading] = useState(false);
   const [uploadingGallery, setUploadingGallery] = useState(false);
   const [uploadError, setUploadError] = useState("");
@@ -165,7 +168,8 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
 
   useEffect(() => {
     if (initialData) setForm({ ...defaults, ...initialData,
-      images: Array.isArray(initialData.images) ? initialData.images : [] });
+      images: Array.isArray(initialData.images) ? initialData.images : [],
+      seller_socials: Array.isArray(initialData.seller_socials) ? initialData.seller_socials : [] });
   }, [initialData]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const allBrands = useMemo(() =>
@@ -316,6 +320,81 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
               <Label>Localisation</Label>
               <Input value={form.location} onChange={e => set("location", e.target.value)}
                 placeholder="ex: Showroom Alger" />
+            </div>
+          </div>
+        </div>
+
+        {/* Section 3: Contact Vendeur (Dépôt-Vente) */}
+        <div className="bg-surface border border-white/5 rounded-2xl p-6">
+          <h2 className="text-sm font-black text-white uppercase tracking-widest mb-5 flex items-center gap-2">
+            <Users className="w-4 h-4 text-brand-red" /> Informations du Vendeur
+          </h2>
+          <div className="space-y-6">
+            <div>
+              <Label>Numéro de téléphone du client (Vendeur)</Label>
+              <Input 
+                value={form.seller_phone} 
+                onChange={e => set("seller_phone", e.target.value)}
+                placeholder="ex: +213 555 00 00 00" 
+              />
+              <p className="text-[9px] text-slate-600 font-bold uppercase mt-2">
+                Si rempli, les boutons d&apos;appel sur le site utiliseront ce numéro.
+              </p>
+            </div>
+            
+            <div>
+              <Label>Réseaux Sociaux du Vendeur</Label>
+              <div className="space-y-3">
+                {form.seller_socials?.map((soc: any, idx: number) => (
+                  <div key={idx} className="flex gap-2 animate-fade-in">
+                    <div style={{ width: '130px', flexShrink: 0 }}>
+                      <Select 
+                        value={soc.platform} 
+                        onChange={e => {
+                          const newSocs = [...form.seller_socials];
+                          newSocs[idx].platform = e.target.value;
+                          set("seller_socials", newSocs);
+                        }}
+                      >
+                        <option value="WhatsApp">WhatsApp</option>
+                        <option value="Viber">Viber</option>
+                        <option value="Messenger">Messenger</option>
+                      </Select>
+                    </div>
+                    <Input 
+                      value={soc.url} 
+                      onChange={e => {
+                        const newSocs = [...form.seller_socials];
+                        newSocs[idx].url = e.target.value;
+                        set("seller_socials", newSocs);
+                      }}
+                      placeholder="Numéro ou lien..." 
+                    />
+                    <button 
+                      type="button" 
+                      onClick={() => {
+                        set("seller_socials", form.seller_socials.filter((_: any, i: number) => i !== idx));
+                      }}
+                      className="p-3 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all flexShrink-0"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+                <button 
+                  type="button" 
+                  onClick={() => {
+                    const currentSocs = Array.isArray(form.seller_socials) ? form.seller_socials : [];
+                    set("seller_socials", [...currentSocs, { platform: "WhatsApp", url: "" }]);
+                  }}
+                  className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-white transition-all mt-2 px-1"
+                >
+                  <div className="w-6 h-6 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+                    <Plus className="w-3 h-3" />
+                  </div>
+                  Ajouter un réseau social
+                </button>
+              </div>
             </div>
           </div>
         </div>

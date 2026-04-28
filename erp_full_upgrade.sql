@@ -34,7 +34,9 @@ CREATE TABLE products (
   is_featured BOOLEAN DEFAULT FALSE,
   is_visible BOOLEAN DEFAULT TRUE,
   status TEXT DEFAULT 'Disponible',
-  views_count BIGINT DEFAULT 0
+  views_count BIGINT DEFAULT 0,
+  seller_phone TEXT,
+  seller_socials JSONB DEFAULT '[]'::jsonb
 );
 
 -- Table des demandes (Orders/Leads)
