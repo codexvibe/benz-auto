@@ -160,7 +160,7 @@ export default function CarDetailPage() {
                   <div 
                     key={idx} 
                     onClick={() => setSelectedImage(img)}
-                    className="group relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/5 hover:border-white/20 transition-all duration-500 hover:-translate-y-1 hover:box-glow-chrome cursor-zoom-in"
+                    className="group relative aspect-4/3 rounded-2xl overflow-hidden border border-white/5 hover:border-white/20 transition-all duration-500 hover:-translate-y-1 hover:box-glow-chrome cursor-zoom-in"
                   >
                     <img 
                       src={img} 
