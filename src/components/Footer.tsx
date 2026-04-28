@@ -115,12 +115,6 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="#vlogs" className="text-slate-400 hover:text-white transition-colors text-sm flex items-center gap-3 group">
-                  <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-brand-red transition-colors"></span>
-                  Derniers Reels
-                </Link>
-              </li>
-              <li>
                 <Link href="/cars" className="text-slate-400 hover:text-white transition-colors text-sm flex items-center gap-3 group">
                   <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-brand-red transition-colors"></span>
                   Véhicules en Vente

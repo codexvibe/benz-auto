@@ -60,13 +60,6 @@ export function Hero() {
           >
             Véhicules en Vente
           </Link>
-          <Link
-            href="#vlogs"
-            className="px-10 py-5 glass-panel text-white border border-white/20 rounded-full hover:bg-white/10 hover:border-white/50 transition-all duration-500 flex items-center justify-center gap-3 group uppercase tracking-widest text-sm font-bold"
-          >
-            <Play className="w-4 h-4 text-brand-red group-hover:text-white transition-colors" />
-            Voir les Reels
-          </Link>
         </div>
       </div>
 
