@@ -116,10 +116,14 @@ export default function CarsPage() {
                 style={{ animationDelay: `${0.1 * (index + 1)}s` }}
               >
                 <div className="relative h-75 overflow-hidden">
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105 grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100"
-                    style={{ backgroundImage: `url(${car.image_url})` }}
-                  ></div>
+                  <img 
+                    src={car.image_url} 
+                    alt={car.name}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=800&auto=format&fit=crop";
+                    }}
+                  />
                   <div className="absolute inset-0 bg-linear-to-t from-surface via-surface/50 to-transparent"></div>
                   
                   <div className="absolute top-6 right-6 flex gap-2">

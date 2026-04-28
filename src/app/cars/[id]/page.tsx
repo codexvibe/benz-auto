@@ -113,10 +113,14 @@ export default function CarDetailPage() {
 
         {/* Hero Gallery */}
         <div className="relative h-[60vh] md:h-[80vh] w-full overflow-hidden -mt-25 z-0 animate-scale-in">
-          <div 
-            className="absolute inset-0 bg-cover bg-center opacity-70"
-            style={{ backgroundImage: `url(${car.image_url})` }}
-          ></div>
+          <img 
+            src={car.image_url} 
+            alt={car.name}
+            className="absolute inset-0 w-full h-full object-cover opacity-70"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1200&auto=format&fit=crop";
+            }}
+          />
           <div className="absolute inset-0 bg-linear-to-t from-background via-background/50 to-background/30"></div>
           
           <div className="absolute bottom-12 left-0 w-full z-10">

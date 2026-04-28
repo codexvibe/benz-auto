@@ -77,13 +77,13 @@ export function PremiumShowroom() {
                 style={{ animationDelay: `${0.1 * (index + 1)}s` }}
               >
                 {/* Optimized image with lazy loading (only first is eager) */}
-                <Image
-                  src={car.image_url}
+                <img 
+                  src={car.image_url} 
                   alt={car.name}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
-                  loading={index === 0 ? "eager" : "lazy"}
-                  className="object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110"
+                  className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=800&auto=format&fit=crop";
+                  }}
                 />
 
                 {/* Gradient overlay */}
