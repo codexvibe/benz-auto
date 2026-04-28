@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSiteSettings } from "../hooks/useSiteSettings";
 import { 
   Globe, 
