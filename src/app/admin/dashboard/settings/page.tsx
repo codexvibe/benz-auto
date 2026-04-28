@@ -66,9 +66,20 @@ export default function SettingsPage() {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await supabase.from("site_settings").update({ ...config, maintenance_mode: maintenance }).eq("id", 1);
+    
+    const { error } = await supabase.from("site_settings").update({ 
+      ...config, 
+      maintenance_mode: maintenance 
+    }).eq("id", 1);
+
     setLoading(false);
-    alert("Configuration sauvegardée avec succès.");
+    
+    if (error) {
+      console.error("Save error:", error);
+      alert("❌ Erreur de sauvegarde : Les colonnes n'existent probablement pas dans ta base de données Supabase. As-tu exécuté le script SQL dans le SQL Editor ?\n\nErreur : " + error.message);
+    } else {
+      alert("✅ Configuration sauvegardée avec succès.");
+    }
   };
 
   const handleLogout = () => {
