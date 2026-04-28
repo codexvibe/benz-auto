@@ -5,14 +5,15 @@ import Link from "next/link";
 import { useState } from "react";
 import { useSiteSettings } from "../hooks/useSiteSettings";
 import { 
-  Instagram, 
-  Youtube, 
-  Facebook, 
-  Twitter, 
-  Linkedin, 
   Globe, 
   MessageCircle, // For WhatsApp/Canal
-  Camera // For Instagram fallback
+  Camera, // For Instagram fallback
+  Play, // For Youtube fallback
+  Send,
+  Phone,
+  Car,
+  Mail,
+  MapPin
 } from "lucide-react";
 
 const InstagramIcon = ({ className }: { className?: string }) => (
@@ -35,13 +36,13 @@ export function Footer() {
   const [formStatus, setFormStatus] = useState<"idle" | "sending" | "sent">("idle");
 
   const socialPlatforms = [
-    { name: "Instagram", icon: Instagram, color: "hover:text-[#e1306c]" },
-    { name: "YouTube", icon: Youtube, color: "hover:text-[#ff0000]" },
-    { name: "Facebook", icon: Facebook, color: "hover:text-[#1877f2]" },
+    { name: "Instagram", icon: Camera, color: "hover:text-[#e1306c]" },
+    { name: "YouTube", icon: Play, color: "hover:text-[#ff0000]" },
+    { name: "Facebook", icon: Globe, color: "hover:text-[#1877f2]" },
     { name: "TikTok", icon: Globe, color: "hover:text-[#ff0050]" },
-    { name: "X", icon: Twitter, color: "hover:text-[#1da1f2]" },
-    { name: "LinkedIn", icon: Linkedin, color: "hover:text-[#0a66c2]" },
-    { name: "WhatsApp", icon: MessageCircle, color: "hover:text-[#25d366]" },
+    { name: "X", icon: Globe, color: "hover:text-[#1da1f2]" },
+    { name: "LinkedIn", icon: Globe, color: "hover:text-[#0a66c2]" },
+    { name: "WhatsApp", icon: Phone, color: "hover:text-[#25d366]" },
     { name: "Canal", icon: Send, color: "hover:text-[#0088cc]" },
   ];
 

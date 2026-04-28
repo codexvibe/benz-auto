@@ -2,7 +2,7 @@
 
 import { Header } from "../../components/Header";
 import { Footer } from "../../components/Footer";
-import { Mail, Phone, MapPin, Send, Camera, Play, Instagram, Youtube, Facebook, Globe, MessageCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Camera, Play, Globe } from "lucide-react";
 import { motion } from "framer-motion";
 import { useSiteSettings } from "../../hooks/useSiteSettings";
 
@@ -10,13 +10,15 @@ export default function ContactPage() {
   const { settings } = useSiteSettings();
 
   const socialPlatforms = [
-    { name: "Instagram", icon: Instagram, color: "hover:text-[#e1306c]" },
-    { name: "YouTube", icon: Youtube, color: "hover:text-[#ff0000]" },
-    { name: "Facebook", icon: Facebook, color: "hover:text-[#1877f2]" },
+    { name: "Instagram", icon: Camera, color: "hover:text-[#e1306c]" },
+    { name: "YouTube", icon: Play, color: "hover:text-[#ff0000]" },
+    { name: "Facebook", icon: Globe, color: "hover:text-[#1877f2]" },
     { name: "TikTok", icon: Globe, color: "hover:text-[#ff0050]" },
-    { name: "WhatsApp", icon: MessageCircle, color: "hover:text-[#25d366]" },
+    { name: "WhatsApp", icon: Phone, color: "hover:text-[#25d366]" },
     { name: "Canal", icon: Send, color: "hover:text-[#0088cc]" },
   ];
+
+  return (
     <div className="min-h-screen bg-background text-white">
       <Header />
       
