@@ -13,7 +13,9 @@ import {
   Phone,
   ShieldCheck,
   Zap,
-  Fuel
+  Fuel,
+  ImageIcon,
+  X
 } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -62,6 +64,7 @@ export default function CarDetailPage() {
   const [car, setCar] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [isLiked, setIsLiked] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const supabase = createClient();
 
   useEffect(() => {
@@ -143,6 +146,32 @@ export default function CarDetailPage() {
 
         {/* Content Section */}
         <div className="container mx-auto px-6 py-20 relative z-20">
+          
+          {/* Galerie Photos (Si disponible) */}
+          {car.images && car.images.length > 0 && (
+            <div className="mb-20 animate-slide-up" style={{ animationDelay: "0.1s" }}>
+              <h2 className="text-sm font-bold mb-8 uppercase tracking-[0.3em] text-slate-400 border-b border-white/10 pb-4 flex items-center gap-3">
+                <ImageIcon className="w-4 h-4 text-white" /> Galerie Photos
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {car.images.map((img: string, idx: number) => (
+                  <div 
+                    key={idx} 
+                    onClick={() => setSelectedImage(img)}
+                    className="group relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/5 hover:border-white/20 transition-all duration-500 hover:-translate-y-1 hover:box-glow-chrome cursor-zoom-in"
+                  >
+                    <img 
+                      src={img} 
+                      alt={`${car.name} - Photo ${idx + 1}`} 
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
             
             {/* Left Column: Info & Specs */}
@@ -237,6 +266,25 @@ export default function CarDetailPage() {
       </main>
 
       <Footer />
+
+      {/* Lightbox Modal */}
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 z-100 flex items-center justify-center bg-black/95 backdrop-blur-xl animate-fade-in"
+          onClick={() => setSelectedImage(null)}
+        >
+          <button className="absolute top-8 right-8 w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all">
+            <X className="w-6 h-6 text-white" />
+          </button>
+          <div className="max-w-6xl w-full max-h-[90vh] p-4 flex items-center justify-center">
+            <img 
+              src={selectedImage} 
+              alt="Grand format" 
+              className="max-w-full max-h-full object-contain rounded-xl shadow-2xl animate-scale-in"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
