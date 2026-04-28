@@ -35,6 +35,7 @@ export function Footer() {
   const { settings } = useSiteSettings();
   const [formStatus, setFormStatus] = useState<"idle" | "sending" | "sent">("idle");
   const [formData, setFormData] = useState({ name: "", phone: "", car: "" });
+  const [countryCode, setCountryCode] = useState("+213");
   const [mounted, setMounted] = useState(false);
   const supabase = createClient();
 
@@ -59,7 +60,7 @@ export function Footer() {
     
     const { error } = await supabase.from("orders").insert([{
       customer_name: formData.name,
-      customer_phone: formData.phone,
+      customer_phone: `${countryCode} ${formData.phone}`,
       items_list: `[TOURNAGE] ${formData.car}`,
       status: "En attente"
     }]);
@@ -186,14 +187,26 @@ export function Footer() {
                   className="w-full bg-surface border border-white/10 rounded-xl px-5 py-3.5 text-sm text-white focus:outline-none focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all placeholder:text-slate-600"
                 />
               </div>
-              <div>
+              <div className="flex gap-2">
+                <select 
+                  value={countryCode}
+                  onChange={(e) => setCountryCode(e.target.value)}
+                  className="bg-surface border border-white/10 rounded-xl px-3 py-3.5 text-xs text-white focus:outline-none focus:border-white/50 transition-all appearance-none cursor-pointer"
+                >
+                  <option value="+213">🇩🇿 +213</option>
+                  <option value="+33">🇫🇷 +33</option>
+                  <option value="+212">🇲🇦 +212</option>
+                  <option value="+216">🇹🇳 +216</option>
+                  <option value="+44">🇬🇧 +44</option>
+                  <option value="+1">🇺🇸 +1</option>
+                </select>
                 <input 
                   type="tel" 
                   placeholder="Téléphone" 
                   required
                   value={formData.phone}
                   onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full bg-surface border border-white/10 rounded-xl px-5 py-3.5 text-sm text-white focus:outline-none focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all placeholder:text-slate-600"
+                  className="flex-1 bg-surface border border-white/10 rounded-xl px-5 py-3.5 text-sm text-white focus:outline-none focus:border-white/50 focus:ring-1 focus:ring-white/50 transition-all placeholder:text-slate-600"
                 />
               </div>
               <div>

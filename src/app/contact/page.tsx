@@ -15,6 +15,8 @@ export default function ContactPage() {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    phone: "",
+    countryCode: "+213",
     subject: "Acheter un véhicule",
     message: ""
   });
@@ -34,7 +36,7 @@ export default function ContactPage() {
 
     const { error } = await supabase.from("orders").insert([{
       customer_name: `${formData.firstName} ${formData.lastName}`,
-      customer_phone: "Non spécifié",
+      customer_phone: `${formData.countryCode} ${formData.phone}`,
       items_list: `[CONTACT: ${formData.subject}] ${formData.message}`,
       status: "En attente"
     }]);
@@ -158,6 +160,30 @@ export default function ContactPage() {
                         value={formData.firstName}
                         onChange={e => setFormData({ ...formData, firstName: e.target.value })}
                         className="w-full bg-black/30 border border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-white/30 transition-all" 
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-[10px] text-slate-500 font-bold uppercase tracking-widest ml-4">Téléphone</label>
+                    <div className="flex gap-4">
+                      <select 
+                        value={formData.countryCode}
+                        onChange={e => setFormData({ ...formData, countryCode: e.target.value })}
+                        className="bg-black/30 border border-white/10 rounded-2xl py-4 px-4 text-sm focus:outline-none focus:border-white/30 transition-all appearance-none cursor-pointer"
+                      >
+                        <option value="+213">🇩🇿 +213</option>
+                        <option value="+33">🇫🇷 +33</option>
+                        <option value="+212">🇲🇦 +212</option>
+                        <option value="+216">🇹🇳 +216</option>
+                      </select>
+                      <input 
+                        type="tel" 
+                        required
+                        value={formData.phone}
+                        onChange={e => setFormData({ ...formData, phone: e.target.value })}
+                        placeholder="05 55 00 00 00"
+                        className="flex-1 bg-black/30 border border-white/10 rounded-2xl py-4 px-6 text-sm focus:outline-none focus:border-white/30 transition-all" 
                       />
                     </div>
                   </div>

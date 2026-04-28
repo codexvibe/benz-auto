@@ -329,20 +329,41 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
           <h2 className="text-sm font-black text-white uppercase tracking-widest mb-5 flex items-center gap-2">
             <Users className="w-4 h-4 text-brand-red" /> Informations du Vendeur
           </h2>
-          <div className="space-y-6">
-            <div>
-              <Label>Numéro de téléphone du client (Vendeur)</Label>
-              <Input 
-                value={form.seller_phone} 
+          <div className="space-y-4">
+            <label className="text-[10px] text-slate-500 font-bold uppercase tracking-widest ml-4">Numéro de téléphone du client (Vendeur)</label>
+            <div className="flex gap-3">
+              <select 
+                className="w-32 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-white/30 transition-all appearance-none cursor-pointer [&>option]:bg-surface [&>option]:text-white"
+                onChange={(e) => {
+                  const prefix = e.target.value;
+                  const currentPhone = form.seller_phone || "";
+                  if (currentPhone.startsWith('+')) {
+                    const newPhone = prefix + " " + currentPhone.split(' ').slice(1).join(' ');
+                    set("seller_phone", newPhone);
+                  } else {
+                    set("seller_phone", prefix + " " + currentPhone);
+                  }
+                }}
+              >
+                <option value="+213">🇩🇿 +213</option>
+                <option value="+33">🇫🇷 +33</option>
+                <option value="+212">🇲🇦 +212</option>
+                <option value="+216">🇹🇳 +216</option>
+                <option value="+44">🇬🇧 +44</option>
+                <option value="+1">🇺🇸 +1</option>
+              </select>
+              <input 
+                type="text" 
+                value={form.seller_phone || ""}
                 onChange={e => set("seller_phone", e.target.value)}
-                placeholder="ex: +213 555 00 00 00" 
+                placeholder="0553914180"
+                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-white/30 transition-all"
               />
-              <p className="text-[9px] text-slate-600 font-bold uppercase mt-2">
-                Si rempli, les boutons d&apos;appel sur le site utiliseront ce numéro.
-              </p>
             </div>
+            <p className="text-[9px] text-slate-600 font-bold uppercase tracking-widest ml-4">Si rempli, les boutons d'appel sur le site utiliseront ce numéro.</p>
+          </div>
             
-            <div>
+            <div className="mt-6">
               <Label>Réseaux Sociaux du Vendeur</Label>
               <div className="space-y-3">
                 {form.seller_socials?.map((soc: any, idx: number) => (
