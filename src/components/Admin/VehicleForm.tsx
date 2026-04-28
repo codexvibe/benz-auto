@@ -114,7 +114,7 @@ function Input({ ...props }: React.InputHTMLAttributes<HTMLInputElement>) {
 function Select({ children, ...props }: React.SelectHTMLAttributes<HTMLSelectElement>) {
   return (
     <select {...props}
-      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-white/30 transition-all appearance-none cursor-pointer">
+      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white outline-none focus:border-white/30 transition-all appearance-none cursor-pointer [&>option]:bg-[#0a0a0a] [&>option]:text-white">
       {children}
     </select>
   );

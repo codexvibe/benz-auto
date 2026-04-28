@@ -38,6 +38,11 @@
     font-family: var(--font-heading);
     letter-spacing: -0.02em;
   }
+
+  select option {
+    background-color: #0a0a0a;
+    color: #ffffff;
+  }
 }
 
 @layer utilities {
