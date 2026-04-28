@@ -84,7 +84,11 @@ export default function SettingsPage() {
       console.error("Save error:", error);
       alert("❌ Erreur de sauvegarde : Les colonnes n'existent probablement pas dans ta base de données Supabase. As-tu exécuté le script SQL dans le SQL Editor ?\n\nErreur : " + error.message);
     } else {
+      // Mettre à jour le cache local immédiatement pour éviter le décalage au refresh
+      localStorage.setItem("site_settings_cache", JSON.stringify({ ...config, maintenance_mode: maintenance }));
       alert("✅ Configuration sauvegardée avec succès.");
+      // Optionnel : recharger pour être sûr
+      window.location.reload();
     }
   };
 

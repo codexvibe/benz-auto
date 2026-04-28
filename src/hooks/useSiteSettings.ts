@@ -7,26 +7,19 @@ import { createClient } from "../utils/supabase/client";
 let cachedSettings: any = null;
 
 export function useSiteSettings() {
-  const [settings, setSettings] = useState<any>(cachedSettings);
-  const [loading, setLoading] = useState(!cachedSettings);
+  // Tentative de lecture synchrone pour éviter TOUT clignotement
+  const [settings, setSettings] = useState<any>(() => {
+    if (typeof window !== 'undefined') {
+      const local = localStorage.getItem("site_settings_cache");
+      return local ? JSON.parse(local) : cachedSettings;
+    }
+    return cachedSettings;
+  });
+  
+  const [loading, setLoading] = useState(!settings);
   const supabase = createClient();
 
   useEffect(() => {
-    // 1. Essayer de charger depuis le localStorage pour un affichage instantané
-    if (!cachedSettings) {
-      const local = localStorage.getItem("site_settings_cache");
-      if (local) {
-        try {
-          const parsed = JSON.parse(local);
-          cachedSettings = parsed;
-          setSettings(parsed);
-          setLoading(false);
-        } catch (e) {
-          console.error("Local cache error:", e);
-        }
-      }
-    }
-
     async function fetchSettings() {
       try {
         const { data, error } = await supabase
