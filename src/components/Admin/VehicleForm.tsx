@@ -417,7 +417,6 @@ export function VehicleForm({ initialData, onSubmit, loading }: VehicleFormProps
                 </button>
               </div>
             </div>
-          </div>
         </div>
       </div>
 

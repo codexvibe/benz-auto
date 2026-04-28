@@ -43,7 +43,7 @@ export default function ContactPage() {
 
     if (!error) {
       setFormStatus("sent");
-      setFormData({ firstName: "", lastName: "", subject: "Acheter un véhicule", message: "" });
+      setFormData({ firstName: "", lastName: "", phone: "", countryCode: "+213", subject: "Acheter un véhicule", message: "" });
       setTimeout(() => setFormStatus("idle"), 3000);
     } else {
       setFormStatus("idle");
