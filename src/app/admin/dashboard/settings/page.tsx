@@ -54,9 +54,15 @@ export default function SettingsPage() {
     setLoading(true);
     const { data } = await supabase.from("site_settings").select("*").single();
     if (data) {
+      let sLinks = data.social_links;
+      // Sécurité : Si c'est un tableau, on le transforme en objet
+      if (Array.isArray(sLinks) || !sLinks) {
+        sLinks = {};
+      }
+      
       setConfig({
         ...data,
-        social_links: data.social_links || { "Instagram": data.instagram_url || "" }
+        social_links: sLinks
       });
       setMaintenance(data.maintenance_mode);
     }

@@ -73,8 +73,7 @@ CREATE TABLE IF NOT EXISTS site_settings (
   contact_email TEXT DEFAULT '',
   contact_phone TEXT DEFAULT '',
   address TEXT DEFAULT '',
-  facebook_url TEXT DEFAULT '',
-  instagram_url TEXT DEFAULT '',
+  social_links JSONB DEFAULT '{}'::jsonb,
   maintenance_mode BOOLEAN DEFAULT FALSE,
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -130,6 +129,7 @@ BEGIN
     DROP POLICY IF EXISTS "Admin All Settings" ON site_settings;
     DROP POLICY IF EXISTS "Public Read Promos" ON promo_codes;
     DROP POLICY IF EXISTS "Admin All Promos" ON promo_codes;
+    DROP POLICY IF EXISTS "Admin All Logs" ON admin_logs;
 EXCEPTION WHEN OTHERS THEN NULL;
 END $$;
 
@@ -175,3 +175,6 @@ CREATE POLICY "Public Read Vehicles Storage" ON storage.objects FOR SELECT USING
 CREATE POLICY "Public Upload Vehicles Storage" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'vehicles');
 CREATE POLICY "Public Update Vehicles Storage" ON storage.objects FOR UPDATE USING (bucket_id = 'vehicles');
 CREATE POLICY "Public Delete Vehicles Storage" ON storage.objects FOR DELETE USING (bucket_id = 'vehicles');
+
+-- Final Schema Cache Refresh
+NOTIFY pgrst, 'reload schema';
